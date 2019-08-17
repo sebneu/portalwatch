@@ -9,6 +9,11 @@ import ckanapi
 import rdflib
 from rdflib import URIRef
 from rdflib.namespace import RDF
+from rdflib import Namespace
+
+PROV = Namespace('http://www.w3.org/ns/prov#')
+
+PROV_ACTIVITY = 'http://data.wu.ac.at/portalwatch/activity#'
 
 import logging
 logger = logging.getLogger(__name__)
@@ -64,16 +69,18 @@ class CKAN(PortalProcessor):
                 err = literal_eval(e.extra_msg)
                 if 500 <= err[1] < 600:
                     rows =rows/3 if rows>=3 else rows
-                    logger.warn("CKANPackageSearchFetch", pid=api, error='Internal Server Error. Retrying after waiting time.', errorCode=str(err[1]), attempt=attempt, waiting=self._waiting_time(attempt), rows=rows)
                 else:
                     raise e
 
     def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot, timeout_attempts=5, timeout=24*60*60):
+        # prov information
+        activity = URIRef(PROV_ACTIVITY + str(snapshot))
+        graph.add((activity, RDF.type, PROV.Activity))
+
         starttime=time.time()
         api = ckanapi.RemoteCKAN(portal_api, get_only=True)
         start=0
         rows=1000
-        p_steps=1
         total=0
         processed_ids=set([])
         processed_names=set([])
@@ -82,10 +89,7 @@ class CKAN(PortalProcessor):
         try:
             response = api.action.package_search(rows=0)
             total = response["count"]
-            PortalSnapshot.datasetcount = total
-            p_steps=total/10
-            if p_steps ==0:
-                p_steps=1
+            # TODO store total
 
             while True:
                 response = self._get_datasets(api, timeout_attempts, rows, start)
@@ -102,7 +106,7 @@ class CKAN(PortalProcessor):
                                 converter = CKANConverter(graph, portal_api)
                                 dataset_ref = converter.graph_from_ckan(datasetJSON)
                                 graph.add((portal_ref, DCAT.dataset, dataset_ref))
-                                quality.add_quality_measures(dataset_ref, graph, snapshot)
+                                quality.add_quality_measures(dataset_ref, graph, activity)
                                 processed_ids.add(datasetID)
                                 processed_names.add(datasetJSON['name'])
 
@@ -111,7 +115,7 @@ class CKAN(PortalProcessor):
                                 if now-starttime>timeout:
                                     raise TimeoutError("Timeout of "+portal_api+" and "+str(timeout)+" seconds", timeout)
                         except Exception as e:
-                            logger.error("CKANDSFetchDatasetBatchError", portal=portal_api, dataset=datasetID, exception=e, exc_info=True)
+                            logger.error("CKANDSFetchDatasetBatchError: " + str(e))
                     rows = min([int(rows*1.2),1000])
                 else:
                     break
@@ -119,23 +123,17 @@ class CKAN(PortalProcessor):
 
             raise e
         except Exception as e:
-            logger.error("CKANDSFetchBatchError", portal=portal_api, exception=e)
+            logger.error("CKANDSFetchBatchError " + portal_api + ": " + str(e))
 
         if len(processed_ids) != total:
-            logger.info("Not all datasets processed", fetched=len(processed_ids), total=total)
+            logger.info("Not all datasets processed: fetched=" + str(len(processed_ids)) + ", total=" + str(total))
 
             try:
                 package_list, status = getPackageList(portal_api)
-                if total >0 and len(package_list) !=total:
-                    logger.info("PackageList_COUNT", total=total, portal=portal_api, pl=len(package_list))
-                #len(package_list)
                 tt=len(package_list)
                 if total==0:
-                    PortalSnapshot.datasetcount=tt
-                p_steps=tt/100
-                if p_steps == 0:
-                    p_steps=1
-                p_count=0
+                    # TODO store total tt
+                    pass
                 # TODO parameter:
                 NOT_SUPPORTED_PENALITY = 100
                 TIMEOUT_PENALITY = 100
@@ -143,9 +141,7 @@ class CKAN(PortalProcessor):
                 timeout_counts = 0
                 for entity in package_list:
                     #WAIT between two consecutive GET requests
-
                     if entity not in processed_ids and entity not in processed_names:
-
                         time.sleep(random.uniform(0.5, 1))
                         try:
                             resp, status = getPackage(apiurl=portal_api, id=entity)
@@ -155,11 +151,11 @@ class CKAN(PortalProcessor):
                                 converter = CKANConverter(graph, portal_api)
                                 dataset_ref = converter.graph_from_ckan(data)
                                 graph.add((portal_ref, DCAT.dataset, dataset_ref))
-                                quality.add_quality_measures(dataset_ref, graph, snapshot)
+                                quality.add_quality_measures(dataset_ref, graph, activity)
                                 if entity not in processed_ids:
                                     processed_ids.add(entity)
                         except Exception as e:
-                            logger.error('fetchDS', exception=e,portal=portal_api, did=entity)
+                            logger.error('fetchDS: ' + str(e))
 
                             # if we get too much exceptions we assume this is not supported
                             not_supported_count += 1
@@ -177,6 +173,10 @@ class CKAN(PortalProcessor):
 
 class Socrata(PortalProcessor):
     def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot):
+        # prov information
+        activity = URIRef(PROV_ACTIVITY + str(snapshot))
+        graph.add((activity, RDF.type, PROV.Activity))
+
         api = urllib.parse.urljoin(portal_api, '/api/')
         page = 1
         processed=set([])
@@ -199,17 +199,21 @@ class Socrata(PortalProcessor):
                 if datasetID not in processed:
                     dataset_ref = convert_socrata(graph, datasetJSON, portal_api)
                     graph.add((portal_ref, DCAT.dataset, dataset_ref))
-                    quality.add_quality_measures(dataset_ref, graph, snapshot)
+                    quality.add_quality_measures(dataset_ref, graph, activity)
                     processed.add(datasetID)
 
                     if len(processed) % 1000 == 0:
-                        logger.info("ProgressDSFetch", portal=portal_api, processed=len(processed))
+                        logger.info("ProgressDSFetch: " + portal_api + ", processed= " + str(len(processed)))
             page += 1
-        PortalSnapshot.datasetcount = len(processed)
+            # TODO store total len(processed)
 
 
 class OpenDataSoft(PortalProcessor):
     def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot):
+        # prov information
+        activity = URIRef(PROV_ACTIVITY + str(snapshot))
+        graph.add((activity, RDF.type, PROV.Activity))
+
         start=0
         rows=10000
         processed=set([])
@@ -230,29 +234,37 @@ class OpenDataSoft(PortalProcessor):
                     if datasetID not in processed:
                         dataset_ref = graph_from_opendatasoft(graph, datasetJSON, portal_api)
                         graph.add((portal_ref, DCAT.dataset, dataset_ref))
-                        quality.add_quality_measures(dataset_ref, graph, snapshot)
+                        quality.add_quality_measures(dataset_ref, graph, activity)
                         processed.add(datasetID)
 
                         if len(processed) % 1000 == 0:
-                            logger.info("ProgressDSFetch", portal=portal_api, processed=len(processed))
+                            logger.info("ProgressDSFetch: " + portal_api + ", processed= " + str(len(processed)))
             else:
                 break
-        PortalSnapshot.datasetcount = len(processed)
+        # TODO store total len(processed)
 
 
 class XMLDCAT(PortalProcessor):
     def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot):
+        # prov information
+        activity = URIRef(PROV_ACTIVITY + str(snapshot))
+        graph.add((activity, RDF.type, PROV.Activity))
+
         graph = rdflib.Graph()
         graph.parse(portal_api, format="xml")
 
         for d in graph.subjects(RDF.type, DCAT.Dataset):
-            quality.add_quality_measures(d, graph, snapshot)
+            quality.add_quality_measures(d, graph, activity)
 
-        PortalSnapshot.datasetcount = len(processed)
+        # TODO store total len(processed)
 
 
 class SPARQL(PortalProcessor):
     def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot):
+        # prov information
+        activity = URIRef(PROV_ACTIVITY + str(snapshot))
+        graph.add((activity, RDF.type, PROV.Activity))
+
         url = portal_api + "?format=text/turtle&query="
         query = """
         construct {?dataset a dcat:Dataset}  {
@@ -280,12 +292,16 @@ class SPARQL(PortalProcessor):
             graph.parse(ds_url, format='ttl')
             graph.add((portal_ref, DCAT.dataset, dataset_uri))
 
-            quality.add_quality_measures(dataset_uri, graph, snapshot)
+            quality.add_quality_measures(dataset_uri, graph, activity)
             offset = offset + limit
 
 
 class CKANDCAT(PortalProcessor):
     def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot, format="ttl"):
+        # prov information
+        activity = URIRef(PROV_ACTIVITY + str(snapshot))
+        graph.add((activity, RDF.type, PROV.Activity))
+
         logger.debug('Fetching CKAN portal via RDF endpoint: ' + portal_api)
 
         graph.parse(portal_api, format=format)
@@ -307,11 +323,15 @@ class CKANDCAT(PortalProcessor):
         logger.info('Fetching finished')
 
         for d in graph.subjects(RDF.type, DCAT.Dataset):
-            quality.add_quality_measures(d, graph, snapshot)
+            quality.add_quality_measures(d, graph, activity)
 
 
 class DataGouvFr(PortalProcessor):
     def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot, dcat=True):
+        # prov information
+        activity = URIRef(PROV_ACTIVITY + str(snapshot))
+        graph.add((activity, RDF.type, PROV.Activity))
+
         api = urllib.parse.urljoin(portal_api, '/api/1/datasets/?page_size=100')
         processed = set([])
 
@@ -334,15 +354,15 @@ class DataGouvFr(PortalProcessor):
                     processed.add(datasetID)
                     dataset_ref = graph_from_data_gouv_fr(graph, datasetJSON, portal_api)
                     graph.add((portal_ref, DCAT.dataset, dataset_ref))
-                    quality.add_quality_measures(dataset_ref, graph, snapshot)
+                    quality.add_quality_measures(dataset_ref, graph, activity)
 
                     if len(processed) % 1000 == 0:
-                        logger.info("ProgressDSFetch", portal=portal_api, processed=len(processed))
+                        logger.info("ProgressDSFetch: " + portal_api + ", processed= " + str(len(processed)))
             if 'next_page' in res and res['next_page']:
                 api = res['next_page']
             else:
                 break
-        PortalSnapshot.datasetcount = len(processed)
+        # TODO store total len(processed)
 
 
 def getPackageList(apiurl):
@@ -369,7 +389,7 @@ def getPackageList(apiurl):
             else:
                 break
     except Exception as e:
-        logger.error("getPackageListRemoteCKAN", exception=e, exc_info=True, apiurl=apiurl)
+        logger.error("getPackageListRemoteCKAN: " + str(e))
         ex = e
 
     ex1=None
@@ -382,7 +402,7 @@ def getPackageList(apiurl):
         else:
             status = resp.status_code
     except Exception as e:
-        logger.error("getPackageListHTTPGet", exception=e, exc_info=True,apiurl=apiurl)
+        logger.error("getPackageListHTTPGet: " + str(e))
         ex1=e
 
     if len(package_list) == 0:
@@ -402,6 +422,6 @@ def getPackage(apiurl, id):
         else:
             return None, resp.status_code
     except Exception as ex:
-        logger.error("getPackageList", exception=ex, id=id, apiurl=apiurl)
+        logger.error("getPackageList: " + str(ex))
         raise ex
 

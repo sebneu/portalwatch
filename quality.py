@@ -10,8 +10,6 @@ DCAT = Namespace("http://www.w3.org/ns/dcat#")
 DCT = Namespace("http://purl.org/dc/terms/")
 VCARD = Namespace("http://www.w3.org/2006/vcard/ns#")
 
-PROV_ACTIVITY = 'http://data.wu.ac.at/portalwatch/activity#'
-
 
 email_regex = '[a-zA-Z0-9_\.\+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-\.]+'
 email_pattern = re.compile(email_regex)
@@ -36,11 +34,7 @@ def is_url(cell):
 
 
 
-def add_quality_measures(dataset_uri, graph, snapshot):
-    # prov information
-    act = URIRef(PROV_ACTIVITY + str(snapshot))
-    graph.add((act, RDF.type, PROV.Activity))
-
+def add_quality_measures(dataset_uri, graph, act):
     # access
     c = 0.0
     exist = 0.0

@@ -99,7 +99,7 @@ def convert_socrata(g, data, portal_url):
                 owner = data['owner']['displayName']
                 # add owner as publisher
                 # BNode: dataset_ref + DCT.publisher + owner
-                bnode_hash = hashlib.sha1(dataset_ref.n3() + DCT.publisher.n3() + owner)
+                bnode_hash = hashlib.sha1((dataset_ref.n3() + DCT.publisher.n3() + owner).encode('utf-8'))
                 publisher_details = BNode(bnode_hash.hexdigest())
 
                 g.add((publisher_details, RDF.type, FOAF.Organization))
@@ -109,7 +109,7 @@ def convert_socrata(g, data, portal_url):
             if 'tableAuthor' in data and isinstance(data['tableAuthor'], dict) and 'displayName' in data['tableAuthor']:
                 author = data['tableAuthor']['displayName']
                 # BNode: dataset_ref + VCARD.fn + author
-                bnode_hash = hashlib.sha1(dataset_ref.n3() + VCARD.fn.n3() + author)
+                bnode_hash = hashlib.sha1((dataset_ref.n3() + VCARD.fn.n3() + author).encode('utf-8'))
                 contact_details = BNode(bnode_hash.hexdigest())
 
                 g.add((contact_details, RDF.type, VCARD.Organization))
@@ -123,7 +123,7 @@ def convert_socrata(g, data, portal_url):
                     publisher_details = URIRef(attributionLink)
                 else:
                     # BNode: dataset_ref + DCT.publisher + owner
-                    bnode_hash = hashlib.sha1(dataset_ref.n3() + DCT.publisher.n3() + publisher)
+                    bnode_hash = hashlib.sha1((dataset_ref.n3() + DCT.publisher.n3() + publisher).encode('utf-8'))
                     publisher_details = BNode(bnode_hash.hexdigest())
 
                 g.add((publisher_details, RDF.type, FOAF.Organization))
@@ -246,7 +246,7 @@ def graph_from_opendatasoft(g, dataset_dict, portal_url):
     publisher_name = data.get('publisher')
     if publisher_name:
         # BNode: dataset_ref + DCT.publisher + publisher_name
-        bnode_hash = hashlib.sha1(dataset_ref.n3() + DCT.publisher.n3() + publisher_name)
+        bnode_hash = hashlib.sha1((dataset_ref.n3() + DCT.publisher.n3() + publisher_name).encode('utf-8'))
         publisher_details = BNode(bnode_hash.hexdigest())
 
         g.add((publisher_details, RDF.type, FOAF.Organization))
@@ -408,7 +408,7 @@ def graph_from_data_gouv_fr(g, dataset_dict, portal_url):
             g.add((publisher_details, FOAF.homepage, URIRef(publisher_page)))
         else:
             # BNode: dataset_ref + DCT.publisher + publisher_name
-            bnode_hash = hashlib.sha1(dataset_ref.n3() + DCT.publisher.n3() + publisher_id)
+            bnode_hash = hashlib.sha1((dataset_ref.n3() + DCT.publisher.n3() + publisher_id).encode('utf-8'))
             publisher_details = BNode(bnode_hash.hexdigest())
 
         g.add((publisher_details, RDF.type, FOAF.Organization))
@@ -545,7 +545,7 @@ class CKANConverter:
             if contact_uri:
                 contact_details = URIRef(contact_uri)
             else:
-                bnode_hash = hashlib.sha1(dataset_ref.n3() + DCAT.contactPoint.n3())
+                bnode_hash = hashlib.sha1((dataset_ref.n3() + DCAT.contactPoint.n3()).encode('utf-8'))
                 contact_details = BNode(bnode_hash.hexdigest())
 
             g.add((contact_details, RDF.type, VCARD.Organization))

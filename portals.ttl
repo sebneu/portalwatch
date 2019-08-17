@@ -370,7 +370,7 @@
     ns1:homepage <http://www.data.go.jp/> .
 
 <http://www.datagm.org.uk> a <http://www.w3.org/ns/dcat#Catalog> ;
-    ns2:active true ;
+    ns2:active false ;
     ns2:api <http://www.datagm.org.uk/> ;
     ns2:identifier "www_datagm_org_uk" ;
     ns2:iso "GB" ;
@@ -389,7 +389,7 @@
     ns1:homepage <http://www.europeandataportal.eu/> .
 
 <http://www.offene-daten.me> a <http://www.w3.org/ns/dcat#Catalog> ;
-    ns2:active true ;
+    ns2:active false ;
     ns2:api <http://www.offene-daten.me/> ;
     ns2:identifier "www_offene-daten_me" ;
     ns2:iso "DE" ;
@@ -407,7 +407,7 @@
     ns1:homepage <http://www.opendataforum.info/> .
 
 <http://www.opendatamalta.org/> a <http://www.w3.org/ns/dcat#Catalog> ;
-    ns2:active true ;
+    ns2:active false ;
     ns2:api <http://www.opendatamalta.org/ckan/> ;
     ns2:identifier "www_opendatamalta_org" ;
     ns2:iso "MT" ;
@@ -415,14 +415,14 @@
     ns3:title "www.opendatamalta.org" ;
     ns1:homepage <http://www.opendatamalta.org/> .
 
-<http://www.rotterdamopendata.nl/> a <http://www.w3.org/ns/dcat#Catalog> ;
+<http://rotterdamopendata.nl/> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active true ;
     ns2:api <http://rotterdamopendata.nl/> ;
     ns2:identifier "www_rotterdamopendata_nl" ;
     ns2:iso "NL" ;
     ns2:software ns2:CKAN ;
-    ns3:title "www.rotterdamopendata.nl" ;
-    ns1:homepage <http://www.rotterdamopendata.nl/> .
+    ns3:title "rotterdamopendata.nl" ;
+    ns1:homepage <http://rotterdamopendata.nl/> .
 
 <http://www.yorkopendata.org/> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active true ;
@@ -560,7 +560,7 @@
     ns1:homepage <http://bermuda.io/> .
 
 <http://bistrotdepays.opendatasoft.com> a <http://www.w3.org/ns/dcat#Catalog> ;
-    ns2:active true ;
+    ns2:active false ;
     ns2:api <http://bistrotdepays.opendatasoft.com> ;
     ns2:identifier "bistrotdepays_opendatasoft_com" ;
     ns2:iso "FR" ;
@@ -1192,14 +1192,14 @@
     ns3:title "datamx.io" ;
     ns1:homepage <http://datamx.io/> .
 
-<http://dataratp.opendatasoft.com> a <http://www.w3.org/ns/dcat#Catalog> ;
+<https://dataratp.opendatasoft.com> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active true ;
-    ns2:api <http://dataratp.opendatasoft.com> ;
+    ns2:api <https://dataratp.opendatasoft.com> ;
     ns2:identifier "dataratp_opendatasoft_com" ;
     ns2:iso "FR" ;
     ns2:software ns2:OpenDataSoft ;
     ns3:title "dataratp.opendatasoft.com" ;
-    ns1:homepage <http://dataratp.opendatasoft.com> .
+    ns1:homepage <https://dataratp.opendatasoft.com> .
 
 <http://daten.buergernetz.bz.it/de/> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active true ;
@@ -1328,7 +1328,7 @@
     ns1:homepage <http://hubofdata.ru/> .
 
 <http://inforegio.azure-westeurope-prod.socrata.com> a <http://www.w3.org/ns/dcat#Catalog> ;
-    ns2:active true ;
+    ns2:active false ;
     ns2:api <http://inforegio.azure-westeurope-prod.socrata.com> ;
     ns2:identifier "inforegio_azure-westeurope-prod_socrata_com" ;
     ns2:iso "US" ;
@@ -1337,7 +1337,7 @@
     ns1:homepage <http://inforegio.azure-westeurope-prod.socrata.com> .
 
 <http://irs.demo.socrata.com> a <http://www.w3.org/ns/dcat#Catalog> ;
-    ns2:active true ;
+    ns2:active false ;
     ns2:api <http://irs.demo.socrata.com> ;
     ns2:identifier "irs_demo_socrata_com" ;
     ns2:iso "US" ;
@@ -1473,14 +1473,14 @@
     ns3:title "opendata.rubi.cat" ;
     ns1:homepage <http://opendata.rubi.cat> .
 
-<http://opendata.socrata.com> a <http://www.w3.org/ns/dcat#Catalog> ;
+<https://opendata.socrata.com> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active true ;
-    ns2:api <http://opendata.socrata.com> ;
+    ns2:api <https://opendata.socrata.com> ;
     ns2:identifier "opendata_socrata_com" ;
     ns2:iso "US" ;
     ns2:software ns2:Socrata ;
     ns3:title "opendata.socrata.com" ;
-    ns1:homepage <http://opendata.socrata.com> .
+    ns1:homepage <https://opendata.socrata.com> .
 
 <http://opendatadc.org/> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active true ;
