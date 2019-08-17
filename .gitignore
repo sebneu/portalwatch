@@ -102,3 +102,9 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# other files
+.idea/
+tests/dumps/
+load_snapshot_virtuoso.sh
+virtuoso-docker.txt

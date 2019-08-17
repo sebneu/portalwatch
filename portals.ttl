@@ -1,0 +1,2526 @@
+@prefix ns1: <http://xmlns.com/foaf/0.1/> .
+@prefix ns2: <http://data.wu.ac.at/ns/odpw#> .
+@prefix ns3: <http://purl.org/dc/terms/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://abertos.xunta.gal/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://abertos.xunta.gal/busca-de-datos.rdf> ;
+    ns2:identifier "abertos_xunta_gal" ;
+    ns2:iso "ES" ;
+    ns2:software ns2:XMLDCAT ;
+    ns3:title "abertos.xunta.gal" ;
+    ns1:homepage <http://abertos.xunta.gal/> .
+
+<http://beta.avoindata.fi/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://beta.avoindata.fi/data/fi/> ;
+    ns2:identifier "beta_avoindata_fi" ;
+    ns2:iso "FI" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "beta.avoindata.fi" ;
+    ns1:homepage <http://beta.avoindata.fi/> .
+
+<http://dados.gov.br> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://dados.gov.br/> ;
+    ns2:identifier "dados_gov_br" ;
+    ns2:iso "BR" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "dados.gov.br" ;
+    ns1:homepage <http://dados.gov.br> .
+
+<http://data.gov.md/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.gov.md/ckan/> ;
+    ns2:identifier "data_gov_md" ;
+    ns2:iso "MD" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.gov.md" ;
+    ns1:homepage <http://data.gov.md/> .
+
+<http://data.gov/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://catalog.data.gov/> ;
+    ns2:identifier "data_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.gov" ;
+    ns1:homepage <http://data.gov/> .
+
+<http://data.graz.gv.at/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://ckan.data.graz.gv.at/> ;
+    ns2:identifier "data_graz_gv_at" ;
+    ns2:iso "AT" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.graz.gv.at" ;
+    ns1:homepage <http://data.graz.gv.at/> .
+
+<http://data.gv.at> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://www.data.gv.at/katalog/> ;
+    ns2:identifier "data_gv_at" ;
+    ns2:iso "AT" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.gv.at" ;
+    ns1:homepage <http://data.gv.at> .
+
+<http://data.ktn.gv.at/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active false ;
+    ns2:api <http://ckan.data.ktn.gv.at/> ;
+    ns2:identifier "data_ktn_gv_at" ;
+    ns2:iso "AT" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.ktn.gv.at" ;
+    ns1:homepage <http://data.ktn.gv.at/> .
+
+<http://data.linz.gv.at/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active false ;
+    ns2:api <http://ckan.data.linz.gv.at/> ;
+    ns2:identifier "data_linz_gv_at" ;
+    ns2:iso "AT" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.linz.gv.at" ;
+    ns1:homepage <http://data.linz.gv.at/> .
+
+<http://data.nsw.gov.au/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.nsw.gov.au/data/> ;
+    ns2:identifier "data_nsw_gov_au" ;
+    ns2:iso "AU" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.nsw.gov.au" ;
+    ns1:homepage <http://data.nsw.gov.au/> .
+
+<http://data.ok.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.ok.gov/> ;
+    ns2:identifier "data_ok_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.ok.gov" ;
+    ns1:homepage <http://data.ok.gov> .
+
+<http://data.qld.gov.au/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.qld.gov.au/> ;
+    ns2:identifier "data_qld_gov_au" ;
+    ns2:iso "AU" ;
+    ns2:rdfendpoint <https://data.qld.gov.au/catalog.ttl> ;
+    ns2:software ns2:CKANDCAT ;
+    ns3:title "data.qld.gov.au" ;
+    ns1:homepage <http://data.qld.gov.au/> .
+
+<http://data.salzburgerland.com> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.salzburgerland.com/> ;
+    ns2:identifier "data_salzburgerland_com" ;
+    ns2:iso "AT" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.salzburgerland.com" ;
+    ns1:homepage <http://data.salzburgerland.com> .
+
+<http://data.ug/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://catalog.data.ug/> ;
+    ns2:identifier "data_ug" ;
+    ns2:iso "UG" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.ug" ;
+    ns1:homepage <http://data.ug/> .
+
+<http://data.upf.edu/en/main> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.upf.edu/en/> ;
+    ns2:identifier "data_upf_edu_en_main" ;
+    ns2:iso "ES" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.upf.edu" ;
+    ns1:homepage <http://data.upf.edu/en/main> .
+
+<http://data.wu.ac.at/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.wu.ac.at/portal/> ;
+    ns2:identifier "data_wu_ac_at" ;
+    ns2:iso "AT" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.wu.ac.at" ;
+    ns1:homepage <http://data.wu.ac.at/> .
+
+<http://dataforjapan.org> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://dataforjapan.org/> ;
+    ns2:identifier "dataforjapan_org" ;
+    ns2:iso "JP" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "dataforjapan.org" ;
+    ns1:homepage <http://dataforjapan.org> .
+
+<http://datagm.org.uk> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://datagm.org.uk/> ;
+    ns2:identifier "datagm_org_uk" ;
+    ns2:iso "US" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "datagm.org.uk" ;
+    ns1:homepage <http://datagm.org.uk> .
+
+<http://daten.rlp.de/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://www.daten.rlp.de/> ;
+    ns2:identifier "daten_rlp_de" ;
+    ns2:iso "DE" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "daten.rlp.de" ;
+    ns1:homepage <http://daten.rlp.de/> .
+
+<http://datos.gob.es/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://datos.gob.es/sites/default/files/catalogo.rdf> ;
+    ns2:identifier "datos_gob_es" ;
+    ns2:iso "ES" ;
+    ns2:software ns2:XMLDCAT ;
+    ns3:title "datos.gob.es" ;
+    ns1:homepage <http://datos.gob.es/> .
+
+<http://datos.gob.mx/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://catalogo.datos.gob.mx/> ;
+    ns2:identifier "datos_gob_mx" ;
+    ns2:iso "MX" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "datos.gob.mx" ;
+    ns1:homepage <http://datos.gob.mx/> .
+
+<http://geothermaldata.org/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://search.geothermaldata.org/> ;
+    ns2:identifier "geothermaldata_org" ;
+    ns2:iso "US" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "geothermaldata.org" ;
+    ns1:homepage <http://geothermaldata.org/> .
+
+<http://gisdata.mn.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://gisdata.mn.gov/> ;
+    ns2:identifier "gisdata_mn_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "gisdata.mn.gov" ;
+    ns1:homepage <http://gisdata.mn.gov> .
+
+<http://gobiernoabierto.valencia.es/es/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://apigobiernoabiertocatalog.valencia.es/> ;
+    ns2:identifier "gobiernoabierto_valencia_es_es_" ;
+    ns2:iso "ES" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "gobiernoabierto.valencia.es" ;
+    ns1:homepage <http://gobiernoabierto.valencia.es/es/> .
+
+<https://govdata.de> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://www.govdata.de/ckan/> ;
+    ns2:identifier "govdata_de" ;
+    ns2:iso "DE" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "govdata.de" ;
+    ns1:homepage <https://govdata.de> .
+
+<http://iatiregistry.org> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://iatiregistry.org/> ;
+    ns2:identifier "iatiregistry_org" ;
+    ns2:iso "US" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "iatiregistry.org" ;
+    ns1:homepage <http://iatiregistry.org> .
+
+<http://offenedaten.de/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://offenedaten.de/> ;
+    ns2:identifier "offenedaten_de" ;
+    ns2:iso "DE" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "offenedaten.de" ;
+    ns1:homepage <http://offenedaten.de/> .
+
+<http://open-data.europa.eu/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://open-data.europa.eu/en/data/> ;
+    ns2:identifier "open-data_europa_eu" ;
+    ns2:iso "EU" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "open-data.europa.eu" ;
+    ns1:homepage <http://open-data.europa.eu/> .
+
+<http://opencolorado.org/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.opencolorado.org/> ;
+    ns2:identifier "opencolorado_org" ;
+    ns2:iso "US" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "opencolorado.org" ;
+    ns1:homepage <http://opencolorado.org/> .
+
+<http://opendata.aragon.es/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://opendata.aragon.es/catalogo/> ;
+    ns2:identifier "opendata_aragon_es" ;
+    ns2:iso "ES" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "opendata.aragon.es" ;
+    ns1:homepage <http://opendata.aragon.es/> .
+
+<http://opendata.lisra.jp> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://opendata.lisra.jp/> ;
+    ns2:identifier "opendata_lisra_jp" ;
+    ns2:iso "JP" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "opendata.lisra.jp" ;
+    ns1:homepage <http://opendata.lisra.jp> .
+
+<http://opendatacanarias.es/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://opendatacanarias.es/datos/> ;
+    ns2:identifier "opendatacanarias_es" ;
+    ns2:iso "ES" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "opendatacanarias.es" ;
+    ns1:homepage <http://opendatacanarias.es/> .
+
+<http://oppnadata.se> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://oppnadata.se/> ;
+    ns2:identifier "oppnadata_se" ;
+    ns2:iso "SE" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "oppnadata.se" ;
+    ns1:homepage <http://oppnadata.se> .
+
+<http://portal.openbelgium.be> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://portal.openbelgium.be/> ;
+    ns2:identifier "portal_openbelgium_be" ;
+    ns2:iso "BE" ;
+    ns2:rdfendpoint <http://portal.openbelgium.be/catalog.ttl> ;
+    ns2:software ns2:CKANDCAT ;
+    ns3:title "portal.openbelgium.be" ;
+    ns1:homepage <http://portal.openbelgium.be> .
+
+<http://publicdata.eu> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active false ;
+    ns2:api <http://publicdata.eu/> ;
+    ns2:identifier "publicdata_eu" ;
+    ns2:iso "US" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "publicdata.eu" ;
+    ns1:homepage <http://publicdata.eu> .
+
+<http://transparenz.hamburg.de/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://suche.transparenz.hamburg.de/> ;
+    ns2:identifier "transparenz_hamburg_de" ;
+    ns2:iso "DE" ;
+    ns2:rdfendpoint <http://suche.transparenz.hamburg.de/catalog.ttl> ;
+    ns2:software ns2:CKANDCAT ;
+    ns3:title "transparenz.hamburg.de" ;
+    ns1:homepage <http://transparenz.hamburg.de/> .
+
+<http://udct-data.aigid.jp> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://udct-data.aigid.jp/> ;
+    ns2:identifier "udct-data_aigid_jp" ;
+    ns2:iso "JP" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "udct-data.aigid.jp" ;
+    ns1:homepage <http://udct-data.aigid.jp> .
+
+<http://www.amsterdamopendata.nl> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.amsterdamopendata.nl/> ;
+    ns2:identifier "www_amsterdamopendata_nl" ;
+    ns2:iso "NL" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "www.amsterdamopendata.nl" ;
+    ns1:homepage <http://www.amsterdamopendata.nl> .
+
+<http://www.civicdata.io> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://www.civicdata.io/> ;
+    ns2:identifier "www_civicdata_io" ;
+    ns2:iso "IO" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "www.civicdata.io" ;
+    ns1:homepage <http://www.civicdata.io> .
+
+<http://www.data.go.jp/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://www.data.go.jp/data/> ;
+    ns2:identifier "www_data_go_jp" ;
+    ns2:iso "JP" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "www.data.go.jp" ;
+    ns1:homepage <http://www.data.go.jp/> .
+
+<http://www.datagm.org.uk> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://www.datagm.org.uk/> ;
+    ns2:identifier "www_datagm_org_uk" ;
+    ns2:iso "GB" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "www.datagm.org.uk" ;
+    ns1:homepage <http://www.datagm.org.uk> .
+
+<http://www.europeandataportal.eu/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://www.europeandataportal.eu/data/> ;
+    ns2:sparql <https://www.europeandataportal.eu/sparql> ;
+    ns2:identifier "www_europeandataportal_eu" ;
+    ns2:iso "EU" ;
+    ns2:software ns2:SPARQL ;
+    ns3:title "www.europeandataportal.eu" ;
+    ns1:homepage <http://www.europeandataportal.eu/> .
+
+<http://www.offene-daten.me> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://www.offene-daten.me/> ;
+    ns2:identifier "www_offene-daten_me" ;
+    ns2:iso "DE" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "www.offene-daten.me" ;
+    ns1:homepage <http://www.offene-daten.me> .
+
+<http://www.opendataforum.info/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active false ;
+    ns2:api <http://data.opendataforum.info/> ;
+    ns2:identifier "www_opendataforum_info" ;
+    ns2:iso "BE" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "www.opendataforum.info" ;
+    ns1:homepage <http://www.opendataforum.info/> .
+
+<http://www.opendatamalta.org/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://www.opendatamalta.org/ckan/> ;
+    ns2:identifier "www_opendatamalta_org" ;
+    ns2:iso "MT" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "www.opendatamalta.org" ;
+    ns1:homepage <http://www.opendatamalta.org/> .
+
+<http://www.rotterdamopendata.nl/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://rotterdamopendata.nl/> ;
+    ns2:identifier "www_rotterdamopendata_nl" ;
+    ns2:iso "NL" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "www.rotterdamopendata.nl" ;
+    ns1:homepage <http://www.rotterdamopendata.nl/> .
+
+<http://www.yorkopendata.org/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.yorkopendata.org/> ;
+    ns2:identifier "www_yorkopendata_org" ;
+    ns2:iso "GB" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "www.yorkopendata.org" ;
+    ns1:homepage <http://www.yorkopendata.org/> .
+
+<https://data.gov.hk/en/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.gov.hk/tc-data/> ;
+    ns2:identifier "data_gov_hk_en_" ;
+    ns2:iso "HK" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.gov.hk" ;
+    ns1:homepage <https://data.gov.hk/en/> .
+
+<https://data.noaa.gov/dataset> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.noaa.gov/dataset/> ;
+    ns2:identifier "data_noaa_gov_dataset" ;
+    ns2:iso "US" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.noaa.gov" ;
+    ns1:homepage <https://data.noaa.gov/dataset> .
+
+<https://data.overheid.nl/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.overheid.nl/data/> ;
+    ns2:identifier "data_overheid_nl" ;
+    ns2:iso "NL" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.overheid.nl" ;
+    ns1:homepage <https://data.overheid.nl/> .
+
+<https://data.sa.gov.au/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.sa.gov.au/data/> ;
+    ns2:identifier "data_sa_gov_au" ;
+    ns2:iso "AU" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.sa.gov.au" ;
+    ns1:homepage <https://data.sa.gov.au/> .
+
+<https://datanorthyorkshire.org/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://hub.datanorthyorkshire.org/> ;
+    ns2:identifier "datanorthyorkshire_org" ;
+    ns2:iso "UK" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "datanorthyorkshire.org" ;
+    ns1:homepage <https://datanorthyorkshire.org/> .
+
+<https://dati.lazio.it/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://dati.lazio.it/catalog/it/> ;
+    ns2:identifier "dati_lazio_it" ;
+    ns2:iso "IT" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "dati.lazio.it" ;
+    ns1:homepage <https://dati.lazio.it/> .
+
+<https://edinburghopendata.info/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.edinburghopendata.info/> ;
+    ns2:identifier "www_edinburghopendata_info" ;
+    ns2:iso "GB" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "edinburghopendata.info" ;
+    ns1:homepage <https://edinburghopendata.info/> .
+
+<https://open.canada.ca/en> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://open.canada.ca/data/> ;
+    ns2:identifier "www_data_gc_ca" ;
+    ns2:iso "CA" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "open.canada.ca" ;
+    ns1:homepage <https://open.canada.ca/en> .
+
+<https://open.nrw/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://open.nrw/api/> ;
+    ns2:identifier "open_nrw" ;
+    ns2:iso "DE" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "open.nrw" ;
+    ns1:homepage <https://open.nrw/> .
+
+<https://www.opendataportal.at/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.opendataportal.at/> ;
+    ns2:identifier "www_opendataportal_at" ;
+    ns2:iso "AT" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "www.opendataportal.at" ;
+    ns1:homepage <https://www.opendataportal.at/> .
+
+<http://130.179.67.140/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://130.179.67.140/> ;
+    ns2:identifier "130_179_67_140" ;
+    ns2:iso "CA" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "130.179.67.140" ;
+    ns1:homepage <http://130.179.67.140/> .
+
+<http://africaopendata.org/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://africaopendata.org/> ;
+    ns2:identifier "africaopendata_org" ;
+    ns2:iso "IE" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "africaopendata.org" ;
+    ns1:homepage <http://africaopendata.org/> .
+
+<http://annuario.comune.fi.it/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://annuario.comune.fi.it/> ;
+    ns2:identifier "annuario_comune_fi_it" ;
+    ns2:iso "IT" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "annuario.comune.fi.it" ;
+    ns1:homepage <http://annuario.comune.fi.it/> .
+
+<http://bermuda.io/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://bermuda.io/> ;
+    ns2:identifier "bermuda_io" ;
+    ns2:iso "IO" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "bermuda.io" ;
+    ns1:homepage <http://bermuda.io/> .
+
+<http://bistrotdepays.opendatasoft.com> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://bistrotdepays.opendatasoft.com> ;
+    ns2:identifier "bistrotdepays_opendatasoft_com" ;
+    ns2:iso "FR" ;
+    ns2:software ns2:OpenDataSoft ;
+    ns3:title "bistrotdepays.opendatasoft.com" ;
+    ns1:homepage <http://bistrotdepays.opendatasoft.com> .
+
+<http://bmgf.demo.socrata.com> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://bmgf.demo.socrata.com> ;
+    ns2:identifier "bmgf_demo_socrata_com" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "bmgf.demo.socrata.com" ;
+    ns1:homepage <http://bmgf.demo.socrata.com> .
+
+<http://bythenumbers.sco.ca.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://bythenumbers.sco.ca.gov> ;
+    ns2:identifier "bythenumbers_sco_ca_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "bythenumbers.sco.ca.gov" ;
+    ns1:homepage <http://bythenumbers.sco.ca.gov> .
+
+<http://catalogo.datosabiertos.gob.ec/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://catalogo.datosabiertos.gob.ec/> ;
+    ns2:identifier "datosabiertos_ec" ;
+    ns2:iso "EC" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "catalogo.datosabiertos.gob.ec" ;
+    ns1:homepage <http://catalogo.datosabiertos.gob.ec/> .
+
+<http://catalogue.datalocale.fr/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://catalogue.datalocale.fr/> ;
+    ns2:identifier "catalogue_datalocale_fr" ;
+    ns2:iso "FR" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "catalogue.datalocale.fr" ;
+    ns1:homepage <http://catalogue.datalocale.fr/> .
+
+<http://cdph.data.ca.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://cdph.data.ca.gov> ;
+    ns2:identifier "cdph_data_ca_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "cdph.data.ca.gov" ;
+    ns1:homepage <http://cdph.data.ca.gov> .
+
+<http://ckan.gsi.go.jp/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active false ;
+    ns2:api <http://ckan.gsi.go.jp/> ;
+    ns2:identifier "ckan_gsi_go_jp" ;
+    ns2:iso "JP" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "ckan.gsi.go.jp" ;
+    ns1:homepage <http://ckan.gsi.go.jp/> .
+
+<http://ckan.odp.jig.jp/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://ckan.odp.jig.jp/> ;
+    ns2:identifier "ckan_odp_jig_jp" ;
+    ns2:iso "JP" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "ckan.odp.jig.jp" ;
+    ns1:homepage <http://ckan.odp.jig.jp/> .
+
+<http://ckan.okfn.gr/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active false ;
+    ns2:api <http://ckan.okfn.gr/> ;
+    ns2:identifier "ckan_okfn_gr" ;
+    ns2:iso "GR" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "ckan.okfn.gr" ;
+    ns1:homepage <http://ckan.okfn.gr/> .
+
+<http://ckanau.org/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://ckanau.org/> ;
+    ns2:identifier "ckanau_org" ;
+    ns2:iso "AU" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "ckanau.org" ;
+    ns1:homepage <http://ckanau.org/> .
+
+<http://dados.al.gov.br/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://dados.al.gov.br/> ;
+    ns2:identifier "dados_al_gov_br" ;
+    ns2:iso "BR" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "dados.al.gov.br" ;
+    ns1:homepage <http://dados.al.gov.br/> .
+
+<http://dados.recife.pe.gov.br/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://dados.recife.pe.gov.br/> ;
+    ns2:identifier "dados_recife_pe_gov_br" ;
+    ns2:iso "BR" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "dados.recife.pe.gov.br" ;
+    ns1:homepage <http://dados.recife.pe.gov.br/> .
+
+<http://dadosabertos.senado.gov.br/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://dadosabertos.senado.gov.br/> ;
+    ns2:identifier "dadosabertos_senado_gov_br" ;
+    ns2:iso "BR" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "dadosabertos.senado.gov.br" ;
+    ns1:homepage <http://dadosabertos.senado.gov.br/> .
+
+<http://dartportal.leeds.ac.uk/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://dartportal.leeds.ac.uk/> ;
+    ns2:identifier "dartportal_leeds_ac_uk" ;
+    ns2:iso "GB" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "dartportal.leeds.ac.uk" ;
+    ns1:homepage <http://dartportal.leeds.ac.uk/> .
+
+<http://data.atf.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.atf.gov> ;
+    ns2:identifier "data_atf_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.atf.gov" ;
+    ns1:homepage <http://data.atf.gov> .
+
+<http://data.buenosaires.gob.ar/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.buenosaires.gob.ar/> ;
+    ns2:identifier "data_buenosaires_gob_ar" ;
+    ns2:iso "AR" ;
+    ns2:software ns2:unknown ;
+    ns3:title "data.buenosaires.gob.ar" ;
+    ns1:homepage <http://data.buenosaires.gob.ar/> .
+
+<http://data.cityofchicago.org> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.cityofchicago.org> ;
+    ns2:identifier "data_cityofchicago_org" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.cityofchicago.org" ;
+    ns1:homepage <http://data.cityofchicago.org> .
+
+<http://data.cityofdeleon.org> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active false ;
+    ns2:api <http://data.cityofdeleon.org> ;
+    ns2:identifier "data_cityofdeleon_org" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.cityofdeleon.org" ;
+    ns1:homepage <http://data.cityofdeleon.org> .
+
+<http://data.cityofsantacruz.com/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.cityofsantacruz.com/> ;
+    ns2:identifier "data_cityofsantacruz_com" ;
+    ns2:iso "US" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.cityofsantacruz.com" ;
+    ns1:homepage <http://data.cityofsantacruz.com/> .
+
+<http://data.cityoftacoma.org> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.cityoftacoma.org> ;
+    ns2:identifier "data_cityoftacoma_org" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.cityoftacoma.org" ;
+    ns1:homepage <http://data.cityoftacoma.org> .
+
+<http://data.cms.hhs.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.cms.hhs.gov> ;
+    ns2:identifier "data_cms_hhs_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.cms.hhs.gov" ;
+    ns1:homepage <http://data.cms.hhs.gov> .
+
+<http://data.dcpcsb.org> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.dcpcsb.org> ;
+    ns2:identifier "data_dcpcsb_org" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.dcpcsb.org" ;
+    ns1:homepage <http://data.dcpcsb.org> .
+
+<http://data.edmonton.ca> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.edmonton.ca> ;
+    ns2:identifier "data_edmonton_ca" ;
+    ns2:iso "CA" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.edmonton.ca" ;
+    ns1:homepage <http://data.edmonton.ca> .
+
+<http://data.edostate.gov.ng/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active false ;
+    ns2:api <http://data.edostate.gov.ng/> ;
+    ns2:identifier "data_edostate_gov_ng" ;
+    ns2:iso "NG" ;
+    ns2:software ns2:DKAN ;
+    ns3:title "data.edostate.gov.ng" ;
+    ns1:homepage <http://data.edostate.gov.ng/> .
+
+<http://data.eindhoven.nl> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.eindhoven.nl> ;
+    ns2:identifier "data_eindhoven_nl" ;
+    ns2:iso "NL" ;
+    ns2:software ns2:OpenDataSoft ;
+    ns3:title "data.eindhoven.nl" ;
+    ns1:homepage <http://data.eindhoven.nl> .
+
+<http://data.glasgow.gov.uk/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.glasgow.gov.uk/> ;
+    ns2:identifier "data_glasgow_gov_uk" ;
+    ns2:iso "GB" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.glasgow.gov.uk" ;
+    ns1:homepage <http://data.glasgow.gov.uk/> .
+
+<http://data.go.id/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.go.id/> ;
+    ns2:identifier "data_go_id" ;
+    ns2:iso "ID" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.go.id" ;
+    ns1:homepage <http://data.go.id/> .
+
+<http://data.gov.au/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.gov.au/> ;
+    ns2:identifier "data_gov_au" ;
+    ns2:iso "AU" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.gov.au" ;
+    ns1:homepage <http://data.gov.au/> .
+
+<http://data.gov.bf/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.gov.bf/> ;
+    ns2:identifier "data_gov_bf" ;
+    ns2:iso "BF" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.gov.bf" ;
+    ns1:homepage <http://data.gov.bf/> .
+
+<http://data.gov.gr/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.gov.gr/> ;
+    ns2:identifier "data_gov_gr" ;
+    ns2:iso "GR" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.gov.gr" ;
+    ns1:homepage <http://data.gov.gr/> .
+
+<http://data.gov.hr/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.gov.hr/> ;
+    ns2:identifier "data_gov_hr" ;
+    ns2:iso "HR" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.gov.hr" ;
+    ns1:homepage <http://data.gov.hr/> .
+
+<http://data.gov.ie/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.gov.ie/> ;
+    ns2:identifier "data_gov_ie" ;
+    ns2:iso "IE" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.gov.ie" ;
+    ns1:homepage <http://data.gov.ie/> .
+
+<http://data.gov.ro/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.gov.ro/> ;
+    ns2:identifier "data_gov_ro" ;
+    ns2:iso "RO" ;
+    ns2:rdfendpoint <http://data.gov.ro/catalog.ttl> ;
+    ns2:software ns2:CKANDCAT ;
+    ns3:title "data.gov.ro" ;
+    ns1:homepage <http://data.gov.ro/> .
+
+<https://data.gov.sk/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.gov.sk/> ;
+    ns2:rdfendpoint <https://data.gov.sk/catalog.ttl>
+    ns2:identifier "data_gov_sk" ;
+    ns2:iso "SK" ;
+    ns2:software ns2:CKANDCAT ;
+    ns3:title "data.gov.sk" ;
+    ns1:homepage <https://data.gov.sk/> .
+
+
+<https://ckan.publishing.service.gov.uk> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:rdfendpoint <https://ckan.publishing.service.gov.uk/catalog.ttl> ;
+    ns2:identifier "data_gov_uk" ;
+    ns2:iso "GB" ;
+    ns2:software ns2:CKANDCAT ;
+    ns3:title "data.gov.uk" ;
+    ns1:homepage <http://data.gov.uk/> .
+
+<http://data.grcity.us/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active false ;
+    ns2:api <http://data.grcity.us/> ;
+    ns2:identifier "data_grcity_us" ;
+    ns2:iso "US" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.grcity.us" ;
+    ns1:homepage <http://data.grcity.us/> .
+
+<https://data.hartford.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.hartford.gov> ;
+    ns2:identifier "data_hartford_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.hartford.gov" ;
+    ns1:homepage <https://data.hartford.gov> .
+
+<http://data.hawaii.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.hawaii.gov> ;
+    ns2:identifier "data_hawaii_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.hawaii.gov" ;
+    ns1:homepage <http://data.hawaii.gov> .
+
+<http://data.houstontx.gov/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.houstontx.gov/> ;
+    ns2:identifier "data_houstontx_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.houstontx.gov" ;
+    ns1:homepage <http://data.houstontx.gov/> .
+
+<http://data.iledefrance.fr> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.iledefrance.fr> ;
+    ns2:identifier "data_iledefrance_fr" ;
+    ns2:iso "FR" ;
+    ns2:software ns2:OpenDataSoft ;
+    ns3:title "data.iledefrance.fr" ;
+    ns1:homepage <http://data.iledefrance.fr> .
+
+<http://data.illinois.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.illinois.gov> ;
+    ns2:identifier "data_illinois_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.illinois.gov" ;
+    ns1:homepage <http://data.illinois.gov> .
+
+<https://data.kk.dk/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.kk.dk/> ;
+    ns2:identifier "data_kk_dk" ;
+    ns2:iso "DK" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.kk.dk" ;
+    ns1:homepage <https://data.kk.dk/> .
+
+<https://data.lexingtonky.gov/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.lexingtonky.gov/> ;
+    ns2:identifier "data_lexingtonky_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.lexingtonky.gov" ;
+    ns1:homepage <https://data.lexingtonky.gov/> .
+
+<http://data.london.gov.uk/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.london.gov.uk/> ;
+    ns2:identifier "data_london_gov_uk" ;
+    ns2:iso "GB" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.london.gov.uk" ;
+    ns1:homepage <http://data.london.gov.uk/> .
+
+<http://data.medicare.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.medicare.gov> ;
+    ns2:identifier "data_medicare_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.medicare.gov" ;
+    ns1:homepage <http://data.medicare.gov> .
+
+<http://data.michigan.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.michigan.gov> ;
+    ns2:identifier "data_michigan_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.michigan.gov" ;
+    ns1:homepage <http://data.michigan.gov> .
+
+<http://data.murphytx.org> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active false ;
+    ns2:api <http://data.murphytx.org> ;
+    ns2:identifier "data_murphytx_org" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.murphytx.org" ;
+    ns1:homepage <http://data.murphytx.org> .
+
+<http://data.nhm.ac.uk/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.nhm.ac.uk/> ;
+    ns2:identifier "data_nhm_ac_uk" ;
+    ns2:iso "GB" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.nhm.ac.uk" ;
+    ns1:homepage <http://data.nhm.ac.uk/> .
+
+<http://data.nj.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.nj.gov> ;
+    ns2:identifier "data_nj_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.nj.gov" ;
+    ns1:homepage <http://data.nj.gov> .
+
+<http://data.nola.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.nola.gov> ;
+    ns2:identifier "data_nola_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.nola.gov" ;
+    ns1:homepage <http://data.nola.gov> .
+
+<http://data.ohouston.org/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active false ;
+    ns2:api <http://data.ohouston.org/> ;
+    ns2:identifier "data_ohouston_org" ;
+    ns2:iso "US" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.ohouston.org" ;
+    ns1:homepage <http://data.ohouston.org/> .
+
+<http://data.openpolice.ru/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.openpolice.ru/> ;
+    ns2:identifier "data_openpolice_ru" ;
+    ns2:iso "RU" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.openpolice.ru" ;
+    ns1:homepage <http://data.openpolice.ru/> .
+
+<http://data.openva.com/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.openva.com/> ;
+    ns2:identifier "data_openva_com" ;
+    ns2:iso "US" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.openva.com" ;
+    ns1:homepage <http://data.openva.com/> .
+
+<http://data.oregon.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.oregon.gov> ;
+    ns2:identifier "data_oregon_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.oregon.gov" ;
+    ns1:homepage <http://data.oregon.gov> .
+
+<http://data.ottawa.ca/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.ottawa.ca/> ;
+    ns2:identifier "data_ottawa_ca" ;
+    ns2:iso "CA" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.ottawa.ca" ;
+    ns1:homepage <http://data.ottawa.ca/> .
+
+<http://data.rio.rj.gov.br/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active false ;
+    ns2:api <http://data.rio.rj.gov.br/> ;
+    ns2:identifier "data_rio_rj_gov_br" ;
+    ns2:iso "BR" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.rio.rj.gov.br" ;
+    ns1:homepage <http://data.rio.rj.gov.br/> .
+
+<http://data.seattle.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.seattle.gov> ;
+    ns2:identifier "data_seattle_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.seattle.gov" ;
+    ns1:homepage <http://data.seattle.gov> .
+
+<http://data.somervillema.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.somervillema.gov> ;
+    ns2:identifier "data_somervillema_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.somervillema.gov" ;
+    ns1:homepage <http://data.somervillema.gov> .
+
+<http://data.surrey.ca/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.surrey.ca/> ;
+    ns2:identifier "data_surrey_ca" ;
+    ns2:iso "CA" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.surrey.ca" ;
+    ns1:homepage <http://data.surrey.ca/> .
+
+<http://data.tainan.gov.tw/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.tainan.gov.tw/> ;
+    ns2:identifier "data_tainan_gov_tw" ;
+    ns2:iso "TW" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.tainan.gov.tw" ;
+    ns1:homepage <http://data.tainan.gov.tw/> .
+
+<http://data.undp.org> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.undp.org> ;
+    ns2:identifier "data_undp_org" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.undp.org" ;
+    ns1:homepage <http://data.undp.org> .
+
+<http://data.wa.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.wa.gov> ;
+    ns2:identifier "data_wa_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.wa.gov" ;
+    ns1:homepage <http://data.wa.gov> .
+
+<http://data.wellingtonfl.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active false ;
+    ns2:api <http://data.wellingtonfl.gov> ;
+    ns2:identifier "data_wellingtonfl_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.wellingtonfl.gov" ;
+    ns1:homepage <http://data.wellingtonfl.gov> .
+
+<http://data.winnipeg.ca> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.winnipeg.ca> ;
+    ns2:identifier "data_winnipeg_ca" ;
+    ns2:iso "CA" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.winnipeg.ca" ;
+    ns1:homepage <http://data.winnipeg.ca> .
+
+<http://data.wokingham.gov.uk> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.wokingham.gov.uk> ;
+    ns2:identifier "data_wokingham_gov_uk" ;
+    ns2:iso "GB" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.wokingham.gov.uk" ;
+    ns1:homepage <http://data.wokingham.gov.uk> .
+
+<http://data.zagreb.hr/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.zagreb.hr/> ;
+    ns2:identifier "data_zagreb_hr" ;
+    ns2:iso "HR" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.zagreb.hr" ;
+    ns1:homepage <http://data.zagreb.hr/> .
+
+<http://datacatalog.cookcountyil.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://datacatalog.cookcountyil.gov> ;
+    ns2:identifier "datacatalog_cookcountyil_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "datacatalog.cookcountyil.gov" ;
+    ns1:homepage <http://datacatalog.cookcountyil.gov> .
+
+<http://datahub.io/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://datahub.io/> ;
+    ns2:identifier "datahub_io" ;
+    ns2:iso "US" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "datahub.io" ;
+    ns1:homepage <http://datahub.io/> .
+
+<http://datameti.go.jp/data/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://datameti.go.jp/data/> ;
+    ns2:identifier "datameti_go_jp_data_" ;
+    ns2:iso "JP" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "datameti.go.jp" ;
+    ns1:homepage <http://datameti.go.jp/data/> .
+
+<http://datamx.io/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://datamx.io/> ;
+    ns2:identifier "datamx_io" ;
+    ns2:iso "IO" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "datamx.io" ;
+    ns1:homepage <http://datamx.io/> .
+
+<http://dataratp.opendatasoft.com> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://dataratp.opendatasoft.com> ;
+    ns2:identifier "dataratp_opendatasoft_com" ;
+    ns2:iso "FR" ;
+    ns2:software ns2:OpenDataSoft ;
+    ns3:title "dataratp.opendatasoft.com" ;
+    ns1:homepage <http://dataratp.opendatasoft.com> .
+
+<http://daten.buergernetz.bz.it/de/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://daten.buergernetz.bz.it/de/> ;
+    ns2:identifier "daten_buergernetz_bz_it_de_" ;
+    ns2:iso "IT" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "daten.buergernetz.bz.it" ;
+    ns1:homepage <http://daten.buergernetz.bz.it/de/> .
+
+<http://dati.toscana.it/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://dati.toscana.it/> ;
+    ns2:identifier "dati_toscana_it" ;
+    ns2:iso "IT" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "dati.toscana.it" ;
+    ns1:homepage <http://dati.toscana.it/> .
+
+<http://dati.trentino.it/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://dati.trentino.it/> ;
+    ns2:identifier "dati_trentino_it" ;
+    ns2:iso "IT" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "dati.trentino.it" ;
+    ns1:homepage <http://dati.trentino.it/> .
+
+<http://dati.veneto.it/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://dati.veneto.it/> ;
+    ns2:identifier "dati_veneto_it" ;
+    ns2:iso "IT" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "dati.veneto.it" ;
+    ns1:homepage <http://dati.veneto.it/> .
+
+<http://datos.argentina.gob.ar/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://datos.argentina.gob.ar/> ;
+    ns2:identifier "datos_argentina_gob_ar" ;
+    ns2:iso "AR" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "datos.argentina.gob.ar" ;
+    ns1:homepage <http://datos.argentina.gob.ar/> .
+
+<http://datos.codeandomexico.org/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://datos.codeandomexico.org/> ;
+    ns2:identifier "datos_codeandomexico_org" ;
+    ns2:iso "US" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "datos.codeandomexico.org" ;
+    ns1:homepage <http://datos.codeandomexico.org/> .
+
+<http://datosabiertos.malaga.eu/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://datosabiertos.malaga.eu/> ;
+    ns2:identifier "datosabiertos_malaga_eu" ;
+    ns2:iso "ES" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "datosabiertos.malaga.eu" ;
+    ns1:homepage <http://datosabiertos.malaga.eu/> .
+
+<http://datospublicos.org/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://datospublicos.org/> ;
+    ns2:identifier "datospublicos_org" ;
+    ns2:iso "US" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "datospublicos.org" ;
+    ns1:homepage <http://datospublicos.org/> .
+
+<http://donnees.ville.montreal.qc.ca/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://donnees.ville.montreal.qc.ca/> ;
+    ns2:identifier "donnees_ville_montreal_qc_ca" ;
+    ns2:iso "CA" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "donnees.ville.montreal.qc.ca" ;
+    ns1:homepage <http://donnees.ville.montreal.qc.ca/> .
+
+<http://donnees.ville.sherbrooke.qc.ca/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://donnees.ville.sherbrooke.qc.ca/> ;
+    ns2:identifier "donnees_ville_sherbrooke_qc_ca" ;
+    ns2:iso "CA" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "donnees.ville.sherbrooke.qc.ca" ;
+    ns1:homepage <http://donnees.ville.sherbrooke.qc.ca/> .
+
+<http://dot.demo.socrata.com> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active false ;
+    ns2:api <http://dot.demo.socrata.com> ;
+    ns2:identifier "dot_demo_socrata_com" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "dot.demo.socrata.com" ;
+    ns1:homepage <http://dot.demo.socrata.com> .
+
+<http://drdsi.jrc.ec.europa.eu/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://drdsi.jrc.ec.europa.eu/> ;
+    ns2:identifier "drdsi_jrc_ec_europa_eu" ;
+    ns2:iso "EU" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "drdsi.jrc.ec.europa.eu" ;
+    ns1:homepage <http://drdsi.jrc.ec.europa.eu/> .
+
+<http://healthmeasures.aspe.hhs.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://healthmeasures.aspe.hhs.gov> ;
+    ns2:identifier "healthmeasures_aspe_hhs_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "healthmeasures.aspe.hhs.gov" ;
+    ns1:homepage <http://healthmeasures.aspe.hhs.gov> .
+
+<http://hubofdata.ru/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://hubofdata.ru/> ;
+    ns2:identifier "hubofdata_ru" ;
+    ns2:iso "RU" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "hubofdata.ru" ;
+    ns1:homepage <http://hubofdata.ru/> .
+
+<http://inforegio.azure-westeurope-prod.socrata.com> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://inforegio.azure-westeurope-prod.socrata.com> ;
+    ns2:identifier "inforegio_azure-westeurope-prod_socrata_com" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "inforegio.azure-westeurope-prod.socrata.com" ;
+    ns1:homepage <http://inforegio.azure-westeurope-prod.socrata.com> .
+
+<http://irs.demo.socrata.com> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://irs.demo.socrata.com> ;
+    ns2:identifier "irs_demo_socrata_com" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "irs.demo.socrata.com" ;
+    ns1:homepage <http://irs.demo.socrata.com> .
+
+<http://leedsdatamill.org/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://leedsdatamill.org/> ;
+    ns2:identifier "leedsdatamill_org" ;
+    ns2:iso "GB" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "leedsdatamill.org" ;
+    ns1:homepage <http://leedsdatamill.org/> .
+
+<http://linkeddatacatalog.dws.informatik.uni-mannheim.de/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://linkeddatacatalog.dws.informatik.uni-mannheim.de/> ;
+    ns2:identifier "linkeddatacatalog_dws_informatik_uni-mannheim_de" ;
+    ns2:iso "DE" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "linkeddatacatalog.dws.informatik.uni-mannheim.de" ;
+    ns1:homepage <http://linkeddatacatalog.dws.informatik.uni-mannheim.de/> .
+
+<http://nycopendata.socrata.com> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active false ;
+    ns2:api <http://nycopendata.socrata.com> ;
+    ns2:identifier "nycopendata_socrata_com" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "nycopendata.socrata.com" ;
+    ns1:homepage <http://nycopendata.socrata.com> .
+
+<http://opendata.admin.ch/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://opendata.admin.ch/> ;
+    ns2:identifier "opendata_admin_ch" ;
+    ns2:iso "CH" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "opendata.admin.ch" ;
+    ns1:homepage <http://opendata.admin.ch/> .
+
+<http://opendata.awt.be/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://opendata.awt.be/> ;
+    ns2:identifier "opendata_awt_be" ;
+    ns2:iso "BE" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "opendata.awt.be" ;
+    ns1:homepage <http://opendata.awt.be/> .
+
+<http://opendata.ayto-caceres.es/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://opendata.ayto-caceres.es/> ;
+    ns2:identifier "opendata_ayto-caceres_es" ;
+    ns2:iso "ES" ;
+    ns2:rdfendpoint <http://opendata.ayto-caceres.es/catalog.ttl> ;
+    ns2:software ns2:CKANDCAT ;
+    ns3:title "opendata.ayto-caceres.es" ;
+    ns1:homepage <http://opendata.ayto-caceres.es/> .
+
+<http://opendata.caceres.es/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://opendata.caceres.es/> ;
+    ns2:identifier "opendata_caceres_es" ;
+    ns2:iso "ES" ;
+    ns2:rdfendpoint <http://opendata.caceres.es/catalog.ttl> ;
+    ns2:software ns2:CKANDCAT ;
+    ns3:title "opendata.caceres.es" ;
+    ns1:homepage <http://opendata.caceres.es/> .
+
+<http://opendata.cnmc.es/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active false ;
+    ns2:api <http://opendata.cnmc.es/> ;
+    ns2:identifier "opendata_cnmc_es" ;
+    ns2:iso "ES" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "opendata.cnmc.es" ;
+    ns1:homepage <http://opendata.cnmc.es/> .
+
+<http://opendata.comune.bari.it/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://opendata.comune.bari.it/> ;
+    ns2:identifier "opendata_comune_bari_it" ;
+    ns2:iso "IT" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "opendata.comune.bari.it" ;
+    ns1:homepage <http://opendata.comune.bari.it/> .
+
+<http://opendata.go.tz/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://opendata.go.tz/> ;
+    ns2:identifier "opendata_go_tz" ;
+    ns2:iso "TZ" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "opendata.go.tz" ;
+    ns1:homepage <http://opendata.go.tz/> .
+
+<http://opendata.hu/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://opendata.hu/> ;
+    ns2:identifier "opendata_hu" ;
+    ns2:iso "HU" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "opendata.hu" ;
+    ns1:homepage <http://opendata.hu/> .
+
+<http://opendata.opennorth.se/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://opendata.opennorth.se/> ;
+    ns2:identifier "opendata_opennorth_se" ;
+    ns2:iso "SE" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "opendata.opennorth.se" ;
+    ns1:homepage <http://opendata.opennorth.se/> .
+
+<http://opendata.paris.fr.opendatasoft.com> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://opendata.paris.fr.opendatasoft.com> ;
+    ns2:identifier "opendata_paris_fr_opendatasoft_com" ;
+    ns2:iso "FR" ;
+    ns2:software ns2:OpenDataSoft ;
+    ns3:title "opendata.paris.fr.opendatasoft.com" ;
+    ns1:homepage <http://opendata.paris.fr.opendatasoft.com> .
+
+<http://opendata.rubi.cat> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://opendata.rubi.cat> ;
+    ns2:identifier "opendata_rubi_cat" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "opendata.rubi.cat" ;
+    ns1:homepage <http://opendata.rubi.cat> .
+
+<http://opendata.socrata.com> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://opendata.socrata.com> ;
+    ns2:identifier "opendata_socrata_com" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "opendata.socrata.com" ;
+    ns1:homepage <http://opendata.socrata.com> .
+
+<http://opendatadc.org/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://opendatadc.org/> ;
+    ns2:identifier "opendatadc_org" ;
+    ns2:iso "US" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "opendatadc.org" ;
+    ns1:homepage <http://opendatadc.org/> .
+
+<http://opendatagortynia.gr/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://opendatagortynia.gr/> ;
+    ns2:identifier "opendatagortynia_gr" ;
+    ns2:iso "GR" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "opendatagortynia.gr" ;
+    ns1:homepage <http://opendatagortynia.gr/> .
+
+<http://opendatahub.gr/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://opendatahub.gr/> ;
+    ns2:identifier "opendatahub_gr" ;
+    ns2:iso "GR" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "opendatahub.gr" ;
+    ns1:homepage <http://opendatahub.gr/> .
+
+<http://opendatareno.org/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://opendatareno.org/> ;
+    ns2:identifier "opendatareno_org" ;
+    ns2:iso "US" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "opendatareno.org" ;
+    ns1:homepage <http://opendatareno.org/> .
+
+<http://opengov.es/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://opengov.es/> ;
+    ns2:identifier "opengov_es" ;
+    ns2:iso "ES" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "opengov.es" ;
+    ns1:homepage <http://opengov.es/> .
+
+<http://openresearchdata.ch/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active false ;
+    ns2:api <http://openresearchdata.ch/> ;
+    ns2:identifier "openresearchdata_ch" ;
+    ns2:iso "CH" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "openresearchdata.ch" ;
+    ns1:homepage <http://openresearchdata.ch/> .
+
+<http://opingogn.is/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://opingogn.is/> ;
+    ns2:identifier "opingogn_is" ;
+    ns2:iso "IS" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "opingogn.is" ;
+    ns1:homepage <http://opingogn.is/> .
+
+<http://performance.chattanooga.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://performance.chattanooga.gov> ;
+    ns2:identifier "performance_chattanooga_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "performance.chattanooga.gov" ;
+    ns1:homepage <http://performance.chattanooga.gov> .
+
+<http://performance.westsussex.gov.uk> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://performance.westsussex.gov.uk> ;
+    ns2:identifier "performance_westsussex_gov_uk" ;
+    ns2:iso "GB" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "performance.westsussex.gov.uk" ;
+    ns1:homepage <http://performance.westsussex.gov.uk> .
+
+<http://pod.opendatasoft.com> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://pod.opendatasoft.com> ;
+    ns2:identifier "pod_opendatasoft_com" ;
+    ns2:iso "US" ;
+    ns2:software ns2:OpenDataSoft ;
+    ns3:title "pod.opendatasoft.com" ;
+    ns1:homepage <http://pod.opendatasoft.com> .
+
+<http://public.opendatasoft.com> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://public.opendatasoft.com> ;
+    ns2:identifier "public_opendatasoft_com" ;
+    ns2:iso "IE" ;
+    ns2:software ns2:OpenDataSoft ;
+    ns3:title "public.opendatasoft.com" ;
+    ns1:homepage <http://public.opendatasoft.com> .
+
+<http://rdw.azure-westeurope-prod.socrata.com> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://rdw.azure-westeurope-prod.socrata.com> ;
+    ns2:identifier "rdw_azure-westeurope-prod_socrata_com" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "rdw.azure-westeurope-prod.socrata.com" ;
+    ns1:homepage <http://rdw.azure-westeurope-prod.socrata.com> .
+
+<http://rs.ckan.net/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active false ;
+    ns2:api <http://rs.ckan.net/> ;
+    ns2:identifier "rs_ckan_net" ;
+    ns2:iso "RS" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "rs.ckan.net" ;
+    ns1:homepage <http://rs.ckan.net/> .
+
+<http://scisf.opendatasoft.com> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://scisf.opendatasoft.com> ;
+    ns2:identifier "scisf_opendatasoft_com" ;
+    ns2:iso "US" ;
+    ns2:software ns2:OpenDataSoft ;
+    ns3:title "scisf.opendatasoft.com" ;
+    ns1:homepage <http://scisf.opendatasoft.com> .
+
+<http://tourisme04.opendatasoft.com> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://tourisme04.opendatasoft.com> ;
+    ns2:identifier "tourisme04_opendatasoft_com" ;
+    ns2:iso "FR" ;
+    ns2:software ns2:OpenDataSoft ;
+    ns3:title "tourisme04.opendatasoft.com" ;
+    ns1:homepage <http://tourisme04.opendatasoft.com> .
+
+<http://tourisme62.opendatasoft.com> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://tourisme62.opendatasoft.com> ;
+    ns2:identifier "tourisme62_opendatasoft_com" ;
+    ns2:iso "FR" ;
+    ns2:software ns2:OpenDataSoft ;
+    ns3:title "tourisme62.opendatasoft.com" ;
+    ns1:homepage <http://tourisme62.opendatasoft.com> .
+
+<http://www.datos.misiones.gov.ar/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://www.datos.misiones.gov.ar/> ;
+    ns2:identifier "www_datos_misiones_gov_ar" ;
+    ns2:iso "AR" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "www.datos.misiones.gov.ar" ;
+    ns1:homepage <http://www.datos.misiones.gov.ar/> .
+
+<http://www.hri.fi/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://www.hri.fi/> ;
+    ns2:identifier "www_hri_fi" ;
+    ns2:iso "FI" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "www.hri.fi" ;
+    ns1:homepage <http://www.hri.fi/> .
+
+<http://www.metrochicagodata.com> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://www.metrochicagodata.com> ;
+    ns2:identifier "www_metrochicagodata_com" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "www.metrochicagodata.com" ;
+    ns1:homepage <http://www.metrochicagodata.com> .
+
+<http://www.nosdonnees.fr/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://www.nosdonnees.fr/> ;
+    ns2:identifier "www_nosdonnees_fr" ;
+    ns2:iso "FR" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "www.nosdonnees.fr" ;
+    ns1:homepage <http://www.nosdonnees.fr/> .
+
+<http://www.odaa.dk/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://www.odaa.dk/> ;
+    ns2:identifier "www_odaa_dk" ;
+    ns2:iso "DK" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "www.odaa.dk" ;
+    ns1:homepage <http://www.odaa.dk/> .
+
+<http://www.opendata-hro.de/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://www.opendata-hro.de/> ;
+    ns2:identifier "www_opendata-hro_de" ;
+    ns2:iso "DE" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "www.opendata-hro.de" ;
+    ns1:homepage <http://www.opendata-hro.de/> .
+
+<http://www.opendata.go.ke/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://www.opendata.go.ke/> ;
+    ns2:identifier "opendata_go_ke" ;
+    ns2:iso "KE" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "www.opendata.go.ke" ;
+    ns1:homepage <http://www.opendata.go.ke/> .
+
+<http://www.opendata.provincia.roma.it/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://www.opendata.provincia.roma.it/> ;
+    ns2:identifier "www_opendata_provincia_roma_it" ;
+    ns2:iso "IT" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "www.opendata.provincia.roma.it" ;
+    ns1:homepage <http://www.opendata.provincia.roma.it/> .
+
+<http://www.opendatanyc.com> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active false ;
+    ns2:api <http://www.opendatanyc.com> ;
+    ns2:identifier "www_opendatanyc_com" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "www.opendatanyc.com" ;
+    ns1:homepage <http://www.opendatanyc.com> .
+
+<https://belohorizonte.azure-eastus-prod.socrata.com> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://belohorizonte.azure-eastus-prod.socrata.com> ;
+    ns2:identifier "belohorizonte_azure-eastus-prod_socrata_com" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "belohorizonte.azure-eastus-prod.socrata.com" ;
+    ns1:homepage <https://belohorizonte.azure-eastus-prod.socrata.com> .
+
+<https://berkeley.demo.socrata.com> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://berkeley.demo.socrata.com> ;
+    ns2:identifier "berkeley_demo_socrata_com" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "berkeley.demo.socrata.com" ;
+    ns1:homepage <https://berkeley.demo.socrata.com> .
+
+<https://bristol.azure-westeurope-prod.socrata.com> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://bristol.azure-westeurope-prod.socrata.com> ;
+    ns2:identifier "bristol_azure-westeurope-prod_socrata_com" ;
+    ns2:iso "GB" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "bristol.azure-westeurope-prod.socrata.com" ;
+    ns1:homepage <https://bristol.azure-westeurope-prod.socrata.com> .
+
+<https://bronx.lehman.cuny.edu> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://bronx.lehman.cuny.edu> ;
+    ns2:identifier "bronx_lehman_cuny_edu" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "bronx.lehman.cuny.edu" ;
+    ns1:homepage <https://bronx.lehman.cuny.edu> .
+
+<https://catalogodatos.gub.uy/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://catalogodatos.gub.uy/> ;
+    ns2:identifier "catalogodatos_gub_uy" ;
+    ns2:iso "UY" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "catalogodatos.gub.uy" ;
+    ns1:homepage <https://catalogodatos.gub.uy/> .
+
+<https://controllerdata.lacity.org> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://controllerdata.lacity.org> ;
+    ns2:identifier "controllerdata_lacity_org" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "controllerdata.lacity.org" ;
+    ns1:homepage <https://controllerdata.lacity.org> .
+
+<https://dados.rs.gov.br/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://dados.rs.gov.br/> ;
+    ns2:identifier "dados_rs_gov_br" ;
+    ns2:iso "BR" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "dados.rs.gov.br" ;
+    ns1:homepage <https://dados.rs.gov.br/> .
+
+<https://danepubliczne.gov.pl/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://danepubliczne.gov.pl/> ;
+    ns2:identifier "danepubliczne_gov_pl" ;
+    ns2:iso "PL" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "danepubliczne.gov.pl" ;
+    ns1:homepage <https://danepubliczne.gov.pl/> .
+
+<https://data.aberdeencity.gov.uk/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.aberdeencity.gov.uk/> ;
+    ns2:identifier "opendata_aberdeencity_gov_uk" ;
+    ns2:iso "GB" ;
+    ns2:rdfendpoint <https://data.aberdeencity.gov.uk/catalog.ttl> ;
+    ns2:software ns2:CKANDCAT ;
+    ns3:title "data.aberdeencity.gov.uk" ;
+    ns1:homepage <https://data.aberdeencity.gov.uk/> .
+
+<https://data.acgov.org> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.acgov.org> ;
+    ns2:identifier "data_acgov_org" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.acgov.org" ;
+    ns1:homepage <https://data.acgov.org> .
+
+<https://data.act.gov.au> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.act.gov.au> ;
+    ns2:identifier "data_act_gov_au" ;
+    ns2:iso "AU" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.act.gov.au" ;
+    ns1:homepage <https://data.act.gov.au> .
+
+<https://data.albanyny.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.albanyny.gov> ;
+    ns2:identifier "data_albanyny_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.albanyny.gov" ;
+    ns1:homepage <https://data.albanyny.gov> .
+
+<https://data.austintexas.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.austintexas.gov> ;
+    ns2:identifier "data_austintexas_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.austintexas.gov" ;
+    ns1:homepage <https://data.austintexas.gov> .
+
+<https://data.baltimorecity.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.baltimorecity.gov> ;
+    ns2:identifier "data_baltimorecity_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.baltimorecity.gov" ;
+    ns1:homepage <https://data.baltimorecity.gov> .
+
+<https://data.bris.ac.uk/data/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.bris.ac.uk/data/> ;
+    ns2:identifier "data_bris_ac_uk_data_" ;
+    ns2:iso "GB" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.bris.ac.uk" ;
+    ns1:homepage <https://data.bris.ac.uk/data/> .
+
+<https://data.burlingtonvt.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.burlingtonvt.gov> ;
+    ns2:identifier "data_burlingtonvt_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.burlingtonvt.gov" ;
+    ns1:homepage <https://data.burlingtonvt.gov> .
+
+<https://data.cdc.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.cdc.gov> ;
+    ns2:identifier "data_cdc_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.cdc.gov" ;
+    ns1:homepage <https://data.cdc.gov> .
+
+<https://data.cityofboston.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.cityofboston.gov> ;
+    ns2:identifier "data_cityofboston_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.cityofboston.gov" ;
+    ns1:homepage <https://data.cityofboston.gov> .
+
+<https://data.cityofmadison.com> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.cityofmadison.com> ;
+    ns2:identifier "data_cityofmadison_com" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.cityofmadison.com" ;
+    ns1:homepage <https://data.cityofmadison.com> .
+
+<https://data.cityofnewyork.us> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.cityofnewyork.us> ;
+    ns2:identifier "data_cityofnewyork_us" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.cityofnewyork.us" ;
+    ns1:homepage <https://data.cityofnewyork.us> .
+
+<https://data.colorado.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.colorado.gov> ;
+    ns2:identifier "data_colorado_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.colorado.gov" ;
+    ns1:homepage <https://data.colorado.gov> .
+
+<https://data.consumerfinance.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.consumerfinance.gov> ;
+    ns2:identifier "data_consumerfinance_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.consumerfinance.gov" ;
+    ns1:homepage <https://data.consumerfinance.gov> .
+
+<https://data.ct.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.ct.gov> ;
+    ns2:identifier "data_ct_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.ct.gov" ;
+    ns1:homepage <https://data.ct.gov> .
+
+<https://data.culvercity.org> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.culvercity.org> ;
+    ns2:identifier "data_culvercity_org" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.culvercity.org" ;
+    ns1:homepage <https://data.culvercity.org> .
+
+<https://data.datamontana.us> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active false ;
+    ns2:api <https://data.datamontana.us> ;
+    ns2:identifier "data_datamontana_us" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.datamontana.us" ;
+    ns1:homepage <https://data.datamontana.us> .
+
+<https://data.energystar.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.energystar.gov> ;
+    ns2:identifier "data_energystar_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.energystar.gov" ;
+    ns1:homepage <https://data.energystar.gov> .
+
+<https://data.gov.lv/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.gov.lv/> ;
+    ns2:identifier "data_gov_lv" ;
+    ns2:iso "LV" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.gov.lv" ;
+    ns1:homepage <https://data.gov.lv/> .
+
+<https://data.hdx.rwlabs.org/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active false ;
+    ns2:api <https://data.hdx.rwlabs.org/> ;
+    ns2:identifier "data_hdx_rwlabs_org" ;
+    ns2:iso "LU" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.hdx.rwlabs.org" ;
+    ns1:homepage <https://data.hdx.rwlabs.org/> .
+
+<https://data.honolulu.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.honolulu.gov> ;
+    ns2:identifier "data_honolulu_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.honolulu.gov" ;
+    ns1:homepage <https://data.honolulu.gov> .
+
+<https://data.humdata.org/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.humdata.org/> ;
+    ns2:identifier "data_humdata_org" ;
+    ns2:iso "XX" ;
+    ns2:rdfendpoint <https://data.humdata.org/catalog.ttl> ;
+    ns2:software ns2:CKANDCAT ;
+    ns3:title "data.humdata.org" ;
+    ns1:homepage <https://data.humdata.org/> .
+
+<https://data.illinois.gov/belleville> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.illinois.gov/belleville> ;
+    ns2:identifier "data_illinois_gov_belleville" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.illinois.gov" ;
+    ns1:homepage <https://data.illinois.gov/belleville> .
+
+<https://data.illinois.gov/champaign> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.illinois.gov/champaign> ;
+    ns2:identifier "data_illinois_gov_champaign" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.illinois.gov" ;
+    ns1:homepage <https://data.illinois.gov/champaign> .
+
+<https://data.illinois.gov/rockford> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.illinois.gov/rockford> ;
+    ns2:identifier "data_illinois_gov_rockford" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.illinois.gov" ;
+    ns1:homepage <https://data.illinois.gov/rockford> .
+
+<https://data.kcmo.org> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.kcmo.org> ;
+    ns2:identifier "data_kcmo_org" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.kcmo.org" ;
+    ns1:homepage <https://data.kcmo.org> .
+
+<https://data.kingcounty.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.kingcounty.gov> ;
+    ns2:identifier "data_kingcounty_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.kingcounty.gov" ;
+    ns1:homepage <https://data.kingcounty.gov> .
+
+<https://data.maryland.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.maryland.gov> ;
+    ns2:identifier "data_maryland_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.maryland.gov" ;
+    ns1:homepage <https://data.maryland.gov> .
+
+<https://data.mo.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.mo.gov> ;
+    ns2:identifier "data_mo_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.mo.gov" ;
+    ns1:homepage <https://data.mo.gov> .
+
+<https://data.montgomerycountymd.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.montgomerycountymd.gov> ;
+    ns2:identifier "data_montgomerycountymd_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.montgomerycountymd.gov" ;
+    ns1:homepage <https://data.montgomerycountymd.gov> .
+
+<https://data.nfpa.org> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.nfpa.org> ;
+    ns2:identifier "data_nfpa_org" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.nfpa.org" ;
+    ns1:homepage <https://data.nfpa.org> .
+
+<https://data.ny.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.ny.gov> ;
+    ns2:identifier "data_ny_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.ny.gov" ;
+    ns1:homepage <https://data.ny.gov> .
+
+<https://data.oaklandnet.com> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.oaklandnet.com> ;
+    ns2:identifier "data_oaklandnet_com" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.oaklandnet.com" ;
+    ns1:homepage <https://data.oaklandnet.com> .
+
+<https://data.opendatasoft.com/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.opendatasoft.com/> ;
+    ns2:identifier "data_opendatasoft_com" ;
+    ns2:iso "XX" ;
+    ns2:software ns2:OpenDataSoft ;
+    ns3:title "data.opendatasoft.com" ;
+    ns1:homepage <https://data.opendatasoft.com/> .
+
+<https://data.providenceri.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.providenceri.gov> ;
+    ns2:identifier "data_providenceri_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.providenceri.gov" ;
+    ns1:homepage <https://data.providenceri.gov> .
+
+<https://data.raleighnc.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.raleighnc.gov> ;
+    ns2:identifier "data_raleighnc_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.raleighnc.gov" ;
+    ns1:homepage <https://data.raleighnc.gov> .
+
+<https://data.redmond.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.redmond.gov> ;
+    ns2:identifier "data_redmond_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.redmond.gov" ;
+    ns1:homepage <https://data.redmond.gov> .
+
+<https://data.sfgov.org> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.sfgov.org> ;
+    ns2:identifier "data_sfgov_org" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.sfgov.org" ;
+    ns1:homepage <https://data.sfgov.org> .
+
+<https://data.sheffield.gov.uk/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.sheffield.gov.uk/> ;
+    ns2:identifier "data_sheffield_gov_uk" ;
+    ns2:iso "UK" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.sheffield.gov.uk" ;
+    ns1:homepage <https://data.sheffield.gov.uk/> .
+
+<https://data.southbendin.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active false ;
+    ns2:api <https://data.southbendin.gov> ;
+    ns2:identifier "data_southbendin_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.southbendin.gov" ;
+    ns1:homepage <https://data.southbendin.gov> .
+
+<https://data.stadt-zuerich.ch/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.stadt-zuerich.ch/> ;
+    ns2:identifier "data_stadt-zuerich_ch" ;
+    ns2:iso "CH" ;
+    ns2:rdfendpoint <https://data.stadt-zuerich.ch/catalog.ttl> ;
+    ns2:software ns2:CKANDCAT ;
+    ns3:title "data.stadt-zuerich.ch" ;
+    ns1:homepage <https://data.stadt-zuerich.ch/> .
+
+<https://data.taxpayer.net> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active false ;
+    ns2:api <https://data.taxpayer.net> ;
+    ns2:identifier "data_taxpayer_net" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.taxpayer.net" ;
+    ns1:homepage <https://data.taxpayer.net> .
+
+<https://data.vermont.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.vermont.gov> ;
+    ns2:identifier "data_vermont_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.vermont.gov" ;
+    ns1:homepage <https://data.vermont.gov> .
+
+<https://data.weatherfordtx.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.weatherfordtx.gov> ;
+    ns2:identifier "data_weatherfordtx_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "data.weatherfordtx.gov" ;
+    ns1:homepage <https://data.weatherfordtx.gov> .
+
+<https://data.yorkopendata.org/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://data.yorkopendata.org/> ;
+    ns2:identifier "data_yorkopendata_org" ;
+    ns2:iso "UK" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.yorkopendata.org" ;
+    ns1:homepage <https://data.yorkopendata.org/> .
+
+<https://datapilot.american.edu> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://datapilot.american.edu> ;
+    ns2:identifier "datapilot_american_edu" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "datapilot.american.edu" ;
+    ns1:homepage <https://datapilot.american.edu> .
+
+<https://dati.lombardia.it> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://dati.lombardia.it> ;
+    ns2:identifier "dati_lombardia_it" ;
+    ns2:iso "IT" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "dati.lombardia.it" ;
+    ns1:homepage <https://dati.lombardia.it> .
+
+<https://datos.alcobendas.org/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://datos.alcobendas.org/> ;
+    ns2:identifier "datos_alcobendas_org" ;
+    ns2:iso "ES" ;
+    ns2:rdfendpoint <https://datos.alcobendas.org/catalog.ttl> ;
+    ns2:software ns2:CKANDCAT ;
+    ns3:title "datos.alcobendas.org" ;
+    ns1:homepage <https://datos.alcobendas.org/> .
+
+<https://datosabiertos.ayto-arganda.es/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://datosabiertos.ayto-arganda.es/> ;
+    ns2:identifier "datosabiertos_ayto-arganda_es" ;
+    ns2:iso "ES" ;
+    ns2:rdfendpoint <https://datosabiertos.ayto-arganda.es/catalog.ttl> ;
+    ns2:software ns2:CKANDCAT ;
+    ns3:title "datosabiertos.ayto-arganda.es" ;
+    ns1:homepage <https://datosabiertos.ayto-arganda.es/> .
+
+<https://datosabiertos.rivasciudad.es/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://datosabiertos.rivasciudad.es/> ;
+    ns2:identifier "datosabiertos_rivasciudad_es" ;
+    ns2:iso "ES" ;
+    ns2:rdfendpoint <https://datosabiertos.rivasciudad.es/catalog.ttl> ;
+    ns2:software ns2:CKANDCAT ;
+    ns3:title "datosabiertos.rivasciudad.es" ;
+    ns1:homepage <https://datosabiertos.rivasciudad.es/> .
+
+<https://edx.netl.doe.gov/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://edx.netl.doe.gov/> ;
+    ns2:identifier "edx_netl_doe_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "edx.netl.doe.gov" ;
+    ns1:homepage <https://edx.netl.doe.gov/> .
+
+<https://exploredata.gov.ro> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active false ;
+    ns2:api <https://exploredata.gov.ro> ;
+    ns2:identifier "exploredata_gov_ro" ;
+    ns2:iso "RO" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "exploredata.gov.ro" ;
+    ns1:homepage <https://exploredata.gov.ro> .
+
+<https://finances.worldbank.org> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://finances.worldbank.org> ;
+    ns2:identifier "finances_worldbank_org" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "finances.worldbank.org" ;
+    ns1:homepage <https://finances.worldbank.org> .
+
+<https://gavaobert.gavaciutat.cat> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://gavaobert.gavaciutat.cat> ;
+    ns2:identifier "gavaobert_gavaciutat_cat" ;
+    ns2:iso "ES" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "gavaobert.gavaciutat.cat" ;
+    ns1:homepage <https://gavaobert.gavaciutat.cat> .
+
+<https://hampton.demo.socrata.com> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://hampton.demo.socrata.com> ;
+    ns2:identifier "hampton_demo_socrata_com" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "hampton.demo.socrata.com" ;
+    ns1:homepage <https://hampton.demo.socrata.com> .
+
+<https://health.data.ny.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://health.data.ny.gov> ;
+    ns2:identifier "health_data_ny_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "health.data.ny.gov" ;
+    ns1:homepage <https://health.data.ny.gov> .
+
+<https://healthdata.nj.gov/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://healthdata.nj.gov/> ;
+    ns2:identifier "healthdata_nj_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "healthdata.nj.gov" ;
+    ns1:homepage <https://healthdata.nj.gov/> .
+
+<https://nats.demo.socrata.com/login> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://nats.demo.socrata.com/login> ;
+    ns2:identifier "nats_demo_socrata_com_login" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "nats.demo.socrata.com" ;
+    ns1:homepage <https://nats.demo.socrata.com/login> .
+
+<https://open.whitehouse.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://open.whitehouse.gov> ;
+    ns2:identifier "open_whitehouse_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "open.whitehouse.gov" ;
+    ns1:homepage <https://open.whitehouse.gov> .
+
+<https://opendata.bayern.de/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://opendata.bayern.de/> ;
+    ns2:identifier "opendata_bayern_de" ;
+    ns2:iso "DE" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "opendata.bayern.de" ;
+    ns1:homepage <https://opendata.bayern.de/> .
+
+<https://opendata.bristol.gov.uk/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://opendata.bristol.gov.uk/> ;
+    ns2:identifier "opendata_bristol_gov_uk" ;
+    ns2:iso "UK" ;
+    ns2:software ns2:OpenDataSoft ;
+    ns3:title "opendata.bristol.gov.uk" ;
+    ns1:homepage <https://opendata.bristol.gov.uk/> .
+
+<https://opendata.brussels.be/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://opendata.brussels.be/> ;
+    ns2:identifier "opendata_brussels_be" ;
+    ns2:iso "BE" ;
+    ns2:software ns2:OpenDataSoft ;
+    ns3:title "opendata.brussels.be" ;
+    ns1:homepage <https://opendata.brussels.be/> .
+
+<https://opendata.government.bg/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://opendata.government.bg/> ;
+    ns2:identifier "opendata_government_bg" ;
+    ns2:iso "BG" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "opendata.government.bg" ;
+    ns1:homepage <https://opendata.government.bg/> .
+
+<https://opendata.lasvegasnevada.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://opendata.lasvegasnevada.gov> ;
+    ns2:identifier "opendata_lasvegasnevada_gov" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "opendata.lasvegasnevada.gov" ;
+    ns1:homepage <https://opendata.lasvegasnevada.gov> .
+
+<https://opendata.paris.fr/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://opendata.paris.fr/> ;
+    ns2:identifier "parisdata_opendatasoft_com" ;
+    ns2:iso "FR" ;
+    ns2:software ns2:OpenDataSoft ;
+    ns3:title "opendata.paris.fr" ;
+    ns1:homepage <https://opendata.paris.fr/> .
+
+<https://opendata.swiss/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://opendata.swiss/> ;
+    ns2:identifier "opendata_swiss" ;
+    ns2:iso "CH" ;
+    ns2:rdfendpoint <https://opendata.swiss/catalog.ttl> ;
+    ns2:software ns2:CKANDCAT ;
+    ns3:title "opendata.swiss" ;
+    ns1:homepage <https://opendata.swiss/> .
+
+<https://opendata.terrassa.cat> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://opendata.terrassa.cat> ;
+    ns2:identifier "opendata_terrassa_cat" ;
+    ns2:iso "ES" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "opendata.terrassa.cat" ;
+    ns1:homepage <https://opendata.terrassa.cat> .
+
+<https://performance.smcgov.org> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://performance.smcgov.org> ;
+    ns2:identifier "performance_smcgov_org" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "performance.smcgov.org" ;
+    ns1:homepage <https://performance.smcgov.org> .
+
+<https://reportcard.santamonicayouth.net> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active false ;
+    ns2:api <https://reportcard.santamonicayouth.net> ;
+    ns2:identifier "reportcard_santamonicayouth_net" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "reportcard.santamonicayouth.net" ;
+    ns1:homepage <https://reportcard.santamonicayouth.net> .
+
+<https://stat.cityofgainesville.org> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://stat.cityofgainesville.org> ;
+    ns2:identifier "stat_cityofgainesville_org" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "stat.cityofgainesville.org" ;
+    ns1:homepage <https://stat.cityofgainesville.org> .
+
+<https://transparenz.karlsruhe.de/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://transparenz.karlsruhe.de/> ;
+    ns2:identifier "transparenz_karlsruhe_de" ;
+    ns2:iso "DE" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "transparenz.karlsruhe.de" ;
+    ns1:homepage <https://transparenz.karlsruhe.de/> .
+
+<https://westsacramento.demo.socrata.com> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://westsacramento.demo.socrata.com> ;
+    ns2:identifier "westsacramento_demo_socrata_com" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "westsacramento.demo.socrata.com" ;
+    ns1:homepage <https://westsacramento.demo.socrata.com> .
+
+<https://wfp.demo.socrata.com/login> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active false ;
+    ns2:api <https://wfp.demo.socrata.com/login> ;
+    ns2:identifier "wfp_demo_socrata_com_login" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "wfp.demo.socrata.com" ;
+    ns1:homepage <https://wfp.demo.socrata.com/login> .
+
+<https://www.criminalytics.org> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://www.criminalytics.org> ;
+    ns2:identifier "www_criminalytics_org" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "www.criminalytics.org" ;
+    ns1:homepage <https://www.criminalytics.org> .
+
+<https://www.dallasopendata.com> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://www.dallasopendata.com> ;
+    ns2:identifier "www_dallasopendata_com" ;
+    ns2:iso "US" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "www.dallasopendata.com" ;
+    ns1:homepage <https://www.dallasopendata.com> .
+
+<https://www.data.gouv.fr/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://www.data.gouv.fr/> ;
+    ns2:identifier "www_data_gouv_fr" ;
+    ns2:iso "FR" ;
+    ns2:software ns2:DataGouvFr ;
+    ns3:title "www.data.gouv.fr" ;
+    ns1:homepage <https://www.data.gouv.fr/> .
+
+<https://www.data.vic.gov.au/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://www.data.vic.gov.au/> ;
+    ns2:identifier "www_data_vic_gov_au" ;
+    ns2:iso "AU" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "www.data.vic.gov.au" ;
+    ns1:homepage <https://www.data.vic.gov.au/> .
+
+<https://www.dati.friuliveneziagiulia.it> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://www.dati.friuliveneziagiulia.it> ;
+    ns2:identifier "www_dati_friuliveneziagiulia_it" ;
+    ns2:iso "IT" ;
+    ns2:software ns2:Socrata ;
+    ns3:title "www.dati.friuliveneziagiulia.it" ;
+    ns1:homepage <https://www.dati.friuliveneziagiulia.it> .
+
+<https://www.opendataphilly.org/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://www.opendataphilly.org/> ;
+    ns2:identifier "www_opendataphilly_org" ;
+    ns2:iso "US" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "www.opendataphilly.org" ;
+    ns1:homepage <https://www.opendataphilly.org/> .
+
+<https://www.opengov-muenchen.de/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <https://www.opengov-muenchen.de/> ;
+    ns2:identifier "www_opengov-muenchen_de" ;
+    ns2:iso "DE" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "www.opengov-muenchen.de" ;
+    ns1:homepage <https://www.opengov-muenchen.de/> .
+
+<http://data.opencolorado.org/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://data.opencolorado.org/> ;
+    ns2:identifier "data_opencolorado_org" ;
+    ns2:iso "US" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "data.opencolorado.org" ;
+    ns1:homepage <http://data.opencolorado.org/> .
+
+<http://www.daten.rlp.de/> a <http://www.w3.org/ns/dcat#Catalog> ;
+    ns2:active true ;
+    ns2:api <http://www.daten.rlp.de/> ;
+    ns2:identifier "www_daten_rlp_de" ;
+    ns2:iso "DE" ;
+    ns2:software ns2:CKAN ;
+    ns3:title "www.daten.rlp.de" ;
+    ns1:homepage <http://www.daten.rlp.de/> .
+
