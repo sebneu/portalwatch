@@ -860,7 +860,7 @@
 <https://data.gov.sk/> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active true ;
     ns2:api <https://data.gov.sk/> ;
-    ns2:rdfendpoint <https://data.gov.sk/catalog.ttl>
+    ns2:rdfendpoint <https://data.gov.sk/catalog.ttl> ;
     ns2:identifier "data_gov_sk" ;
     ns2:iso "SK" ;
     ns2:software ns2:CKANDCAT ;
