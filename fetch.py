@@ -7,84 +7,58 @@ logger = logging.getLogger(__name__)
 
 logger.setLevel(logging.DEBUG)
 
-
 import rdflib
-from rdflib import Namespace, URIRef, RDF
+from converter import portal_fetch_processors
+from utils.snapshots import getCurrentSnapshot
 
 
-HYDRA = Namespace("http://www.w3.org/ns/hydra/core#")
-DCAT = Namespace("http://www.w3.org/ns/dcat#")
-
-
-def fetch_ckan_rdf_catalog(endpoint, format="ttl"):
-    logger.debug('Fetching CKAN portal via RDF endpoint: ' + endpoint)
-    g = rdflib.Graph()
-    g.parse(endpoint, format=format)
-    yield g
-    cur = g.value(predicate=RDF.type, object=HYDRA.PagedCollection)
-    next_page = g.value(subject=cur, predicate=HYDRA.nextPage)
-    page = 0
-    while next_page:
-        page += 1
-        if page % 10 == 0:
-            logger.debug('Processed pages:' + str(page))
-
-        p = str(next_page)
-        g = rdflib.Graph()
-        g.parse(p, format=format)
-        yield g
-        next_page = g.value(subject=URIRef(next_page), predicate=HYDRA.nextPage)
-
-    logger.debug('Total pages:' + str(page))
-    logger.info('Fetching finished')
-
-
-def serialize_ckan_rdf_catalog(pid, endpoint, snapshot, dir='dumps'):
-    p = os.path.join(dir, str(snapshot))
-    if not os.path.exists(p):
-        os.mkdir(p)
-    fp = os.path.join(p, pid)
-    for i, g in enumerate(fetch_ckan_rdf_catalog(endpoint)):
-        for d in g.subjects(RDF.type, DCAT.Dataset):
-            quality.add_quality_measures(d, g, snapshot)
-        g.serialize(fp + str(i) + '.ttl', format='ttl')
-
-
-def serialize_sparql_catalog(pid, endpoint, snapshot, dir='dumps'):
-    p = os.path.join(dir, str(snapshot))
-    if not os.path.exists(p):
-        os.mkdir(p)
-    fp = os.path.join(p, pid)
-
-    url = endpoint + "?format=text/turtle&query="
-    query = """
-    construct {?dataset a dcat:Dataset}  {
-        ?dataset a dcat:Dataset.
-    }
-    """
-
-    limit = 10000
-    offset = 0
-    download_url = url + urllib.parse.quote(query + " OFFSET " + str(offset) + " LIMIT " + str(limit))
+def fetch_portal_to_dir(p, snapshot, path):
+    portal_ref = rdflib.URIRef(p['uri'])
+    portal_api = p['apiuri']
+    portal_id = p['pid']
+    software = p['software']
+    proc = portal_fetch_processors.getPortalProcessor(software)
 
     g = rdflib.Graph()
-    g.parse(download_url, format='ttl')
+    proc.fetchAndConvertToDCAT(g, portal_ref, portal_api, snapshot)
 
-    for dataset_uri in g.subjects(RDF.type, DCAT.Dataset):
-        construct_query = """
-        CONSTRUCT {{ <{0}> ?p ?o. ?o ?q ?r}}
-        WHERE {{
-        <{0}> a dcat:Dataset.
-        <{0}> ?p ?o
-        OPTIONAL {{?o ?q ?r}}
-        }}
-        """.format(str(dataset_uri))
-
-        ds_url = url + urllib.parse.quote(construct_query)
-        g.parse(ds_url, format='ttl')
-
-        quality.add_quality_measures(dataset_uri, g, snapshot)
-        offset = offset + limit
-
+    fp = os.path.join(path, portal_id)
     g.serialize(fp + '.ttl', format='ttl')
 
+
+def fetch_all_portals_to_dir(portals, snapshot, dir):
+    path = os.path.join(dir, str(snapshot))
+    if not os.path.exists(path):
+        os.mkdir(path)
+
+    for p in portals:
+        try:
+            fetch_portal_to_dir(p, snapshot, path)
+        except Exception as e:
+            logger.exception("Portal fetch error: " + p['pid'] + ', ' + str(e))
+
+
+
+#--*--*--*--*
+def help():
+    return "Fetch all metadata from the portals"
+
+
+def name():
+    return 'Fetch'
+
+
+def setupCLI(pa):
+    pa.add_argument('--pid', dest='portalid', help="Fetch a specific portal ID")
+
+
+def cli(config, db, args):
+    sn = getCurrentSnapshot()
+    dir = config['fetch']['dir']
+
+    if args.portalid:
+        portals = [db.get_portal(id=args.portalid)]
+    else:
+        portals = db.get_portals()
+
+    fetch_all_portals_to_dir(portals, sn, dir)

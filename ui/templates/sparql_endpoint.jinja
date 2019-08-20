@@ -1,0 +1,69 @@
+{% extends "odpw_layout.jinja" %}
+
+{% set active_page = "sparql" -%}
+{% block content %}
+<div class="ui  container">
+    <h2 class="ui header">SPARQL Endpoint</h2>
+    <div class="ui text vertical segment ">
+        <p>Access the DCAT metadata desciptions and their respective quality assessments via a SPARQL endpoint.</p>
+        <p>The endpoint API is located at <a href="{{endpoint}}">{{endpoint}}</a>.</p>
+    </div>
+
+    <iframe src="{{endpoint}}" width="100%" height="600">
+        <p>Your browser does not support iframes.</p>
+    </iframe>
+    <h2 class="ui header">Available Graphs</h2>
+    <p>The following versions (/snapshots) of the datasets are available as named graphs:</p>
+    <ul>
+        <li>http://data.wu.ac.at/portalwatch/1704</li>
+        <li>http://data.wu.ac.at/portalwatch/1703</li>
+        <li>http://data.wu.ac.at/portalwatch/1702</li>
+        <!--<li>http://data.wu.ac.at/portalwatch/1701</li>-->
+    </ul>
+    <h2 class="ui header">Example Queries</h2>
+    <p>Select all portals that describe transportation data, i.e., portals holding datasets that use "transportation" as a keyword:</p>
+<!-- HTML generated using hilite.me -->
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">select</span> <span style="color: #000080; font-weight: bold">distinct</span>(?p)
+<span style="color: #000080; font-weight: bold">from</span> &lt;http://data.wu.ac.at/portalwatch/1703&gt;
+<span style="color: #000080; font-weight: bold">where</span> <span style="color: #a61717; background-color: #e3d2d2">{</span>
+  ?p dcat:dataset ?d.
+  ?d a dcat:Dataset.
+  ?d dcat:keyword <span style="color: #0000FF">&quot;transportation&quot;</span>.
+<span style="color: #a61717; background-color: #e3d2d2">}</span>
+</pre></div>
+
+    <p style="padding-bottom: 30px;"></p>
+    <p>List all organizations at the Austrian data portal data.gv.at and the average availability of contact email addresses in the dataset descriptions:</p>
+
+<!-- HTML generated using hilite.me -->
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">
+<span style="color: #000080; font-weight: bold">select</span> ?orga <span style="color: #000080; font-weight: bold">avg</span>(?v) <span style="color: #000080; font-weight: bold">as</span> ?emailmetric
+<span style="color: #000080; font-weight: bold">from</span> &lt;http://data.wu.ac.at/portalwatch/1703&gt;
+<span style="color: #000080; font-weight: bold">where</span> <span style="color: #a61717; background-color: #e3d2d2">{</span>
+  &lt;http://data.gv.at&gt; dcat:dataset ?d .
+  ?d dct:publisher ?o .
+  ?o foaf:name ?orga .
+  ?d dqv:hasQualityMeasurement ?m .
+  ?m dqv:isMeasurementOf pwq:ContactEmail .
+  ?m dqv:value ?v .
+<span style="color: #a61717; background-color: #e3d2d2">}</span>
+<span style="color: #000080; font-weight: bold">group</span> <span style="color: #000080; font-weight: bold">by</span> ?orga
+</pre></div>
+
+    <h2 class="ui header">Namespaces</h2>
+
+<!-- HTML generated using hilite.me -->
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%">
+<span style="color: #000080; font-weight: bold">PREFIX</span> dcat: &lt;http://www.w3.org/ns/dcat#&gt;
+<span style="color: #000080; font-weight: bold">PREFIX</span> dqv: &lt;http://www.w3.org/ns/dqv#&gt;
+<span style="color: #000080; font-weight: bold">PREFIX</span> prov: &lt;http://www.w3.org/ns/prov#&gt;
+<span style="color: #000080; font-weight: bold">PREFIX</span> csvw: &lt;http://www.w3.org/ns/csvw#&gt;
+<span style="color: #000080; font-weight: bold">PREFIX</span> pwq: &lt;http://data.wu.ac.at/portalwatch/quality#&gt;
+</pre></div>
+
+<p style="padding-bottom: 50px;"></p>
+</div>
+{% endblock %}
