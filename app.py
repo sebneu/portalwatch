@@ -6,8 +6,12 @@ import yaml
 from yaml import Loader
 import db
 
+
 import fetch
 from ui import webui
+
+
+logger = logging.getLogger(__name__)
 
 submodules=[fetch, webui]
 
@@ -49,17 +53,17 @@ def start(argv):
     logging.basicConfig(level=args.loglevel)
 
     try:
-        logging.info("CMD ARGS: " + str(args))
+        logger.info("CMD ARGS: " + str(args))
 
         dbc = db.DB(config['endpoint'])
         args.func(config, dbc, args)
     except Exception as e:
-        logging.fatal("Uncaught Exception: " + str(e))
+        logger.fatal("Uncaught Exception: " + str(e))
 
     end = time.time()
     secs = end - start
     msecs = secs * 1000
-    logging.info("END MAIN. Time elapsed: " + str(msecs))
+    logger.info("END MAIN. Time elapsed: " + str(msecs))
 
 
 if __name__ == "__main__":

@@ -5,14 +5,13 @@ import urllib.parse
 
 logger = logging.getLogger(__name__)
 
-logger.setLevel(logging.DEBUG)
-
 import rdflib
 from converter import portal_fetch_processors
 from utils.snapshots import getCurrentSnapshot
 
 
 def fetch_portal_to_dir(p, snapshot, path):
+    logger.info("FETCH: " + p['pid'])
     portal_ref = rdflib.URIRef(p['uri'])
     portal_api = p['apiuri']
     portal_id = p['pid']
@@ -27,6 +26,7 @@ def fetch_portal_to_dir(p, snapshot, path):
 
 
 def fetch_all_portals_to_dir(portals, snapshot, dir):
+    logger.info("FETCH ALL - num of portals: " + str(len(portals)))
     path = os.path.join(dir, str(snapshot))
     if not os.path.exists(path):
         os.mkdir(path)
