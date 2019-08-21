@@ -10,7 +10,7 @@
     ns2:active true ;
     ns2:identifier "data_gov_uk" ;
     ns2:iso "GB" ;
-    ns2:rdfendpoint <https://ckan.publishing.service.gov.uk/catalog.ttl> ;
+    ns2:api <https://ckan.publishing.service.gov.uk/catalog.ttl> ;
     ns2:software ns2:CKANDCAT ;
     ns3:title "data.gov.uk" ;
     ns1:homepage <http://data.gov.uk/> .
@@ -114,15 +114,14 @@
     ns3:title "data.ok.gov" ;
     ns1:homepage <http://data.ok.gov> .
 
-<http://data.qld.gov.au/> a <http://www.w3.org/ns/dcat#Catalog> ;
+<https://data.qld.gov.au> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active true ;
-    ns2:api <https://data.qld.gov.au/> ;
     ns2:identifier "data_qld_gov_au" ;
     ns2:iso "AU" ;
-    ns2:rdfendpoint <https://data.qld.gov.au/catalog.ttl> ;
+    ns2:api <https://data.qld.gov.au/catalog.ttl> ;
     ns2:software ns2:CKANDCAT ;
     ns3:title "data.qld.gov.au" ;
-    ns1:homepage <http://data.qld.gov.au/> .
+    ns1:homepage <https://data.qld.gov.au> .
 
 <http://data.salzburgerland.com> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active true ;
@@ -295,21 +294,20 @@
     ns3:title "opendatacanarias.es" ;
     ns1:homepage <http://opendatacanarias.es/> .
 
-<http://oppnadata.se> a <http://www.w3.org/ns/dcat#Catalog> ;
+<https://oppnadata.se> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active true ;
-    ns2:api <http://oppnadata.se/> ;
+    ns2:api <https://registrera.oppnadata.se/all.rdf> ;
     ns2:identifier "oppnadata_se" ;
     ns2:iso "SE" ;
-    ns2:software ns2:CKAN ;
+    ns2:software ns2:XMLDCAT ;
     ns3:title "oppnadata.se" ;
-    ns1:homepage <http://oppnadata.se> .
+    ns1:homepage <https://oppnadata.se> .
 
 <http://portal.openbelgium.be> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active true ;
-    ns2:api <http://portal.openbelgium.be/> ;
     ns2:identifier "portal_openbelgium_be" ;
     ns2:iso "BE" ;
-    ns2:rdfendpoint <http://portal.openbelgium.be/catalog.ttl> ;
+    ns2:api <http://portal.openbelgium.be/catalog.ttl> ;
     ns2:software ns2:CKANDCAT ;
     ns3:title "portal.openbelgium.be" ;
     ns1:homepage <http://portal.openbelgium.be> .
@@ -323,12 +321,11 @@
     ns3:title "publicdata.eu" ;
     ns1:homepage <http://publicdata.eu> .
 
-<http://transparenz.hamburg.de/> a <http://www.w3.org/ns/dcat#Catalog> ;
+<http://suche.transparenz.hamburg.de:80> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active true ;
-    ns2:api <http://suche.transparenz.hamburg.de/> ;
     ns2:identifier "transparenz_hamburg_de" ;
     ns2:iso "DE" ;
-    ns2:rdfendpoint <http://suche.transparenz.hamburg.de/catalog.ttl> ;
+    ns2:api <http://suche.transparenz.hamburg.de/catalog.ttl> ;
     ns2:software ns2:CKANDCAT ;
     ns3:title "transparenz.hamburg.de" ;
     ns1:homepage <http://transparenz.hamburg.de/> .
@@ -343,7 +340,7 @@
     ns1:homepage <http://udct-data.aigid.jp> .
 
 <http://www.amsterdamopendata.nl> a <http://www.w3.org/ns/dcat#Catalog> ;
-    ns2:active true ;
+    ns2:active false ;
     ns2:api <http://data.amsterdamopendata.nl/> ;
     ns2:identifier "www_amsterdamopendata_nl" ;
     ns2:iso "NL" ;
@@ -380,11 +377,10 @@
 
 <http://www.europeandataportal.eu/> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active true ;
-    ns2:api <http://www.europeandataportal.eu/data/> ;
     ns2:identifier "www_europeandataportal_eu" ;
     ns2:iso "EU" ;
     ns2:software ns2:SPARQL ;
-    ns2:sparql <https://www.europeandataportal.eu/sparql> ;
+    ns2:api <https://www.europeandataportal.eu/sparql> ;
     ns3:title "www.europeandataportal.eu" ;
     ns1:homepage <http://www.europeandataportal.eu/> .
 
@@ -529,7 +525,7 @@
     ns2:identifier "130_179_67_140" ;
     ns2:iso "CA" ;
     ns2:software ns2:CKAN ;
-    ns3:title "130.179.67.140" ;
+    ns3:title "LWBIN Data HUB" ;
     ns1:homepage <http://130.179.67.140/> .
 
 <http://africaopendata.org/> a <http://www.w3.org/ns/dcat#Catalog> ;
@@ -847,15 +843,14 @@
     ns3:title "data.gov.ie" ;
     ns1:homepage <http://data.gov.ie/> .
 
-<http://data.gov.ro/> a <http://www.w3.org/ns/dcat#Catalog> ;
+<http://data.gov.ro> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active true ;
-    ns2:api <http://data.gov.ro/> ;
     ns2:identifier "data_gov_ro" ;
     ns2:iso "RO" ;
-    ns2:rdfendpoint <http://data.gov.ro/catalog.ttl> ;
+    ns2:api <http://data.gov.ro/catalog.ttl> ;
     ns2:software ns2:CKANDCAT ;
     ns3:title "data.gov.ro" ;
-    ns1:homepage <http://data.gov.ro/> .
+    ns1:homepage <http://data.gov.ro> .
 
 <http://data.grcity.us/> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active false ;
@@ -1335,24 +1330,22 @@
     ns1:homepage <http://opendata.awt.be/> .
 
 <http://opendata.ayto-caceres.es/> a <http://www.w3.org/ns/dcat#Catalog> ;
-    ns2:active true ;
-    ns2:api <http://opendata.ayto-caceres.es/> ;
+    ns2:active false ;
     ns2:identifier "opendata_ayto-caceres_es" ;
     ns2:iso "ES" ;
-    ns2:rdfendpoint <http://opendata.ayto-caceres.es/catalog.ttl> ;
+    ns2:api <http://opendata.ayto-caceres.es/catalog.ttl> ;
     ns2:software ns2:CKANDCAT ;
     ns3:title "opendata.ayto-caceres.es" ;
     ns1:homepage <http://opendata.ayto-caceres.es/> .
 
-<http://opendata.caceres.es/> a <http://www.w3.org/ns/dcat#Catalog> ;
+<http://opendata.caceres.es> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active true ;
-    ns2:api <http://opendata.caceres.es/> ;
     ns2:identifier "opendata_caceres_es" ;
     ns2:iso "ES" ;
-    ns2:rdfendpoint <http://opendata.caceres.es/catalog.ttl> ;
+    ns2:api <http://opendata.caceres.es/catalog.ttl> ;
     ns2:software ns2:CKANDCAT ;
     ns3:title "opendata.caceres.es" ;
-    ns1:homepage <http://opendata.caceres.es/> .
+    ns1:homepage <http://opendata.caceres.es> .
 
 <http://opendata.cnmc.es/> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active false ;
@@ -1723,15 +1716,14 @@
     ns3:title "danepubliczne.gov.pl" ;
     ns1:homepage <https://danepubliczne.gov.pl/> .
 
-<https://data.aberdeencity.gov.uk/> a <http://www.w3.org/ns/dcat#Catalog> ;
+<https://data.aberdeencity.gov.uk> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active true ;
-    ns2:api <https://data.aberdeencity.gov.uk/> ;
     ns2:identifier "opendata_aberdeencity_gov_uk" ;
     ns2:iso "GB" ;
-    ns2:rdfendpoint <https://data.aberdeencity.gov.uk/catalog.ttl> ;
+    ns2:api <https://data.aberdeencity.gov.uk/catalog.ttl> ;
     ns2:software ns2:CKANDCAT ;
     ns3:title "data.aberdeencity.gov.uk" ;
-    ns1:homepage <https://data.aberdeencity.gov.uk/> .
+    ns1:homepage <https://data.aberdeencity.gov.uk> .
 
 <https://data.acgov.org> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active true ;
@@ -1805,14 +1797,14 @@
     ns3:title "data.cdc.gov" ;
     ns1:homepage <https://data.cdc.gov> .
 
-<https://data.boston.gov/> a <http://www.w3.org/ns/dcat#Catalog> ;
+<https://data.boston.gov> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active true ;
     ns2:api <https://data.boston.gov/catalog.ttl> ;
     ns2:identifier "data_cityofboston_gov" ;
     ns2:iso "US" ;
     ns2:software ns2:CKANDCAT ;
     ns3:title "data.cityofboston.gov" ;
-    ns1:homepage <https://data.boston.gov/> .
+    ns1:homepage <https://data.boston.gov> .
 
 <https://data.cityofmadison.com> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active true ;
@@ -1897,10 +1889,9 @@
 
 <https://data.gov.sk/> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active true ;
-    ns2:api <https://data.gov.sk/> ;
     ns2:identifier "data_gov_sk" ;
     ns2:iso "SK" ;
-    ns2:rdfendpoint <https://data.gov.sk/catalog.ttl> ;
+    ns2:api <https://data.gov.sk/catalog.ttl> ;
     ns2:software ns2:CKANDCAT ;
     ns3:title "data.gov.sk" ;
     ns1:homepage <https://data.gov.sk/> .
@@ -1932,12 +1923,11 @@
     ns3:title "data.honolulu.gov" ;
     ns1:homepage <https://data.honolulu.gov> .
 
-<https://data.humdata.org/> a <http://www.w3.org/ns/dcat#Catalog> ;
+<http://data.humdata.org> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active true ;
-    ns2:api <https://data.humdata.org/> ;
     ns2:identifier "data_humdata_org" ;
     ns2:iso "XX" ;
-    ns2:rdfendpoint <https://data.humdata.org/catalog.ttl> ;
+    ns2:api <https://data.humdata.org/catalog.ttl> ;
     ns2:software ns2:CKANDCAT ;
     ns3:title "data.humdata.org" ;
     ns1:homepage <https://data.humdata.org/> .
@@ -2122,15 +2112,14 @@
     ns3:title "data.southbendin.gov" ;
     ns1:homepage <https://data.southbendin.gov> .
 
-<https://data.stadt-zuerich.ch/> a <http://www.w3.org/ns/dcat#Catalog> ;
+<https://data.stadt-zuerich.ch> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active true ;
-    ns2:api <https://data.stadt-zuerich.ch/> ;
     ns2:identifier "data_stadt-zuerich_ch" ;
     ns2:iso "CH" ;
-    ns2:rdfendpoint <https://data.stadt-zuerich.ch/catalog.ttl> ;
+    ns2:api <https://data.stadt-zuerich.ch/catalog.ttl> ;
     ns2:software ns2:CKANDCAT ;
     ns3:title "data.stadt-zuerich.ch" ;
-    ns1:homepage <https://data.stadt-zuerich.ch/> .
+    ns1:homepage <https://data.stadt-zuerich.ch> .
 
 <https://data.taxpayer.net> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active false ;
@@ -2195,35 +2184,32 @@
     ns3:title "dati.lombardia.it" ;
     ns1:homepage <https://dati.lombardia.it> .
 
-<https://datos.alcobendas.org/> a <http://www.w3.org/ns/dcat#Catalog> ;
+<https://datos.alcobendas.org> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active true ;
-    ns2:api <https://datos.alcobendas.org/> ;
     ns2:identifier "datos_alcobendas_org" ;
     ns2:iso "ES" ;
-    ns2:rdfendpoint <https://datos.alcobendas.org/catalog.ttl> ;
+    ns2:api <https://datos.alcobendas.org/catalog.ttl> ;
     ns2:software ns2:CKANDCAT ;
     ns3:title "datos.alcobendas.org" ;
-    ns1:homepage <https://datos.alcobendas.org/> .
+    ns1:homepage <https://datos.alcobendas.org> .
 
-<https://datosabiertos.ayto-arganda.es/> a <http://www.w3.org/ns/dcat#Catalog> ;
+<https://datosabiertos.ayto-arganda.es> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active true ;
-    ns2:api <https://datosabiertos.ayto-arganda.es/> ;
     ns2:identifier "datosabiertos_ayto-arganda_es" ;
     ns2:iso "ES" ;
-    ns2:rdfendpoint <https://datosabiertos.ayto-arganda.es/catalog.ttl> ;
+    ns2:api <https://datosabiertos.ayto-arganda.es/catalog.ttl> ;
     ns2:software ns2:CKANDCAT ;
     ns3:title "datosabiertos.ayto-arganda.es" ;
-    ns1:homepage <https://datosabiertos.ayto-arganda.es/> .
+    ns1:homepage <https://datosabiertos.ayto-arganda.es> .
 
-<https://datosabiertos.rivasciudad.es/> a <http://www.w3.org/ns/dcat#Catalog> ;
+<https://datosabiertos.rivasciudad.es> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active true ;
-    ns2:api <https://datosabiertos.rivasciudad.es/> ;
     ns2:identifier "datosabiertos_rivasciudad_es" ;
     ns2:iso "ES" ;
-    ns2:rdfendpoint <https://datosabiertos.rivasciudad.es/catalog.ttl> ;
+    ns2:api <https://datosabiertos.rivasciudad.es/catalog.ttl> ;
     ns2:software ns2:CKANDCAT ;
     ns3:title "datosabiertos.rivasciudad.es" ;
-    ns1:homepage <https://datosabiertos.rivasciudad.es/> .
+    ns1:homepage <https://datosabiertos.rivasciudad.es> .
 
 <https://edx.netl.doe.gov/> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active true ;
@@ -2369,15 +2355,14 @@
     ns3:title "opendata.socrata.com" ;
     ns1:homepage <https://opendata.socrata.com> .
 
-<https://opendata.swiss/> a <http://www.w3.org/ns/dcat#Catalog> ;
+<https://opendata.swiss> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active true ;
-    ns2:api <https://opendata.swiss/> ;
     ns2:identifier "opendata_swiss" ;
     ns2:iso "CH" ;
-    ns2:rdfendpoint <https://opendata.swiss/catalog.ttl> ;
+    ns2:api <https://opendata.swiss/catalog.ttl> ;
     ns2:software ns2:CKANDCAT ;
     ns3:title "opendata.swiss" ;
-    ns1:homepage <https://opendata.swiss/> .
+    ns1:homepage <https://opendata.swiss> .
 
 <https://opendata.terrassa.cat> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active true ;
