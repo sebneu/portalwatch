@@ -33,7 +33,7 @@ def start(argv):
         default=logging.WARNING
     )
 
-    config=pa. add_argument_group("Config")
+    config=pa.add_argument_group("Config")
     config.add_argument('-c', '--config', help="config file", dest='config', default='config.yaml')
 
     sp = pa.add_subparsers(title='Modules', description="Available sub modules")

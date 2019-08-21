@@ -5,7 +5,7 @@ import pandas as pd
 
 from ui.webapi import api, systemapi, portalapi, mementoapi
 from utils.plots import portalsScatter
-from utils.snapshots import getWeekString
+from utils.snapshots import getWeekString, getCurrentSnapshot
 from db import DB
 from ui.metrics import qa
 
@@ -37,7 +37,11 @@ def qualitymetrics():
 def portalslist():
     db=current_app.config['db']
     ps = db.get_portals()
-    return render('odpw_portals.jinja', data={'portals':ps})
+    ps_info = db.get_portals_info()
+    for p in ps:
+        if p in ps_info:
+            ps[p].update(ps_info[p])
+    return render('odpw_portals.jinja', data={'portals': ps.values()})
 
 
 @ui.route('/about', methods=['GET'])
@@ -87,7 +91,54 @@ def portalssize():
 def portalstable():
     db = current_app.config['db']
     ps = db.get_portals()
-    return render('odpw_portals_table.jinja', data={'portals':ps})
+    ps_info = db.get_portals_info()
+    for p in ps:
+        if p in ps_info:
+            ps[p].update(ps_info[p])
+    return render('odpw_portals_table.jinja', data={'portals': ps.values()})
+
+
+
+
+
+def getPortalInfos(db, portalid, snapshot):
+    snapshots = db.get_portal_snapshots(portalid)
+    if snapshots.index(snapshot)-1 > 0:
+        p = snapshots[snapshots.index(snapshot)-1]
+    else:
+        p = None
+
+    if snapshots.index(snapshot) + 1 < len(snapshots):
+        n = snapshots[snapshots.index(snapshot) + 1]
+    else:
+        n = None
+
+    data={'snapshots':{'list': snapshots,'prev': p, 'next': n}}
+    return data
+
+
+@ui.route('/portal/<portalid>/', methods=['GET'])
+@ui.route('/portal/<portalid>/<int:snapshot>', methods=['GET'])
+def portal(portalid, snapshot=getCurrentSnapshot()):
+    current_sn = snapshot
+    db=current_app.config['db']
+    data=getPortalInfos(db, portalid, snapshot)
+
+    portal = db.get_portal(portalid)
+
+    #q = s.query(Portal).filter(Portal.id == portalid) \
+    #    .join(PortalSnapshotQuality, PortalSnapshotQuality.portalid == Portal.id) \
+    #    .filter(PortalSnapshotQuality.snapshot == snapshot) \
+    #    .join(PortalSnapshot, PortalSnapshot.portalid == Portal.id) \
+    #    .filter(PortalSnapshot.snapshot == snapshot) \
+    #    .add_entity(PortalSnapshot) \
+    #    .add_entity(PortalSnapshotQuality)
+
+    data['portal'] = portal['title']
+    #data['fetchInfo'] = row2dict(r[1])
+    #data['fetchInfo']['duration']=data['fetchInfo']['end']-data['fetchInfo']['start']
+
+    return render("odpw_portal.jinja", snapshot=current_sn, portalid=portalid, data=data)
 
 
 def create_app(conf, db):
@@ -123,7 +174,7 @@ def setupCLI(pa):
 
 def cli(config, db, args):
     app = create_app(config, db)
-    app.run(debug=True)
+    app.run(debug=True, port=config['ui']['port'], host='0.0.0.0')
 
 
 if __name__ == "__main__":

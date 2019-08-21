@@ -1,0 +1,6 @@
+**/.idea
+**/.git
+**/tests
+load_snapshot_virtuoso.sh
+virtuoso-docker.txt
+build_docker.sh

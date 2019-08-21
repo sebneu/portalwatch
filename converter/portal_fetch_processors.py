@@ -13,7 +13,7 @@ from rdflib import Namespace
 
 PROV = Namespace('http://www.w3.org/ns/prov#')
 
-PROV_ACTIVITY = 'http://data.wu.ac.at/portalwatch/activity#'
+PROV_ACTIVITY = 'http://data.wu.ac.at/portalwatch/ld/activity#'
 
 import logging
 logger = logging.getLogger(__name__)
@@ -75,7 +75,6 @@ class CKAN(PortalProcessor):
     def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot, timeout_attempts=5, timeout=24*60*60):
         # prov information
         activity = URIRef(PROV_ACTIVITY + str(snapshot))
-        graph.add((activity, RDF.type, PROV.Activity))
 
         starttime=time.time()
         api = ckanapi.RemoteCKAN(portal_api, get_only=True)
@@ -175,7 +174,6 @@ class Socrata(PortalProcessor):
     def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot):
         # prov information
         activity = URIRef(PROV_ACTIVITY + str(snapshot))
-        graph.add((activity, RDF.type, PROV.Activity))
 
         api = urllib.parse.urljoin(portal_api, '/api/')
         page = 1
@@ -212,7 +210,6 @@ class OpenDataSoft(PortalProcessor):
     def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot):
         # prov information
         activity = URIRef(PROV_ACTIVITY + str(snapshot))
-        graph.add((activity, RDF.type, PROV.Activity))
 
         start=0
         rows=10000
@@ -300,7 +297,6 @@ class CKANDCAT(PortalProcessor):
     def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot, format="ttl"):
         # prov information
         activity = URIRef(PROV_ACTIVITY + str(snapshot))
-        graph.add((activity, RDF.type, PROV.Activity))
 
         logger.debug('Fetching CKAN portal via RDF endpoint: ' + portal_api)
 
@@ -330,7 +326,6 @@ class DataGouvFr(PortalProcessor):
     def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot, dcat=True):
         # prov information
         activity = URIRef(PROV_ACTIVITY + str(snapshot))
-        graph.add((activity, RDF.type, PROV.Activity))
 
         api = urllib.parse.urljoin(portal_api, '/api/1/datasets/?page_size=100')
         processed = set([])

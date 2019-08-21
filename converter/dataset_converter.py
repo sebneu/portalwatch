@@ -45,6 +45,18 @@ namespaces = {
     'hydra': HYDRA
 }
 
+def get_valid_uri(v, bnodevalue):
+    if v and isinstance(v, str):
+        v = v.strip()
+        if is_valid_uri(v):
+            return URIRef(v)
+        elif is_valid_url(v):
+            return URIRef(urllib.parse.quote(v))
+
+    bnode_hash = hashlib.sha1(bnodevalue.encode('utf-8'))
+    ref = BNode(bnode_hash.hexdigest())
+    return ref
+
 
 def convert_socrata(g, data, portal_url):
     dataset_ref = None
@@ -118,13 +130,8 @@ def convert_socrata(g, data, portal_url):
             # publisher
             if 'attribution' in data and data['attribution']:
                 publisher = data['attribution']
-                if 'attributionLink' in data and data['attributionLink']:
-                    attributionLink = data['attributionLink']
-                    publisher_details = URIRef(attributionLink)
-                else:
-                    # BNode: dataset_ref + DCT.publisher + owner
-                    bnode_hash = hashlib.sha1((dataset_ref.n3() + DCT.publisher.n3() + publisher).encode('utf-8'))
-                    publisher_details = BNode(bnode_hash.hexdigest())
+
+                publisher_details = get_valid_uri(data.get('attributionLink'), dataset_ref.n3() + DCT.publisher.n3() + publisher)
 
                 g.add((publisher_details, RDF.type, FOAF.Organization))
                 g.add((dataset_ref, DCT.publisher, publisher_details))
@@ -403,14 +410,8 @@ def graph_from_data_gouv_fr(g, dataset_dict, portal_url):
         publisher_id = publisher.get('id')
         publisher_name = publisher.get('name')
         publisher_page = publisher.get('page')
-        if publisher_page:
-            publisher_details = URIRef(publisher_page)
-            g.add((publisher_details, FOAF.homepage, URIRef(publisher_page)))
-        else:
-            # BNode: dataset_ref + DCT.publisher + publisher_name
-            bnode_hash = hashlib.sha1((dataset_ref.n3() + DCT.publisher.n3() + publisher_id).encode('utf-8'))
-            publisher_details = BNode(bnode_hash.hexdigest())
 
+        publisher_details = get_valid_uri(publisher_page, dataset_ref.n3() + DCT.publisher.n3() + publisher_id)
         g.add((publisher_details, RDF.type, FOAF.Organization))
         g.add((publisher_details, DCT.identifier, Literal(publisher_id)))
         g.add((dataset_ref, DCT.publisher, publisher_details))
@@ -427,8 +428,8 @@ def graph_from_data_gouv_fr(g, dataset_dict, portal_url):
         g.add((license, DCT.identifier, Literal(license_id)))
 
     # Resources
-    for resource_dict in dataset_dict.get('resources', []):
-        distribution = URIRef(resource_dict['id'])
+    for i, resource_dict in enumerate(dataset_dict.get('resources', [])):
+        distribution = get_valid_uri(resource_dict.get('id'), dataset_ref.n3() + resource_dict.get('id', str(i)))
 
         g.add((dataset_ref, DCAT.distribution, distribution))
         g.add((distribution, RDF.type, DCAT.Distribution))
@@ -542,11 +543,7 @@ class CKANConverter:
         ]):
 
             contact_uri = self._get_dataset_value(dataset_dict, 'contact_uri')
-            if contact_uri:
-                contact_details = URIRef(contact_uri)
-            else:
-                bnode_hash = hashlib.sha1((dataset_ref.n3() + DCAT.contactPoint.n3()).encode('utf-8'))
-                contact_details = BNode(bnode_hash.hexdigest())
+            contact_details = get_valid_uri(contact_uri, dataset_ref.n3() + DCAT.contactPoint.n3())
 
             g.add((contact_details, RDF.type, VCARD.Organization))
             g.add((dataset_ref, DCAT.contactPoint, contact_details))
@@ -572,13 +569,8 @@ class CKANConverter:
                 publisher_name = dataset_dict['organization']['title']
 
             publisher_uri = self.publisher_uri_from_dataset_dict(dataset_dict)
-            if publisher_uri:
-                publisher_details = URIRef(publisher_uri)
-            else:
-                # No organization nor publisher_uri
-                id_string = dataset_ref.n3() + DCT.publisher.n3() + publisher_name
-                bnode_hash = hashlib.sha1(id_string.encode('utf-8'))
-                publisher_details = BNode(bnode_hash.hexdigest())
+            id_string = dataset_ref.n3() + DCT.publisher.n3() + publisher_name
+            publisher_details = get_valid_uri(publisher_uri, id_string)
 
             g.add((publisher_details, RDF.type, FOAF.Organization))
             g.add((dataset_ref, DCT.publisher, publisher_details))
@@ -617,12 +609,8 @@ class CKANConverter:
         spatial_geom = self._get_dataset_value(dataset_dict, 'spatial', default='')
 
         if spatial_uri or spatial_text or spatial_geom:
-            if spatial_uri:
-                spatial_ref = URIRef(spatial_uri)
-            else:
-                id_string = dataset_ref.n3() + DCT.spatial.n3() + spatial_uri + spatial_text + spatial_geom
-                bnode_hash = hashlib.sha1(id_string.encode('utf-8'))
-                spatial_ref = BNode(bnode_hash.hexdigest())
+            id_string = dataset_ref.n3() + DCT.spatial.n3() + spatial_uri + spatial_text + spatial_geom
+            spatial_ref = get_valid_uri(spatial_uri, id_string)
 
             g.add((spatial_ref, RDF.type, DCT.Location))
             g.add((dataset_ref, DCT.spatial, spatial_ref))
@@ -651,15 +639,13 @@ class CKANConverter:
         license_title = self._get_dataset_value(dataset_dict, 'license_title', default='')
         license = None
         if license_id or license_url or license_title:
-            if license_url and bool(urllib.parse.urlparse(license_url).netloc):
-                license = URIRef(license_url)
-            else:
-                id_string = dataset_ref.n3() + DCT.license.n3() + license_id + license_url + license_title
-                bnode_hash = hashlib.sha1(id_string.encode('utf-8'))
-                license = BNode(bnode_hash.hexdigest())
-                # maybe a non-valid url
-                if license_url:
-                    g.add((license, RDFS.comment, Literal(license_url)))
+            id_string = dataset_ref.n3() + DCT.license.n3() + license_id + license_url + license_title
+            license = get_valid_uri(license_url, id_string)
+            # bool(urllib.parse.urlparse(license_url).netloc)
+
+            # maybe a non-valid url
+            if not is_valid_uri(license_url):
+                g.add((license, RDFS.comment, Literal(license_url)))
             # l is a license document
             g.add((license, RDF.type, DCT.LicenseDocument))
 

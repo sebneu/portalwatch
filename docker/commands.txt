@@ -1,0 +1,1 @@
+docker run -v ~/portalwatch_data/virtuoso/dumps/data:/data --rm --network="host" odpw -v Fetch
