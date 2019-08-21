@@ -57,35 +57,13 @@
                             <table class="ui very basic red compact table">
                                 <tbody>
                                     <tr>
-                                        <td class="right aligned">Started</td>
-                                        <td>{{data.fetchInfo.start.strftime('%H:%M at %d, %b %Y')}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="right aligned">End</td>
-                                        <td>{{data.fetchInfo.end.strftime('%H:%M at %d, %b %Y')}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="right aligned">Duration</td>
-                                        <td>{{data.fetchInfo.duration}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="right aligned">Status</td>
-                                        <td>{{data.fetchInfo.status}}</td>
-                                    </tr>
-                                    <tr>
                                         <td class="right aligned">Datasets</td>
-                                        <td>{{data.fetchInfo.datasetsfetched}}/{{data.fetchInfo.datasetcount}} fetched</td>
+                                        <td>{{data.portal.datasets}}</td>
                                     </tr>
                                     <tr>
                                         <td class="right aligned">Resources</td>
-                                        <td>{{data.fetchInfo.resourcecount}}</td>
+                                        <td>{{data.portal.resources}}</td>
                                     </tr>
-                                    {% if data.fetchInfo.exc %}
-                                        <tr>
-                                            <td class="right aligned">Error</td>
-                                            <td>{{data.fetchInfo.exc}}</td>
-                                        </tr>
-                                    {% endif %}
                                 </tbody>
                             </table>
                         </div>

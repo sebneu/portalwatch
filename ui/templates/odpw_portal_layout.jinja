@@ -11,9 +11,7 @@
                     ('ui.portalEvolution', 'chart line', 'Evolution'),
                     ('ui.portalFormats', 'file alternate', 'Stats'),
                     ('ui.portalRes', 'table', 'Resources'),
-                    ('ui.portalDataset', 'list', 'Datasets'),
-                    ('ui.portalDynamicy', 'chart area', 'Dynamicity'),
-                    ('ui.portalLinkCheck', 'eye', 'Link Checker')
+                    ('ui.portalDataset', 'list', 'Datasets')
                     ]
                 -%}
                 {% set active_sub_page = active_sub_page|default('ui.portal') -%}
@@ -43,7 +41,7 @@
                             <div  class="item">
                                 <a href="{{url_for(active_sub_page, portalid=portal.id, snapshot=snapshot)}}">
                                     <i class="{{portal.iso| lower}} flag "></i>
-                                    {{portal.uri|get_domain}} ({{portal.software}})
+                                    {{portal.title}} ({{portal.software}})
                                 </a>
                             </div>
                             {% endfor %}

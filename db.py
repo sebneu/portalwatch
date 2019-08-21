@@ -19,7 +19,6 @@ class DB:
 
     def get_portals_info(self, snapshot=None):
         if not snapshot:
-            # TODO change
             snapshot = getCurrentSnapshot()
         # datasets, resources, snLast
         sn_graph = ODPW_GRAPH + '/' + str(snapshot)
@@ -38,9 +37,33 @@ class DB:
         self.sparql.setQuery(statement)
         self.sparql.setReturnFormat(JSON)
         res = self.sparql.query().convert()
-
         r = res['results']['bindings'][0]
         result = {'title': r['t']['value'], 'apiuri': r['a']['value'], 'uri': r['p']['value'], 'id': id, 'software': r['s']['value'].split('#')[1], 'iso': r['iso']['value']}
+        return result
+
+    def get_portal_info(self, portal_ref, snapshot=None):
+        if not snapshot:
+            snapshot = getCurrentSnapshot()
+        sn_graph = ODPW_GRAPH + '/' + str(snapshot)
+        statement = "SELECT COUNT(DISTINCT ?d) AS ?datasets COUNT(?r) AS ?resources FROM <{0}> WHERE {{<{1}> dcat:dataset ?d. ?d dcat:distribution ?r }}".format(sn_graph, portal_ref)
+        self.sparql.setQuery(statement)
+        self.sparql.setReturnFormat(JSON)
+        res = self.sparql.query().convert()
+        r = res['results']['bindings'][0]
+        result = {'uri': portal_ref, 'datasets': r['datasets']['value'], 'resources': r['resources']['value'], 'snLast': snapshot}
+        return result
+
+    def get_portal_quality(self, portal_ref, snapshot=None):
+        if not snapshot:
+            snapshot = getCurrentSnapshot()
+        sn_graph = ODPW_GRAPH + '/' + str(snapshot)
+        statement = "SELECT ?metric SUM(?value)/COUNT(?value) AS ?measurement COUNT(?value) AS ?numValues COUNT(?d) AS ?datasets FROM <{0}> WHERE {{ {1} dcat:dataset ?d. ?d dqv:hasQualityMeasurement ?m. ?m dqv:isMeasurementOf ?metric. ?m dqv:value ?value }} GROUP BY(?metric)".format(sn_graph, portal_ref)
+        self.sparql.setQuery(statement)
+        self.sparql.setReturnFormat(JSON)
+        res = self.sparql.query().convert()
+        result = {}
+        for r in res['results']['bindings']:
+            result[r['metric']['value']] = {k: r[k]['value'] for k in r}
         return result
 
     def get_portal_snapshots(self, id):
@@ -50,7 +73,7 @@ class DB:
         res = self.sparql.query().convert()
         snapshots = []
         for r in res['results']['bindings']:
-            snapshots.append(r['s']['value'])
+            snapshots.append(int(r['s']['value']))
         snapshots.sort()
         return snapshots
 

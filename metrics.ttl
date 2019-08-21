@@ -1,0 +1,146 @@
+@prefix ns1: <http://www.w3.org/2004/02/skos/core#> .
+@prefix ns2: <http://data.wu.ac.at/ns/odpw#> .
+@prefix ns3: <http://www.w3.org/ns/dqv#> .
+@prefix ns4: <http://xmlns.com/foaf/0.1/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://data.wu.ac.at/portalwatch/quality#Access> a ns3:Metric ;
+    ns2:identifier "exac" ;
+    rdfs:comment "Some of the resources do not have an access URL" ;
+    ns1:definition "Does the meta data contain access information for the resources?" ;
+    ns1:prefLabel "Access" ;
+    ns3:expectedDataType xsd:double ;
+    ns3:inDimension <https://data.wu.ac.at/portalwatch/quality#Existence> .
+
+<https://data.wu.ac.at/portalwatch/quality#AccessURL> a ns3:Metric ;
+    ns2:identifier "coac" ;
+    rdfs:comment "The download or access URL is not a syntactically valid URL" ;
+    ns1:definition "Are the available values of access properties valid HTTP URLs?" ;
+    ns1:prefLabel "AccessURL" ;
+    ns3:expectedDataType xsd:double ;
+    ns3:inDimension <https://data.wu.ac.at/portalwatch/quality#Conformance> .
+
+<https://data.wu.ac.at/portalwatch/quality#Contact> a ns3:Metric ;
+    ns2:identifier "exco" ;
+    rdfs:comment "Contact information is missing" ;
+    ns1:definition "Does the meta data contain information to contact the data provider or publisher?" ;
+    ns1:prefLabel "Contact" ;
+    ns3:expectedDataType xsd:double ;
+    ns3:inDimension <https://data.wu.ac.at/portalwatch/quality#Existence> .
+
+<https://data.wu.ac.at/portalwatch/quality#ContactEmail> a ns3:Metric ;
+    ns2:identifier "coce" ;
+    ns1:definition "Are the available values of contact properties valid emails?" ;
+    ns1:prefLabel "ContactEmail" ;
+    ns3:expectedDataType xsd:double ;
+    ns3:inDimension <https://data.wu.ac.at/portalwatch/quality#Conformance> .
+
+<https://data.wu.ac.at/portalwatch/quality#ContactURL> a ns3:Metric ;
+    ns2:identifier "cocu" ;
+    rdfs:comment "The publisher or contact URL is not a syntactically valid URI" ;
+    ns1:definition "Are the available values of contact properties valid HTTP URLs?" ;
+    ns1:prefLabel "ContactURL" ;
+    ns3:expectedDataType xsd:double ;
+    ns3:inDimension <https://data.wu.ac.at/portalwatch/quality#Conformance> .
+
+<https://data.wu.ac.at/portalwatch/quality#Date> a ns3:Metric ;
+    ns2:identifier "exda" ;
+    rdfs:comment "Some of the creation and modification date fields for the dataset and resources are empty",
+        "The publisher or contact Email is not a syntactically valid Email" ;
+    ns1:definition "Does the meta data contain information about creation and modification date of metadata and resources respectively?" ;
+    ns1:prefLabel "Date" ;
+    ns3:expectedDataType xsd:double ;
+    ns3:inDimension <https://data.wu.ac.at/portalwatch/quality#Existence> .
+
+<https://data.wu.ac.at/portalwatch/quality#DateFormat> a ns3:Metric ;
+    ns2:identifier "coda" ;
+    rdfs:comment "Some of the creation and modification dates are not in a valid date format" ;
+    ns1:definition "Is date information specified in a valid date format?" ;
+    ns1:prefLabel "DateFormat" ;
+    ns3:expectedDataType xsd:double ;
+    ns3:inDimension <https://data.wu.ac.at/portalwatch/quality#Conformance> .
+
+<https://data.wu.ac.at/portalwatch/quality#Discovery> a ns3:Metric ;
+    ns2:identifier "exdi" ;
+    rdfs:comment "Some of the title, description and keyword fields are empty" ;
+    ns1:definition "Does the meta data contain information that can help to discover/search datasets?" ;
+    ns1:prefLabel "Discovery" ;
+    ns3:expectedDataType xsd:double ;
+    ns3:inDimension <https://data.wu.ac.at/portalwatch/quality#Existence> .
+
+<https://data.wu.ac.at/portalwatch/quality#FileFormat> a ns3:Metric ;
+    ns2:identifier "cofo" ;
+    rdfs:comment "Some of the specified mime types and file format are not registered with IANA (iana.org/)" ;
+    ns1:definition "Is the specified file format or media type registered by IANA?" ;
+    ns1:prefLabel "FileFormat" ;
+    ns3:expectedDataType xsd:double ;
+    ns3:inDimension <https://data.wu.ac.at/portalwatch/quality#Conformance> .
+
+<https://data.wu.ac.at/portalwatch/quality#License> a ns3:Metric ;
+    ns2:identifier "coli" ;
+    rdfs:comment "The specified license could not mapped to the list provided by opendefinition.org" ;
+    ns1:definition "Can the license be mapped to the list of licenses reviewed by opendefinition.org?" ;
+    ns1:prefLabel "License" ;
+    ns3:expectedDataType xsd:double ;
+    ns3:inDimension <https://data.wu.ac.at/portalwatch/quality#Conformance> .
+
+<https://data.wu.ac.at/portalwatch/quality#MachineRead> a ns3:Metric ;
+    ns2:identifier "opma" ;
+    rdfs:comment "Some of the specified formats are not considered as machine readable" ;
+    ns1:definition "Can the file format be considered as machine readable?" ;
+    ns1:prefLabel "Format machine readability" ;
+    ns3:expectedDataType xsd:double ;
+    ns3:inDimension <https://data.wu.ac.at/portalwatch/quality#OpenData> .
+
+<https://data.wu.ac.at/portalwatch/quality#OpenFormat> a ns3:Metric ;
+    ns2:identifier "opfo" ;
+    rdfs:comment "Some of the specified formats are not considered open" ;
+    ns1:definition "Is the file format based on an open standard?" ;
+    ns1:prefLabel "Format Openness" ;
+    ns3:expectedDataType xsd:double ;
+    ns3:inDimension <https://data.wu.ac.at/portalwatch/quality#OpenData> .
+
+<https://data.wu.ac.at/portalwatch/quality#OpenLicense> a ns3:Metric ;
+    ns2:identifier "opli" ;
+    rdfs:comment "The specified license is not considered to be open by the opendefinition.org" ;
+    ns1:definition "Is the used license conform to the open definition?" ;
+    ns1:prefLabel "License Openness" ;
+    ns3:expectedDataType xsd:double ;
+    ns3:inDimension <https://data.wu.ac.at/portalwatch/quality#OpenData> .
+
+<https://data.wu.ac.at/portalwatch/quality#Preservation> a ns3:Metric ;
+    ns2:identifier "expr" ;
+    rdfs:comment "Information (size, format, mimetype, ..) for preserving/archiving the dataset resource are missing" ;
+    ns1:definition "Does the meta data contain information about format, size or update frequency of the resources?" ;
+    ns1:prefLabel "Preservation" ;
+    ns3:expectedDataType xsd:double ;
+    ns3:inDimension <https://data.wu.ac.at/portalwatch/quality#Existence> .
+
+<https://data.wu.ac.at/portalwatch/quality#Rights> a ns3:Metric ;
+    ns2:identifier "exri" ;
+    rdfs:comment "The dataset has no license information" ;
+    ns1:definition "Does the meta data contain information about the license of the dataset or resource?" ;
+    ns1:prefLabel "Rights" ;
+    ns3:expectedDataType xsd:double ;
+    ns3:inDimension <https://data.wu.ac.at/portalwatch/quality#Existence> .
+
+<https://data.wu.ac.at/portalwatch> a <http://www.w3.org/ns/prov#SoftwareAgent> ;
+    rdfs:label "Open Data Portal Watch" ;
+    ns4:homePage <https://data.wu.ac.at/portalwatch> ;
+    ns4:mbox <mailto:contact@data.wu.ac.at> .
+
+<https://data.wu.ac.at/portalwatch/quality#OpenData> a ns3:Dimension ;
+    ns1:definition "Is the specified format and license information suitable to classify a dataset as open?" ;
+    ns1:prefLabel "Open Data" .
+
+<https://data.wu.ac.at/portalwatch/quality#Conformance> a ns3:Dimension ;
+    ns1:definition "Does information adhere to a certain format if it exist?" ;
+    ns1:prefLabel "Conformance" .
+
+<https://data.wu.ac.at/portalwatch/quality#Existence> a ns3:Dimension ;
+    ns1:definition "Existence of important information (i.e. exist certain metadata keys)" ;
+    ns1:prefLabel "Existence" .
+

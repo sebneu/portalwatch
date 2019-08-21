@@ -2,6 +2,7 @@ import quality
 import logging
 import os
 import urllib.parse
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -13,9 +14,14 @@ from utils.snapshots import getCurrentSnapshot
 
 from db import ODPW_GRAPH
 from converter.portal_fetch_processors import PROV_ACTIVITY
+
 PROV = Namespace('http://www.w3.org/ns/prov#')
 
 ODPW = Namespace('http://data.wu.ac.at/ns/odpw#')
+
+PW_AGENT = URIRef("https://data.wu.ac.at/portalwatch")
+
+
 
 
 def fetch_portal_to_dir(p, snapshot, path):
@@ -24,19 +30,30 @@ def fetch_portal_to_dir(p, snapshot, path):
     portal_api = p['apiuri']
     portal_id = p['id']
     software = p['software']
-    proc = portal_fetch_processors.getPortalProcessor(software)
+    start_time = datetime.now()
+    portal_activity = URIRef("https://data.wu.ac.at/portalwatch/portal/" + portal_id + '/' + str(snapshot))
 
+    proc = portal_fetch_processors.getPortalProcessor(software)
     g = rdflib.Graph()
-    proc.fetchAndConvertToDCAT(g, portal_ref, portal_api, snapshot)
+    proc.fetchAndConvertToDCAT(g, portal_ref, portal_api, snapshot, portal_activity)
+
+    end_time = datetime.now()
 
     # prov information
+    g.add((portal_activity, RDF.type, PROV.Activity))
+    g.add((portal_activity, PROV.startedAtTime, Literal(start_time)))
+    g.add((portal_activity, PROV.endedAtTime, Literal(end_time)))
+    g.add((portal_activity, PROV.wasAssociatedWith, PW_AGENT))
+    g.add((portal_activity, ODPW.snapshot, Literal(int(snapshot))))
+
     sn_graph = URIRef(ODPW_GRAPH + '/' + str(snapshot))
-    activity = rdflib.URIRef(PROV_ACTIVITY + str(snapshot))
-    g.add((activity, RDF.type, PROV.Activity))
-    g.add((activity, ODPW.snapshot, Literal(int(snapshot))))
-    g.add((activity, ODPW.fetched, portal_ref))
-    g.add((portal_ref, ODPW.wasFetchedBy, activity))
-    g.add((activity, PROV.generated, sn_graph))
+    sn_activity = rdflib.URIRef(PROV_ACTIVITY + str(snapshot))
+    g.add((sn_activity, RDF.type, PROV.Activity))
+    g.add((sn_activity, PROV.generated, sn_graph))
+
+    g.add((portal_activity, ODPW.fetched, portal_ref))
+    g.add((portal_ref, ODPW.wasFetchedBy, portal_activity))
+    g.add((portal_activity, PROV.wasStartedBy, sn_activity))
 
     fp = os.path.join(path, portal_id)
     g.serialize(fp + '.ttl', format='ttl')

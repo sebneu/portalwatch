@@ -7,7 +7,7 @@ def getCurrentSnapshot():
     w=now.isocalendar()[1]
     sn=str(y)[2:]+'{:02}'.format(w)
 
-    return sn
+    return int(sn)
 
 
 def tofirstdayinisoweek(yearweek):

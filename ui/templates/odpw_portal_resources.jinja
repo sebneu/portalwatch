@@ -1,0 +1,92 @@
+{% extends "odpw_portal_layout.jinja" %}
+{% set active_sub_page = "ui.portalRes" -%}
+
+{% block headcss %}
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/dataTables.semanticui.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.2.1/css/buttons.semanticui.min.css">
+{% endblock %}
+{% block headscripts %}
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.12/js/dataTables.semanticui.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.semanticui.min.js"></script>
+
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/buttons/1.2.1/js/buttons.colVis.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/buttons/1.2.1/js/buttons.flash.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/buttons/1.2.1/js/buttons.html5.min.js"></script>
+
+
+
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+
+
+{% endblock %}
+
+{% block portalcontent %}
+    <div class="ui container centered" id="body">
+        <div class="ui segment" id="loader" style="height:400px;">
+            <div class="ui active dimmer">
+                <div class="ui indeterminate large text loader">We are getting the HTTP header information. Stay with us!</div>
+            </div>
+             <p></p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    {{ super() }}
+    $(document).ready(function() {
+        bodyURL="{{url_for('ui.portalResBody', snapshot=snapshot, portalid=portalid)}}"
+        $.ajax({
+            url: bodyURL,
+            success: function(data) {
+                $('#loader').remove();
+                html=$($.parseHTML(data))
+                $('#body').html(html);
+                $('#show200').on('click', function(){filter(200)})
+                $('#show404').on('click', function(){filter(404)})
+                $('#showAll').on('click', function(){filter(null)})
+                $('#showErrors').on('click', function(){filterGreater(404)})
+            },
+            type: 'GET'
+            }
+        )
+
+        function filter(filterStatus) {
+            var filterStatus = filterStatus;
+            $('#uris>div.item').each(function (index, element) {
+                $(element).find(".status").each(function(index, status){
+
+                    if( (filterStatus == null) || ($(status).text().indexOf(filterStatus) >= 0)){
+                        $(element).show();
+                    }else{
+                        $(element).hide();
+                    }
+                });
+            });
+        };
+        function filterGreater(filterStatus) {
+            var filterStatus = filterStatus;
+            $('#uris>div.item').each(function (index, element) {
+                $(element).find(".status").each(function(index, status){
+
+                    if( (filterStatus == null) || (parseInt($(status).text())>filterStatus)){
+                        $(element).show();
+                    }else{
+                        $(element).hide();
+                    }
+                });
+            });
+        };
+
+
+    })
+
+
+ {% endblock %}

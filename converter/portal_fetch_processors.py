@@ -13,7 +13,7 @@ from rdflib import Namespace
 
 PROV = Namespace('http://www.w3.org/ns/prov#')
 
-PROV_ACTIVITY = 'http://data.wu.ac.at/portalwatch/ld/activity#'
+PROV_ACTIVITY = 'https://data.wu.ac.at/portalwatch/ld/activity#'
 
 import logging
 logger = logging.getLogger(__name__)
@@ -49,7 +49,7 @@ def getPortalProcessor(software):
 
 
 class PortalProcessor:
-    def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot):
+    def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot, activity):
         raise NotImplementedError("Should have implemented this")
 
 class CKAN(PortalProcessor):
@@ -72,9 +72,7 @@ class CKAN(PortalProcessor):
                 else:
                     raise e
 
-    def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot, timeout_attempts=5, timeout=24*60*60):
-        # prov information
-        activity = URIRef(PROV_ACTIVITY + str(snapshot))
+    def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot, activity, timeout_attempts=5, timeout=24*60*60):
 
         starttime=time.time()
         api = ckanapi.RemoteCKAN(portal_api, get_only=True)
@@ -171,9 +169,7 @@ class CKAN(PortalProcessor):
 
 
 class Socrata(PortalProcessor):
-    def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot):
-        # prov information
-        activity = URIRef(PROV_ACTIVITY + str(snapshot))
+    def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot, activity):
 
         api = urllib.parse.urljoin(portal_api, '/api/')
         page = 1
@@ -207,10 +203,8 @@ class Socrata(PortalProcessor):
 
 
 class OpenDataSoft(PortalProcessor):
-    def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot):
-        # prov information
-        activity = URIRef(PROV_ACTIVITY + str(snapshot))
-
+    def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot, activity):
+        
         start=0
         rows=10000
         processed=set([])
@@ -242,10 +236,7 @@ class OpenDataSoft(PortalProcessor):
 
 
 class XMLDCAT(PortalProcessor):
-    def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot):
-        # prov information
-        activity = URIRef(PROV_ACTIVITY + str(snapshot))
-        graph.add((activity, RDF.type, PROV.Activity))
+    def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot, activity):
 
         graph = rdflib.Graph()
         graph.parse(portal_api, format="xml")
@@ -257,10 +248,8 @@ class XMLDCAT(PortalProcessor):
 
 
 class SPARQL(PortalProcessor):
-    def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot):
-        # prov information
-        activity = URIRef(PROV_ACTIVITY + str(snapshot))
-        graph.add((activity, RDF.type, PROV.Activity))
+    def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot, activity):
+        
 
         url = portal_api + "?format=text/turtle&query="
         query = """
@@ -294,9 +283,7 @@ class SPARQL(PortalProcessor):
 
 
 class CKANDCAT(PortalProcessor):
-    def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot, format="ttl"):
-        # prov information
-        activity = URIRef(PROV_ACTIVITY + str(snapshot))
+    def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot, activity, format="ttl"):
 
         logger.debug('Fetching CKAN portal via RDF endpoint: ' + portal_api)
 
@@ -323,9 +310,7 @@ class CKANDCAT(PortalProcessor):
 
 
 class DataGouvFr(PortalProcessor):
-    def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot, dcat=True):
-        # prov information
-        activity = URIRef(PROV_ACTIVITY + str(snapshot))
+    def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot, activity, dcat=True):
 
         api = urllib.parse.urljoin(portal_api, '/api/1/datasets/?page_size=100')
         processed = set([])
