@@ -1,0 +1,8 @@
+endpoint: http://localhost:8890/sparql
+ui:
+    url_prefix_ui: /portalwatch
+    port: 5123
+rest:
+   url_prefix_rest: /api
+fetch:
+   dir: data
