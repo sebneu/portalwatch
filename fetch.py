@@ -33,6 +33,7 @@ def fetch_portal_to_dir(p, snapshot, path, format='ttl', skip_portal=True):
     # skip portal if exists
     if skip_portal and os.path.exists(fp):
         logger.info("File exists, skip portal: " + p['id'])
+        return
 
     # log execution time
     start_time = datetime.now()
