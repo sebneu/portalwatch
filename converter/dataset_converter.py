@@ -411,10 +411,11 @@ def graph_from_data_gouv_fr(g, dataset_dict, portal_url):
         publisher_name = publisher.get('name')
         publisher_page = publisher.get('page')
 
-        publisher_details = get_valid_uri(publisher_page, dataset_ref.n3() + DCT.publisher.n3() + publisher_id)
-        g.add((publisher_details, RDF.type, FOAF.Organization))
-        g.add((publisher_details, DCT.identifier, Literal(publisher_id)))
+        publisher_details = get_valid_uri(publisher_page, dataset_ref.n3() + DCT.publisher.n3())
         g.add((dataset_ref, DCT.publisher, publisher_details))
+        g.add((publisher_details, RDF.type, FOAF.Organization))
+        if publisher_id:
+            g.add((publisher_details, DCT.identifier, Literal(publisher_id)))
         if publisher_name:
             g.add((publisher_details, FOAF.name, Literal(publisher_name)))
 

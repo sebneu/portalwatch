@@ -1,7 +1,8 @@
 from SPARQLWrapper import SPARQLWrapper, JSON
 from utils.snapshots import getCurrentSnapshot
 
-ODPW_GRAPH = "http://data.wu.ac.at/portalwatch/ld"
+OLD_ODPW_GRAPH = "http://data.wu.ac.at/portalwatch/ld"
+ODPW_GRAPH = "https://data.wu.ac.at/portalwatch/ld"
 
 class DB:
     def __init__(self, endpoint):
@@ -28,7 +29,7 @@ class DB:
         res = self.sparql.query().convert()
         results = {}
         for r in res['results']['bindings']:
-            results[r['p']['value']] = {'uri': r['p']['value'], 'datasets': r['datasets']['value'], 'resources': r['resources']['value'], 'snLast': snapshot}
+            results[r['p']['value']] = {'uri': r['p']['value'], 'datasets': int(r['datasets']['value']), 'resources': int(r['resources']['value']), 'snLast': snapshot}
         return results
 
 
@@ -57,13 +58,14 @@ class DB:
         if not snapshot:
             snapshot = getCurrentSnapshot()
         sn_graph = ODPW_GRAPH + '/' + str(snapshot)
-        statement = "SELECT ?metric SUM(?value)/COUNT(?value) AS ?measurement COUNT(?value) AS ?numValues COUNT(?d) AS ?datasets FROM <{0}> WHERE {{ {1} dcat:dataset ?d. ?d dqv:hasQualityMeasurement ?m. ?m dqv:isMeasurementOf ?metric. ?m dqv:value ?value }} GROUP BY(?metric)".format(sn_graph, portal_ref)
+        # TODO change OLD_ODPW_GRAPH
+        statement = "SELECT ?metric ?id SUM(?value)/COUNT(?value) AS ?measurement COUNT(?value) AS ?numValues COUNT(?d) AS ?datasets FROM <{0}> FROM <{1}> WHERE {{ <{2}> dcat:dataset ?d. ?d dqv:hasQualityMeasurement ?m. ?m dqv:isMeasurementOf ?metric. ?metric odpw:identifier ?id. ?m dqv:value ?value }} GROUP BY ?metric ?id".format(OLD_ODPW_GRAPH, sn_graph, portal_ref)
         self.sparql.setQuery(statement)
         self.sparql.setReturnFormat(JSON)
         res = self.sparql.query().convert()
         result = {}
         for r in res['results']['bindings']:
-            result[r['metric']['value']] = {k: r[k]['value'] for k in r}
+            result[r['id']['value']] = {k: r[k]['value'] for k in r}
         return result
 
     def get_portal_snapshots(self, id):
@@ -76,6 +78,19 @@ class DB:
             snapshots.append(int(r['s']['value']))
         snapshots.sort()
         return snapshots
+
+    def get_portal_licenses(self, portal_ref, snapshot=None):
+        if not snapshot:
+            snapshot = getCurrentSnapshot()
+        sn_graph = ODPW_GRAPH + '/' + str(snapshot)
+        statement = "SELECT ?format COUNT(?format) AS ?count xsd:float(COUNT(?format))/xsd:float(?allformat) AS ?perc FROM <{0}> WHERE {{ {{ SELECT COUNT(*) AS ?allformat FROM <{0}> WHERE {{ <{1}> dcat:dataset ?d . ?d dcat:distribution ?dist . ?dist dct:format ?format }} }} {{ <{1}> dcat:dataset ?d . ?d dcat:distribution ?dist . ?dist dct:format ?format . FILTER(isLiteral(?format)) }} UNION {{ <{1}> dcat:dataset ?d . ?d dcat:distribution ?dist . ?dist dct:format ?b . ?b rdfs:label ?format }} }} GROUP BY ?format ?allformat ORDER BY DESC(?count)".format(sn_graph, portal_ref)
+        self.sparql.setQuery(statement)
+        self.sparql.setReturnFormat(JSON)
+        res = self.sparql.query().convert()
+        result = []
+        for r in res['results']['bindings']:
+            result.append({'label': r['format']['value'], 'count': int(r['count']['value']), 'perc': float(r['perc']['value'])})
+        return result
 
 
     def get_portals_count(self):

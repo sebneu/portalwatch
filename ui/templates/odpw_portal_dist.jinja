@@ -30,9 +30,9 @@
         </tr>
     </tfoot>
     <tbody>
-        {% for l in data[key].top3Dist %}
+        {% for l in data[key].dist %}
         <tr>
-            <td class="hideextra">{{l[key]}}</td>
+            <td class="hideextra">{{l.label}}</td>
             <td>{{l.count}}</td>
              <td>({{ (l.perc*100)| round(2)}}%)</td>
         </tr>

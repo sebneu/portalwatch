@@ -4,8 +4,8 @@ from flask import Flask, render_template, current_app, Blueprint
 import pandas as pd
 
 from ui.webapi import api, systemapi, portalapi, mementoapi
-from utils.plots import portalsScatter, qualityChart
-from utils.snapshots import getWeekString, getCurrentSnapshot
+from utils.plots import portalsScatter, qualityChart, evolutionCharts
+from utils.snapshots import getWeekString, getCurrentSnapshot, toLastdayinisoweek
 from db import DB
 from ui.metrics import qa
 
@@ -53,6 +53,7 @@ def about():
 def portaldash():
     data={}
     db=current_app.config['db']
+    data['portals'] = db.get_portals().values()
     return render("odpw_portaldash.jinja",  data=data)
 
 
@@ -69,10 +70,17 @@ def sparqlendpoint():
 @ui.route('/portals/portalsstats', methods=['GET'])
 def portalssize():
     db=current_app.config['db']
+
     # query portal snapshotcount, first and last snapshot, datasetcount, resourcecount
     # results=[row2dict(r) for r in s.query(Portal, Portal.snapshot_count,Portal.first_snapshot, Portal.last_snapshot, Portal.datasetcount, Portal.resourcecount)]
-    results = {}
-    df = pd.DataFrame(results)
+
+    ps = db.get_portals()
+    ps_info = db.get_portals_info()
+    for p in ps:
+        if p in ps_info:
+            ps[p].update(ps_info[p])
+    df = pd.DataFrame(ps).transpose()
+
     p = portalsScatter(df)
     script, div= components(p)
 
@@ -122,11 +130,10 @@ def getPortalInfos(db, portalid, snapshot):
 def portal(portalid, snapshot=getCurrentSnapshot()):
     db=current_app.config['db']
     data=getPortalInfos(db, portalid, snapshot)
-
     portal = db.get_portal(portalid)
     portal.update(db.get_portal_info(portal['uri']))
-
     data['portal'] = portal
+    data['portals'] = db.get_portals().values()
     return render("odpw_portal.jinja", snapshot=snapshot, portalid=portalid, data=data)
 
 
@@ -134,23 +141,18 @@ def portal(portalid, snapshot=getCurrentSnapshot()):
 @ui.route('/portal/<portalid>/<int:snapshot>/quality', methods=['GET'])
 def portalQuality(snapshot, portalid):
     db = current_app.config['db']
-    #q = s.query(PortalSnapshotQuality) \
-    #    .filter(PortalSnapshotQuality.portalid == portalid) \
-    #    .filter(PortalSnapshotQuality.snapshot == snapshot)
-    qdata = None
-
 
     portal = db.get_portal(portalid)
-    quality = db.get_portal_quality(portal['uri'])
+    quality = db.get_portal_quality(portal['uri'], snapshot)
     d = []
-    datasets = int(qdata['datasets'])
     for inD in qa:
         for k, v in inD['metrics'].items():
             k = k.lower()
             # TODO what to do if metric has no value?
-            if qdata[k] != None and qdata[k] != 'None':
-                value = float(qdata[k])
-                perc = int(qdata[k + 'N']) / (datasets * 1.0) if datasets > 0 else 0
+            if k in quality:
+                datasets = int(quality[k]['datasets'])
+                value = float(quality[k]['measurement'])
+                perc = int(quality[k]['numValues']) / (datasets * 1.0) if datasets > 0 else 0
                 c = {'Metric': k, 'Dimension': inD['dimension'],
                      'dim_color': inD['color'], 'value': value, 'perc': perc}
                 c.update(v)
@@ -166,7 +168,7 @@ def portalQuality(snapshot, portalid):
         script, div= components(p)
 
         data['portals'] = db.get_portals()
-        data['quality'] = qdata
+        data['quality'] = quality
         return render("odpw_portal_quality.jinja",
             plot_script=script
             ,plot_div=div
@@ -191,12 +193,22 @@ def portalQuality(snapshot, portalid):
 
 @ui.route('/portal/<portalid>/<int:snapshot>/evolution', methods=['GET'])
 def portalEvolution(snapshot, portalid):
-    db=current_app.config['dbc']
+    db=current_app.config['db']
     data={}
-    for R in s.query(PortalSnapshot).filter(PortalSnapshot.portalid==portalid):
-        data[R.portalid+str(R.snapshot)]=row2dict(R)
-    for R in s.query(PortalSnapshotQuality).filter(PortalSnapshotQuality.portalid==portalid):
-        data[R.portalid+str(R.snapshot)].update(row2dict(R))
+    portal = db.get_portal(portalid)
+    snapshots = db.get_portal_snapshots(portalid)
+    for sn in snapshots:
+        portal.update(db.get_portal_info(portal['uri'], sn))
+        quality = db.get_portal_quality(portal['uri'], sn)
+        for d in qa:
+            for m in d['metrics']:
+                m = m.lower()
+                if m in quality:
+                    portal[m] = quality[m]['measurement']
+        portal['snapshot'] = sn
+        # TODO query activity metadata
+        portal['end'] = toLastdayinisoweek(sn)
+        data[portalid + str(sn)] = portal
 
     df=pd.DataFrame([v for k,v in data.items()])
     p=evolutionCharts(df)
@@ -270,13 +282,19 @@ def portalDataset(snapshot, portalid, dataset):
 
 @ui.route('/portal/<portalid>/<int:snapshot>/dist/formats', methods=['GET'])
 def portalFormats(snapshot, portalid):
-    db = current_app.config['dbc']
+    db = current_app.config['db']
     data = getPortalInfos(db, portalid, snapshot)
 
-    data['portals']= [ row2dict(r) for r in s.query(Portal).all()]
-    data.update(aggregatePortalInfo(s, portalid,snapshot, limit=None))
+    portal = db.get_portal(portalid)
+    #data['portals']= db.get_portals().values()
+    # format, organisation, license
+    dist = db.get_portal_licenses(portal['uri'])
 
+    data['license'] = {'distinct': len(dist), 'dist': dist}
+    data['format'] = {'distinct': -1} # TODO
+    data['organisation'] = {'distinct': -1}# TODO
     return render("odpw_portal_dist.jinja", data=data, snapshot=snapshot, portalid=portalid)
+
 
 
 @ui.route('/portal/<portalid>/<int:snapshot>/resources', methods=['GET'])

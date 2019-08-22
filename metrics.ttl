@@ -10,7 +10,7 @@
 <https://data.wu.ac.at/portalwatch/quality#Access> a ns3:Metric ;
     ns2:identifier "exac" ;
     rdfs:comment "Some of the resources do not have an access URL" ;
-    ns1:definition "Does the meta data contain access information for the resources?" ;
+    ns1:definition "Does the metadata contain access information for the resources?" ;
     ns1:prefLabel "Access" ;
     ns3:expectedDataType xsd:double ;
     ns3:inDimension <https://data.wu.ac.at/portalwatch/quality#Existence> .
@@ -26,7 +26,7 @@
 <https://data.wu.ac.at/portalwatch/quality#Contact> a ns3:Metric ;
     ns2:identifier "exco" ;
     rdfs:comment "Contact information is missing" ;
-    ns1:definition "Does the meta data contain information to contact the data provider or publisher?" ;
+    ns1:definition "Does the metadata contain information to contact the data provider or publisher?" ;
     ns1:prefLabel "Contact" ;
     ns3:expectedDataType xsd:double ;
     ns3:inDimension <https://data.wu.ac.at/portalwatch/quality#Existence> .
@@ -50,7 +50,7 @@
     ns2:identifier "exda" ;
     rdfs:comment "Some of the creation and modification date fields for the dataset and resources are empty",
         "The publisher or contact Email is not a syntactically valid Email" ;
-    ns1:definition "Does the meta data contain information about creation and modification date of metadata and resources respectively?" ;
+    ns1:definition "Does the metadata contain information about creation and modification date of metadata and resources respectively?" ;
     ns1:prefLabel "Date" ;
     ns3:expectedDataType xsd:double ;
     ns3:inDimension <https://data.wu.ac.at/portalwatch/quality#Existence> .
@@ -66,7 +66,7 @@
 <https://data.wu.ac.at/portalwatch/quality#Discovery> a ns3:Metric ;
     ns2:identifier "exdi" ;
     rdfs:comment "Some of the title, description and keyword fields are empty" ;
-    ns1:definition "Does the meta data contain information that can help to discover/search datasets?" ;
+    ns1:definition "Does the metadata contain information that can help to discover/search datasets?" ;
     ns1:prefLabel "Discovery" ;
     ns3:expectedDataType xsd:double ;
     ns3:inDimension <https://data.wu.ac.at/portalwatch/quality#Existence> .
@@ -114,7 +114,7 @@
 <https://data.wu.ac.at/portalwatch/quality#Preservation> a ns3:Metric ;
     ns2:identifier "expr" ;
     rdfs:comment "Information (size, format, mimetype, ..) for preserving/archiving the dataset resource are missing" ;
-    ns1:definition "Does the meta data contain information about format, size or update frequency of the resources?" ;
+    ns1:definition "Does the metadata contain information about format, size or update frequency of the resources?" ;
     ns1:prefLabel "Preservation" ;
     ns3:expectedDataType xsd:double ;
     ns3:inDimension <https://data.wu.ac.at/portalwatch/quality#Existence> .
@@ -122,7 +122,7 @@
 <https://data.wu.ac.at/portalwatch/quality#Rights> a ns3:Metric ;
     ns2:identifier "exri" ;
     rdfs:comment "The dataset has no license information" ;
-    ns1:definition "Does the meta data contain information about the license of the dataset or resource?" ;
+    ns1:definition "Does the metadata contain information about the license of the dataset or resource?" ;
     ns1:prefLabel "Rights" ;
     ns3:expectedDataType xsd:double ;
     ns3:inDimension <https://data.wu.ac.at/portalwatch/quality#Existence> .

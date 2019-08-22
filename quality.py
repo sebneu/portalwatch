@@ -5,7 +5,7 @@ from rdflib.namespace import FOAF
 
 DQV = Namespace('http://www.w3.org/ns/dqv#')
 PROV = Namespace('http://www.w3.org/ns/prov#')
-PWQ = Namespace('http://data.wu.ac.at/portalwatch/quality#')
+PWQ = Namespace('https://data.wu.ac.at/portalwatch/quality#')
 DCAT = Namespace("http://www.w3.org/ns/dcat#")
 DCT = Namespace("http://purl.org/dc/terms/")
 VCARD = Namespace("http://www.w3.org/2006/vcard/ns#")

@@ -27,7 +27,7 @@
             </div>
             <div class="ui attached fluid segment">
                 <div class="ui statistics">
-                {% for kk,d in k.metrics.iteritems() %}
+                {% for kk,d in k.metrics.items() %}
                     {% set m = kk| lower -%}
                     <div class="small statistic">
                         <div class="label">
@@ -36,10 +36,12 @@
                                 <i class="info circle icon "></i>
                             </span>
                         </div>
-                        <div class="value">{{ data.quality[m]}}</div>
-                        <div class="label">
-                            {{ data.quality[m+'N']}} datasets analysed
-                        </div>
+                        {% if m in data.quality %}
+                            <div class="value">{{ "%.2f"|format(data.quality[m].measurement|float)}}</div>
+                            <div class="label">
+                                {{ data.quality[m].datasets}} datasets analysed
+                            </div>
+                        {% endif %}
                     </div>
                 {% endfor %}
                 </div>
