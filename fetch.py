@@ -23,13 +23,18 @@ PW_AGENT = URIRef("https://data.wu.ac.at/portalwatch")
 
 
 
-
-def fetch_portal_to_dir(p, snapshot, path):
+def fetch_portal_to_dir(p, snapshot, path, format='ttl', skip_portal=True):
     logger.info("FETCH: " + p['id'])
     portal_ref = rdflib.URIRef(p['uri'])
     portal_api = p['apiuri']
     portal_id = p['id']
     software = p['software']
+    fp = os.path.join(path, portal_id) + '.' + format
+    # skip portal if exists
+    if skip_portal and os.path.exists(fp):
+        logger.info("File exists, skip portal: " + p['id'])
+
+    # log execution time
     start_time = datetime.now()
     portal_activity = URIRef("https://data.wu.ac.at/portalwatch/portal/" + portal_id + '/' + str(snapshot))
 
@@ -55,8 +60,8 @@ def fetch_portal_to_dir(p, snapshot, path):
     g.add((portal_ref, ODPW.wasFetchedBy, portal_activity))
     g.add((portal_activity, PROV.wasStartedBy, sn_activity))
 
-    fp = os.path.join(path, portal_id)
-    g.serialize(fp + '.ttl', format='ttl')
+    # serialize
+    g.serialize(fp, format=format)
 
 
 def fetch_all_portals_to_dir(portals, snapshot, dir):

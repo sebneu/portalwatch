@@ -26,11 +26,11 @@
 
 <http://beta.avoindata.fi/> a <http://www.w3.org/ns/dcat#Catalog> ;
     ns2:active true ;
-    ns2:api <https://beta.avoindata.fi/data/fi/> ;
+    ns2:api <https://www.betaavoindata.fi/data/fi/catalog.ttl> ;
     ns2:identifier "beta_avoindata_fi" ;
     ns2:iso "FI" ;
-    ns2:software ns2:CKAN ;
-    ns3:title "beta.avoindata.fi" ;
+    ns2:software ns2:CKANDCAT ;
+    ns3:title "Avoindata.fi" ;
     ns1:homepage <http://beta.avoindata.fi/> .
 
 <http://dados.gov.br> a <http://www.w3.org/ns/dcat#Catalog> ;
