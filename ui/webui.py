@@ -9,6 +9,7 @@ from utils.snapshots import getWeekString, getCurrentSnapshot, toLastdayinisowee
 from db import DB
 from ui.metrics import qa
 
+import json
 import yaml
 
 ui = Blueprint('ui', __name__, template_folder='templates', static_folder='static')
@@ -237,47 +238,37 @@ def portalDataset(snapshot, portalid, dataset):
     if not snapshot:
         snapshot = getCurrentSnapshot()
 
-    db=current_app.config['dbc']
+    db=current_app.config['db']
     data = getPortalInfos(db,portalid,snapshot)
-    data.update(getPortalDatasets(db, portalid, snapshot))
+    portal = db.get_portal(portalid)
+    data['datasets'] = db.get_portal_datasets(portal['uri'])
+
 
     dd=None
     if dataset:
-        for dt in data['datasets']:
-            if dt['id']==dataset:
-                dd=dt
-                break
+        d = db.get_full_dataset_by_id(dataset, snapshot)
+        # TODO get uri
+        # data['datasetData']=d
+        data['json'] = d
+        # TODO data['report']=dataset_reporter.report(r[0],r[1], software=None)
+        # TODO schemadotorg = json.dumps(dcat_to_schemadotorg.convert(p, r[0]), indent=3)
 
-        r= s.query(DatasetData).join(Dataset).filter(Dataset.id==dataset).join(DatasetQuality).add_entity(DatasetQuality).first()
-        data['datasetData']=row2dict(r)
-        software = s.query(Portal.software).filter(Portal.id==portalid).first()[0]
-        if software == 'Socrata':
-            data['json']=data['datasetData']['raw']['view']
-        else:
-            data['json']=data['datasetData']['raw']
-        data['report']=dataset_reporter.report(r[0],r[1], software=None)
+        # TODO q= s.query(MetaResource,ResourceInfo).filter(MetaResource.md5==r[0].md5).outerjoin(ResourceInfo, and_( ResourceInfo.uri==MetaResource.uri,ResourceInfo.snapshot==snapshot))
+        # data['resources']=[row2dict(r) for r in q.all()]
+        # for r in data['resources']:
+        #     if 'header' in r and isinstance(r['header'], basestring):
+        #         r['header']=ast.literal_eval(r['header'])
 
-        #with Timer(key="getSchemadotorgDatasets", verbose=True):
-        #    q = Session.query(Portal).filter(Portal.id == portalid)
-        #    p = q.first()
-        #    schemadotorg = json.dumps(dcat_to_schemadotorg.convert(p, r[0]), indent=3)
+    # TODO db.get_dataset_graphs()
+    # q=s.query(Dataset.md5, func.min(Dataset.snapshot).label('min'), func.max(Dataset.snapshot).label('max')).filter(Dataset.id==dataset).group_by(Dataset.md5)
+    # r=[row2dict(r) for r in q.all()]
+    # versions={}
+    # for i in r:
+    #     a=versions.setdefault(i['md5'],[])
+    #     a.append({'min':i['min'],'max':i['max']})
+    # data['versions']=r
 
-        q= s.query(MetaResource,ResourceInfo).filter(MetaResource.md5==r[0].md5).outerjoin(ResourceInfo, and_( ResourceInfo.uri==MetaResource.uri,ResourceInfo.snapshot==snapshot))
-        data['resources']=[row2dict(r) for r in q.all()]
-        for r in data['resources']:
-            if 'header' in r and isinstance(r['header'], basestring):
-                r['header']=ast.literal_eval(r['header'])
-
-
-    q=s.query(Dataset.md5, func.min(Dataset.snapshot).label('min'), func.max(Dataset.snapshot).label('max')).filter(Dataset.id==dataset).group_by(Dataset.md5)
-    r=[row2dict(r) for r in q.all()]
-    versions={}
-    for i in r:
-        a=versions.setdefault(i['md5'],[])
-        a.append({'min':i['min'],'max':i['max']})
-    data['versions']=r
-
-    return render("odpw_portal_dataset.jinja", data=data, snapshot=snapshot, portalid=portalid, dataset=dd, qa=qa, error=errorStatus)
+    return render("odpw_portal_dataset.jinja", data=data, snapshot=snapshot, portalid=portalid, dataset=dd, qa=qa)
 
 
 @ui.route('/portal/<portalid>/<int:snapshot>/dist/formats', methods=['GET'])
@@ -288,11 +279,13 @@ def portalFormats(snapshot, portalid):
     portal = db.get_portal(portalid)
     #data['portals']= db.get_portals().values()
     # format, organisation, license
-    dist = db.get_portal_licenses(portal['uri'])
+    ldist = db.get_portal_licenses(portal['uri'])
+    fdist = db.get_portal_formats(portal['uri'])
+    odist = db.get_portal_organisations(portal['uri'])
 
-    data['license'] = {'distinct': len(dist), 'dist': dist}
-    data['format'] = {'distinct': -1} # TODO
-    data['organisation'] = {'distinct': -1}# TODO
+    data['license'] = {'distinct': len(ldist), 'dist': ldist}
+    data['format'] = {'distinct': len(fdist), 'dist': fdist}
+    data['organisation'] = {'distinct': len(odist), 'dist': odist}
     return render("odpw_portal_dist.jinja", data=data, snapshot=snapshot, portalid=portalid)
 
 
@@ -301,7 +294,7 @@ def portalFormats(snapshot, portalid):
 def portalRes(portalid, snapshot=None):
     if not snapshot:
         snapshot = getCurrentSnapshot()
-    db = current_app.config['dbc']
+    db = current_app.config['db']
     data={}
     data.update(getPortalInfos(db, portalid, snapshot))
     return render("odpw_portal_resources.jinja",  data=data,snapshot=snapshot, portalid=portalid)

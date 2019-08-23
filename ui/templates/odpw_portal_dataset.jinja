@@ -65,9 +65,10 @@
                               </div>
                               <p>....</p>
                         </div>
+                        {% if 'report' in data %}
                         <div class="ui attached fluid segment">
                             <div class="ui  divided items ">
-                            {% for kk,d in k.metrics.iteritems() %}
+                            {% for kk,d in k.metrics.items() %}
                                 {% set m = kk| lower -%}
                                 <div class="item">
                                     <div class="content">
@@ -97,12 +98,13 @@
                             {% endfor %}
                             </div>
                         </div>
+                        {% endif %}
                         <br/>
                     {% endfor %}
                 </div>
 
                 <div class="ui bottom attached tab segment" data-tab="data">
-                    <h3 class="ui header">Raw JSON metadata</h3>
+                    <h3 class="ui header">JSON metadata</h3>
                     <pre  class="prettyprint" id="json" style="height: 400px"></pre>
                 </div>
 
