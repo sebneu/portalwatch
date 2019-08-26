@@ -38,11 +38,16 @@ def qualitymetrics():
 def portalslist():
     db=current_app.config['db']
     ps = db.get_portals()
-    ps_info = db.get_portals_info()
+    sn_info = db.get_snapshots_info()
     for p in ps:
-        if p in ps_info:
-            ps[p].update(ps_info[p])
-    return render('odpw_portals.jinja', data={'portals': ps.values()})
+        if p in sn_info:
+            sn_info[p].update(ps[p])
+            p_info = db.get_portal_info(p, snapshot=sn_info[p]['snLast'])
+            sn_info[p].update(p_info)
+    #for p in ps:
+    #    if p in ps_info:
+    #        ps[p].update(ps_info[p])
+    return render('odpw_portals.jinja', data={'portals': sn_info.values()})
 
 
 @ui.route('/about', methods=['GET'])
@@ -100,10 +105,12 @@ def portalssize():
 def portalstable():
     db = current_app.config['db']
     ps = db.get_portals()
-    ps_info = db.get_portals_info()
+    sn_info = db.get_snapshots_info()
     for p in ps:
-        if p in ps_info:
-            ps[p].update(ps_info[p])
+        if p in sn_info:
+            ps[p].update(sn_info[p])
+            p_info = db.get_portal_info(p, snapshot=sn_info[p]['snLast'])
+            ps[p].update(p_info)
     return render('odpw_portals_table.jinja', data={'portals': ps.values()})
 
 
@@ -128,11 +135,13 @@ def getPortalInfos(db, portalid, snapshot):
 
 @ui.route('/portal/<portalid>/', methods=['GET'])
 @ui.route('/portal/<portalid>/<int:snapshot>', methods=['GET'])
-def portal(portalid, snapshot=getCurrentSnapshot()):
+def portal(portalid, snapshot=None):
     db=current_app.config['db']
+    if snapshot == None:
+        snapshot = max(db.get_portal_snapshots(portalid))
     data=getPortalInfos(db, portalid, snapshot)
     portal = db.get_portal(portalid)
-    portal.update(db.get_portal_info(portal['uri']))
+    portal.update(db.get_portal_info(portal['uri'], snapshot), snapshot=snapshot)
     data['portal'] = portal
     data['portals'] = db.get_portals().values()
     return render("odpw_portal.jinja", snapshot=snapshot, portalid=portalid, data=data)
@@ -279,9 +288,9 @@ def portalFormats(snapshot, portalid):
     portal = db.get_portal(portalid)
     #data['portals']= db.get_portals().values()
     # format, organisation, license
-    ldist = db.get_portal_licenses(portal['uri'])
-    fdist = db.get_portal_formats(portal['uri'])
-    odist = db.get_portal_organisations(portal['uri'])
+    ldist = db.get_portal_licenses(portal['uri'], snapshot=snapshot)
+    fdist = db.get_portal_formats(portal['uri'], snapshot=snapshot)
+    odist = db.get_portal_organisations(portal['uri'], snapshot=snapshot)
 
     data['license'] = {'distinct': len(ldist), 'dist': ldist}
     data['format'] = {'distinct': len(fdist), 'dist': fdist}
@@ -292,9 +301,9 @@ def portalFormats(snapshot, portalid):
 
 @ui.route('/portal/<portalid>/<int:snapshot>/resources', methods=['GET'])
 def portalRes(portalid, snapshot=None):
-    if not snapshot:
-        snapshot = getCurrentSnapshot()
     db = current_app.config['db']
+    if snapshot == None:
+        snapshot = max(db.get_portal_snapshots(portalid))
     data={}
     data.update(getPortalInfos(db, portalid, snapshot))
     return render("odpw_portal_resources.jinja",  data=data,snapshot=snapshot, portalid=portalid)

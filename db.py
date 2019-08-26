@@ -1,12 +1,32 @@
 from SPARQLWrapper import SPARQLWrapper, JSON, JSONLD
 from utils.snapshots import getCurrentSnapshot
 
-OLD_ODPW_GRAPH = "http://data.wu.ac.at/portalwatch/ld"
 ODPW_GRAPH = "https://data.wu.ac.at/portalwatch/ld"
 
 class DB:
     def __init__(self, endpoint):
         self.sparql = SPARQLWrapper(endpoint)
+
+    def get_latest_snapshot(self, portal_ref):
+        statement = "SELECT MAX(?s) AS ?snapshot WHERE {{ ?a odpw:snapshot ?s. ?a odpw:fetched <{0}> }}".format(portal_ref)
+        self.sparql.setQuery(statement)
+        self.sparql.setReturnFormat(JSON)
+        res = self.sparql.query().convert()
+        r = res['results']['bindings'][0]
+        result = int(r['snapshot']['value'])
+        return result
+
+
+    def get_snapshots_info(self):
+        statement = "SELECT ?p MAX(?s) AS ?snLast COUNT(?s) AS ?snCount WHERE { ?a odpw:snapshot ?s. ?a odpw:fetched ?p }"
+        self.sparql.setQuery(statement)
+        self.sparql.setReturnFormat(JSON)
+        res = self.sparql.query().convert()
+        results = {}
+        for r in res['results']['bindings']:
+            results[r['p']['value']] = {'snLast': int(r['snLast']['value']), 'snCount': int(r['snCount']['value'])}
+        return results
+
 
     def get_portals(self):
         statement = "SELECT * WHERE {?p a dcat:Catalog. ?p odpw:active true. ?p dct:title ?t. ?p odpw:api ?a. ?p odpw:identifier ?id. ?p odpw:software ?s. ?p odpw:iso ?iso}"
@@ -43,7 +63,7 @@ class DB:
         return result
 
     def get_portal_info(self, portal_ref, snapshot=None):
-        if not snapshot:
+        if snapshot == None:
             snapshot = getCurrentSnapshot()
         sn_graph = ODPW_GRAPH + '/' + str(snapshot)
         statement = "SELECT COUNT(DISTINCT ?d) AS ?datasets COUNT(?r) AS ?resources FROM <{0}> WHERE {{<{1}> dcat:dataset ?d. ?d dcat:distribution ?r }}".format(sn_graph, portal_ref)
@@ -51,15 +71,14 @@ class DB:
         self.sparql.setReturnFormat(JSON)
         res = self.sparql.query().convert()
         r = res['results']['bindings'][0]
-        result = {'uri': portal_ref, 'datasets': r['datasets']['value'], 'resources': r['resources']['value'], 'snLast': snapshot}
+        result = {'uri': portal_ref, 'datasets': r['datasets']['value'], 'resources': r['resources']['value']}
         return result
 
     def get_portal_quality(self, portal_ref, snapshot=None):
         if not snapshot:
             snapshot = getCurrentSnapshot()
         sn_graph = ODPW_GRAPH + '/' + str(snapshot)
-        # TODO change OLD_ODPW_GRAPH
-        statement = "SELECT ?metric ?id SUM(?value)/COUNT(?value) AS ?measurement COUNT(?value) AS ?numValues COUNT(?d) AS ?datasets FROM <{0}> FROM <{1}> WHERE {{ <{2}> dcat:dataset ?d. ?d dqv:hasQualityMeasurement ?m. ?m dqv:isMeasurementOf ?metric. ?metric odpw:identifier ?id. ?m dqv:value ?value }} GROUP BY ?metric ?id".format(OLD_ODPW_GRAPH, sn_graph, portal_ref)
+        statement = "SELECT ?metric ?id SUM(?value)/COUNT(?value) AS ?measurement COUNT(?value) AS ?numValues COUNT(?d) AS ?datasets FROM <{0}> FROM <{1}> WHERE {{ <{2}> dcat:dataset ?d. ?d dqv:hasQualityMeasurement ?m. ?m dqv:isMeasurementOf ?metric. ?metric odpw:identifier ?id. ?m dqv:value ?value }} GROUP BY ?metric ?id".format(ODPW_GRAPH, sn_graph, portal_ref)
         self.sparql.setQuery(statement)
         self.sparql.setReturnFormat(JSON)
         res = self.sparql.query().convert()

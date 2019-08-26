@@ -1,4 +1,4 @@
-endpoint: http://localhost:8890/sparql
+endpoint: https://data.wu.ac.at/sparql/
 ui:
     url_prefix_ui: /portalwatch
     port: 2121
