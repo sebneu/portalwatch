@@ -75,7 +75,7 @@ class DB:
         return result
 
     def get_portal_quality(self, portal_ref, snapshot=None):
-        if not snapshot:
+        if snapshot == None:
             snapshot = getCurrentSnapshot()
         sn_graph = ODPW_GRAPH + '/' + str(snapshot)
         statement = "SELECT ?metric ?id SUM(?value)/COUNT(?value) AS ?measurement COUNT(?value) AS ?numValues COUNT(?d) AS ?datasets FROM <{0}> FROM <{1}> WHERE {{ <{2}> dcat:dataset ?d. ?d dqv:hasQualityMeasurement ?m. ?m dqv:isMeasurementOf ?metric. ?metric odpw:identifier ?id. ?m dqv:value ?value }} GROUP BY ?metric ?id".format(ODPW_GRAPH, sn_graph, portal_ref)
