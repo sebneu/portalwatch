@@ -2,6 +2,7 @@ import re
 import dateutil.parser
 from rdflib import Namespace, BNode, RDF, URIRef, Literal
 from rdflib.namespace import FOAF
+import hashlib
 
 DQV = Namespace('http://www.w3.org/ns/dqv#')
 PROV = Namespace('http://www.w3.org/ns/prov#')
@@ -133,7 +134,9 @@ def add_quality_measures(dataset_uri, graph, act):
 
 
 def add_measure(graph, value, metric, dataset_uri, activity):
-    m = BNode()
+    bnode_hash = hashlib.sha1((dataset_uri.n3() + metric.n3() + str(value)).encode('utf-8'))
+    m = BNode(bnode_hash.hexdigest())
+
     graph.add((m, RDF.type, DQV.QualityMeasurement))
     graph.add((m, RDF.type, PROV.Entity))
     graph.add((m, DQV.value, Literal(value)))
