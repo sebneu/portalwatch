@@ -1,7 +1,7 @@
 endpoint: https://data.wu.ac.at/sparql/
 ui:
     url_prefix_ui: /portalwatch
-    port: 5123
+    port: 2121
 rest:
    url_prefix_rest: /api
 fetch:
