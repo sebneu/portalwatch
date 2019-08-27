@@ -111,6 +111,6 @@ def cli(config, db, args):
     if not os.path.exists(path):
         os.mkdir(path)
 
-    p_args = [(p, sn, dir, args.format, args.skip_portal) for p in portals]
+    p_args = [(p, sn, path, args.format, args.skip_portal) for p in portals]
     with Pool(args.processors) as p:
         p.starmap(fetch_portal_to_dir, p_args)
