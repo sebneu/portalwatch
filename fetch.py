@@ -1,4 +1,3 @@
-import quality
 import logging
 import os
 import urllib.parse

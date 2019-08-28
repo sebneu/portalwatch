@@ -1,7 +1,18 @@
+import rdflib
+from rdflib import URIRef, RDF, Literal
 from sqlalchemy import Column, String, Integer, ForeignKey, SmallInteger, TIMESTAMP, BigInteger, ForeignKeyConstraint, \
     Boolean, func, select, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.postgresql import JSONB
+
+import quality
+import db
+from converter import dataset_converter
+from converter.portal_fetch_processors import PROV_ACTIVITY
+from db import ODPW_GRAPH
+from fetch import PROV, ODPW, PW_AGENT
+from quality import PWQ, DCAT
+
 Base = declarative_base()
 
 from sqlalchemy.orm import relationship
@@ -12,6 +23,7 @@ from sqlalchemy import and_
 import argparse
 import sys
 import csv
+import os
 
 
 
@@ -195,6 +207,13 @@ def row2dict(r):
         return _row2dict(r)
 
 
+def get_portal_snapshot(s, portalid, snapshot):
+    q = s.query(PortalSnapshot)
+    q = q.filter(PortalSnapshot.portalid == portalid) \
+         .filter(PortalSnapshot.snapshot == snapshot)
+    return row2dict(q.first())
+
+
 def get_portal_snapshots(s, portalid):
     q = s.query(PortalSnapshot)
     q = q.filter(PortalSnapshot.portalid == portalid)
@@ -210,26 +229,45 @@ def get_datasets(s, portalid, snapshot):
     return data
 
 
-def _get_measures_for_dataset(portal, snapshot, datasetdata, datasetquality):
-    graph = rdflib.Graph()
-    # write dcat dataset into graph
-    dataset_converter.dict_to_dcat(datasetdata, portal, graph=graph)
-    measures_g = rdflib.Graph()
-    ds_id = graph.value(predicate=RDF.type, object=DCAT.Dataset)
-    dataset_quality_to_dqv(measures_g, ds_id, datasetquality, snapshot)
-    return measures_g, ds_id
+def portal_to_ttl(s, portal_uri, portal_api, portal_software, portal_id, snapshot, dir):
+    portalsnapshot = get_portal_snapshot(s, portalid=portal_id, snapshot=snapshot)
+    datasets = get_datasets(s, portalid=portal_id, snapshot=snapshot)
 
-def get_measures_for_dataset(portal, snapshot, datasetdata, datasetquality):
-    measures_g, datasetref = _get_measures_for_dataset(portal, snapshot, datasetdata, datasetquality)
-    return measures_g
+    portal_activity = URIRef("https://data.wu.ac.at/portalwatch/portal/" + portal_id + '/' + str(snapshot))
+
+    g = rdflib.Graph()
+    portal_ref = URIRef(portal_uri)
+    # prov information
+    g.add((portal_activity, RDF.type, PROV.Activity))
+    g.add((portal_activity, PROV.startedAtTime, Literal(portalsnapshot['start'])))
+    g.add((portal_activity, PROV.endedAtTime, Literal(portalsnapshot['end'])))
+    g.add((portal_activity, PROV.wasAssociatedWith, PW_AGENT))
+    g.add((portal_activity, ODPW.snapshot, Literal(int(snapshot))))
+
+    sn_graph = URIRef(ODPW_GRAPH + '/' + str(snapshot))
+    sn_activity = rdflib.URIRef(PROV_ACTIVITY + str(snapshot))
+    g.add((sn_activity, RDF.type, PROV.Activity))
+    g.add((sn_activity, PROV.generated, sn_graph))
+
+    g.add((portal_activity, ODPW.fetched, portal_ref))
+    g.add((portal_ref, ODPW.wasFetchedBy, portal_activity))
+    g.add((portal_activity, PROV.wasStartedBy, sn_activity))
+
+    for d in datasets:
+        dataset_to_ttl(d['raw'], g, portal_ref, portal_api, portal_software, portal_activity)
+
+    g.serialize(os.path.join(dir, portal_id + '.ttl'), format='ttl')
 
 
-def dataset_quality_to_dqv(graph, ds_id, datasetquality, snapshot, fetch_activity=None):
-    sn_time = utils_snapshot.tofirstdayinisoweek(snapshot)
+def dataset_to_ttl(datasetdata, graph, portal_uri, portal_api, portal_software, activity):
+    dataset_ref = dataset_converter.dict_to_dcat(datasetdata, graph, portal_uri, portal_api, portal_software)
+    quality.add_quality_measures(dataset_ref, graph, activity)
+
+
+def dataset_quality_to_dqv(graph, ds_id, datasetquality, snapshot, act):
 
     # BNodes: ds_id + snapshot + metric + value
     # add quality metrics to graph
-    # TODO should we use portalwatch URI?
     for metric, value in [(PWQ.Date, datasetquality.exda), (PWQ.Rights, datasetquality.exri), (PWQ.Preservation, datasetquality.expr),
                           (PWQ.Access, datasetquality.exac), (PWQ.Discovery, datasetquality.exdi), (PWQ.Contact, datasetquality.exco),
                           (PWQ.ContactURL, datasetquality.cocu), (PWQ.DateFormat, datasetquality.coda), (PWQ.FileFormat, datasetquality.cofo),
@@ -238,20 +276,6 @@ def dataset_quality_to_dqv(graph, ds_id, datasetquality, snapshot, fetch_activit
         # add unique BNodes
 
         quality.add_measure(graph, value, metric, ds_id, act)
-
-        bnode_hash = hashlib.sha1(ds_id.n3() + str(snapshot) + metric.n3() + str(value))
-        m = BNode(bnode_hash.hexdigest())
-
-        graph.add((m, DQV.isMeasurementOf, metric))
-        graph.add((m, DQV.value, Literal(value)))
-
-        # add additional triples
-        graph.add((ds_id, DQV.hasQualityMeasurement, m))
-        graph.add((m, RDF.type, DQV.QualityMeasurement))
-        graph.add((m, DQV.computedOn, ds_id))
-        if fetch_activity:
-            # add prov to each measure
-            quality_prov(m, ds_id, sn_time, fetch_activity, graph)
 
 
 def start(argv):
@@ -262,6 +286,9 @@ def start(argv):
     pa.add_argument('--port')
     pa.add_argument('--db')
     pa.add_argument('--portal')
+    pa.add_argument('--sparql', default="https://data.wu.ac.at/sparql/")
+    pa.add_argument('--file')
+    pa.add_argument('--dir', default='dumps/data')
 
     args = pa.parse_args(args=argv)
 
@@ -277,24 +304,35 @@ def start(argv):
     Session = sessionmaker(bind=engine)
     session = Session()
 
-    portal = "data_gv_at"
-    counts = []
-    # list portal snapshots
-    snapshots = get_portal_snapshots(session, portal)
-    # list datasetscount
-    for sn in snapshots:
-        snapshot = sn['snapshot']
-        print('snapshot: ' + str(snapshot))
-        datasets = get_datasets(session, portalid=sn['portalid'], snapshot=snapshot)
-        print('datasets: ' + str(len(datasets)))
-        counts.append({'snapshot': str(snapshot), 'count': str(len(datasets))})
+    portalid = args.portal
+    sparql = db.DB(endpoint=args.sparql)
+    p = sparql.get_portal(portalid)
+    if args.file:
+        with open(args.file) as f:
+            csvr = csv.reader(f)
+            next(csvr)
+            for row in csvr:
+                snapshot = int(row[0])
+                path = os.path.join(args.dir, str(snapshot))
+                portal_to_ttl(session, p['uri'], p['apiuri'], p['software'], portalid, snapshot, path)
+    else:
+        counts = []
+        # list portal snapshots
+        snapshots = get_portal_snapshots(session, portalid)
+        # list datasetscount
+        for sn in snapshots:
+            snapshot = sn['snapshot']
+            print('snapshot: ' + str(snapshot))
+            datasets = get_datasets(session, portalid=sn['portalid'], snapshot=snapshot)
+            print('datasets: ' + str(len(datasets)))
+            counts.append({'snapshot': str(snapshot), 'count': str(len(datasets))})
 
-    with open(portal + '_snapshots.csv', 'w') as csvf:
-        fieldnames = ['snapshot', 'count']
-        writer = csv.DictWriter(csvf, fieldnames=fieldnames)
+        with open('portal_selection/' + portalid + '_snapshots.csv', 'w') as csvf:
+            fieldnames = ['snapshot', 'count']
+            writer = csv.DictWriter(csvf, fieldnames=fieldnames)
 
-        writer.writeheader()
-        writer.writerows(counts)
+            writer.writeheader()
+            writer.writerows(counts)
 
 
 if __name__ == "__main__":

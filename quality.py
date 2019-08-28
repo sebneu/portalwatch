@@ -1,8 +1,10 @@
 import re
 import dateutil.parser
-from rdflib import Namespace, BNode, RDF, URIRef, Literal
+from rdflib import Namespace, BNode, RDF, URIRef, Literal, RDFS
 from rdflib.namespace import FOAF
 import hashlib
+
+from utils import ODM_formats
 
 DQV = Namespace('http://www.w3.org/ns/dqv#')
 PROV = Namespace('http://www.w3.org/ns/prov#')
@@ -17,6 +19,9 @@ email_pattern = re.compile(email_regex)
 
 url_regex= 'https?\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}'
 url_pattern = re.compile(url_regex)
+
+
+OPEN_FORMATS = ['dvi', 'svg'] + ODM_formats.get_non_proprietary()
 
 
 def is_date(cell):
@@ -51,7 +56,7 @@ def add_quality_measures(dataset_uri, graph, act):
                     conform += 1
                 break
     exist = exist/c if c > 0 else 0.0
-    conform = conform/c if c > 0 else 0.0
+    conform = conform/exist if exist > 0 else 0.0
     add_measure(graph, exist, PWQ.Access, dataset_uri, act)
     add_measure(graph, conform, PWQ.AccessURL, dataset_uri, act)
     # discovery
@@ -129,8 +134,30 @@ def add_quality_measures(dataset_uri, graph, act):
     conform = conform/c if c > 0 else 0.0
     add_measure(graph, exist, PWQ.Date, dataset_uri, act)
     add_measure(graph, conform, PWQ.DateFormat, dataset_uri, act)
-
-
+    # open format
+    openness = 0.0
+    c = 0.0
+    for dist_uri in graph.objects(dataset_uri, DCAT.distribution):
+            c += 1
+            v = graph.value(dist_uri, DCT['format'])
+            if v and isinstance(v, BNode):
+                v = graph.value(dist_uri, RDFS.label)
+            if v and v in OPEN_FORMATS:
+                # TODO machine readable formats
+                openness += 1
+    openness = openness/c if c > 0 else 0.0
+    add_measure(graph, openness, PWQ.OpenFormat, dataset_uri, act)
+    # open license
+    c = 0.0
+    openness = 0.0
+    for dist_uri in graph.objects(dataset_uri, DCAT.distribution):
+        c += 1
+        v = graph.value(dist_uri, DCT.license)
+        if v and v in :
+            # TODO license mapping
+            openness += 1
+    openness = openness / c if c > 0 else 0.0
+    add_measure(graph, openness, PWQ.OpenLicense, dataset_uri, act)
 
 
 def add_measure(graph, value, metric, dataset_uri, activity):
