@@ -302,4 +302,6 @@ def cli(config, db, args):
             for row in csvr:
                 snapshot = int(row[0])
                 path = os.path.join(dir, str(snapshot))
+                if not os.path.exists(path):
+                    os.mkdir(path)
                 portal_to_ttl(session, p['uri'], p['apiuri'], p['software'], portalid, snapshot, path)
