@@ -1,27 +1,22 @@
 import rdflib
 from rdflib import URIRef, RDF, Literal
 from sqlalchemy import Column, String, Integer, ForeignKey, SmallInteger, TIMESTAMP, BigInteger, ForeignKeyConstraint, \
-    Boolean, func, select, Float
+    Boolean, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.postgresql import JSONB
 
 import quality
-import db
 from converter import dataset_converter
 from converter.portal_fetch_processors import PROV_ACTIVITY
 from db import ODPW_GRAPH
 from fetch import PROV, ODPW, PW_AGENT
-from quality import PWQ, DCAT
 
 Base = declarative_base()
 
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
-from sqlalchemy import and_
 
-import argparse
-import sys
 import csv
 import os
 
@@ -264,22 +259,16 @@ def dataset_to_ttl(datasetdata, graph, portal_uri, portal_api, portal_software, 
     quality.add_quality_measures(dataset_ref, graph, activity)
 
 
-def dataset_quality_to_dqv(graph, ds_id, datasetquality, snapshot, act):
 
-    # BNodes: ds_id + snapshot + metric + value
-    # add quality metrics to graph
-    for metric, value in [(PWQ.Date, datasetquality.exda), (PWQ.Rights, datasetquality.exri), (PWQ.Preservation, datasetquality.expr),
-                          (PWQ.Access, datasetquality.exac), (PWQ.Discovery, datasetquality.exdi), (PWQ.Contact, datasetquality.exco),
-                          (PWQ.ContactURL, datasetquality.cocu), (PWQ.DateFormat, datasetquality.coda), (PWQ.FileFormat, datasetquality.cofo),
-                          (PWQ.ContactEmail, datasetquality.coce), (PWQ.License, datasetquality.coli), (PWQ.AccessURL, datasetquality.coac),
-                          (PWQ.OpenFormat, datasetquality.opfo), (PWQ.MachineRead, datasetquality.opma), (PWQ.OpenLicense, datasetquality.opli)]:
-        # add unique BNodes
-
-        quality.add_measure(graph, value, metric, ds_id, act)
+#--*--*--*--*
+def help():
+    return "Postgres DB Exporter"
 
 
-def start(argv):
-    pa = argparse.ArgumentParser(description='Postgres DB Exporter')
+def name():
+    return 'DBExport'
+
+def setupCLI(pa):
     pa.add_argument('-u', '--user')
     pa.add_argument('-p', '--password')
     pa.add_argument('--host')
@@ -288,10 +277,9 @@ def start(argv):
     pa.add_argument('--portal')
     pa.add_argument('--sparql', default="https://data.wu.ac.at/sparql/")
     pa.add_argument('--file')
-    pa.add_argument('--dir', default='dumps/data')
 
-    args = pa.parse_args(args=argv)
 
+def cli(config, db, args):
     conn_string = "postgresql://"
     conn_string += args.user
     conn_string += ":" + args.password
@@ -300,40 +288,18 @@ def start(argv):
     conn_string += "/" + args.db
     print("Connecting DB")
     engine = create_engine(conn_string, pool_size=20, client_encoding='utf8', echo=False)
-    #connection = engine.connect()
     Session = sessionmaker(bind=engine)
     session = Session()
 
+    dir = config['fetch']['dir']
+
     portalid = args.portal
-    sparql = db.DB(endpoint=args.sparql)
-    p = sparql.get_portal(portalid)
+    p = db.get_portal(portalid)
     if args.file:
         with open(args.file) as f:
             csvr = csv.reader(f)
             next(csvr)
             for row in csvr:
                 snapshot = int(row[0])
-                path = os.path.join(args.dir, str(snapshot))
+                path = os.path.join(dir, str(snapshot))
                 portal_to_ttl(session, p['uri'], p['apiuri'], p['software'], portalid, snapshot, path)
-    else:
-        counts = []
-        # list portal snapshots
-        snapshots = get_portal_snapshots(session, portalid)
-        # list datasetscount
-        for sn in snapshots:
-            snapshot = sn['snapshot']
-            print('snapshot: ' + str(snapshot))
-            datasets = get_datasets(session, portalid=sn['portalid'], snapshot=snapshot)
-            print('datasets: ' + str(len(datasets)))
-            counts.append({'snapshot': str(snapshot), 'count': str(len(datasets))})
-
-        with open('portal_selection/' + portalid + '_snapshots.csv', 'w') as csvf:
-            fieldnames = ['snapshot', 'count']
-            writer = csv.DictWriter(csvf, fieldnames=fieldnames)
-
-            writer.writeheader()
-            writer.writerows(counts)
-
-
-if __name__ == "__main__":
-    start(sys.argv[1:])
