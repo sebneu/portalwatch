@@ -45,6 +45,31 @@ namespaces = {
     'hydra': HYDRA
 }
 
+
+def dict_to_dcat(dataset_dict, graph, portal_uri, portal_api, portal_software):
+    dataset_ref = None
+
+    if portal_software == 'CKAN':
+        converter = CKANConverter(graph, portal_api)
+        dataset_ref = converter.graph_from_ckan(dataset_dict)
+    elif portal_software == 'Socrata':
+        dataset_ref = convert_socrata(graph, dataset_dict, portal_api)
+    elif portal_software == 'OpenDataSoft':
+        dataset_ref = graph_from_opendatasoft(graph, dataset_dict, portal_api)
+    elif portal_software == 'XMLDCAT':
+        # dataset_dict is already json-ld
+        str_ds = json.dumps(dataset_dict)
+        graph.parse(data=str_ds, format='json-ld')
+        dataset_ref = graph.value(predicate=RDF.type, object=DCAT.Dataset)
+    elif portal_software == 'DataGouvFr':
+        dataset_ref = graph_from_data_gouv_fr(graph, dataset_dict, portal_api)
+
+    # add portal ref to graph
+    if dataset_ref:
+        graph.add((portal_uri, DCAT.dataset, dataset_ref))
+    return dataset_ref
+
+
 def get_valid_uri(v, bnodevalue):
     if v and isinstance(v, str):
         v = v.strip()

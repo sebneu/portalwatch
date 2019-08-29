@@ -9,11 +9,12 @@ import db
 
 import fetch
 from ui import webui
+import postgres_to_ttl
 
 
 logger = logging.getLogger(__name__)
 
-submodules=[fetch, webui]
+submodules=[fetch, webui, postgres_to_ttl]
 
 def start(argv):
     start = time.time()
