@@ -275,7 +275,6 @@ def setupCLI(pa):
     pa.add_argument('--port')
     pa.add_argument('--db')
     pa.add_argument('--portal')
-    pa.add_argument('--sparql', default="https://data.wu.ac.at/sparql/")
     pa.add_argument('--file')
 
 

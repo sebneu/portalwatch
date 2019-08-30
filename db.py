@@ -28,8 +28,11 @@ class DB:
         return results
 
 
-    def get_portals(self):
-        statement = "SELECT * WHERE {?p a dcat:Catalog. ?p odpw:active true. ?p dct:title ?t. ?p odpw:api ?a. ?p odpw:identifier ?id. ?p odpw:software ?s. ?p odpw:iso ?iso}"
+    def get_portals(self, active=True):
+        if active:
+            statement = "SELECT * FROM <{0}> WHERE {{?p a dcat:Catalog. ?p odpw:active true. ?p dct:title ?t. ?p odpw:api ?a. ?p odpw:identifier ?id. ?p odpw:software ?s. ?p odpw:iso ?iso}}".format(ODPW_GRAPH)
+        else:
+            statement = "SELECT * FROM <{0}> WHERE {{?p a dcat:Catalog. ?p dct:title ?t. ?p odpw:api ?a. ?p odpw:identifier ?id. ?p odpw:software ?s. ?p odpw:iso ?iso}}".format(ODPW_GRAPH)
         self.sparql.setQuery(statement)
         self.sparql.setReturnFormat(JSON)
         res = self.sparql.query().convert()
@@ -37,6 +40,18 @@ class DB:
         for r in res['results']['bindings']:
             results[r['p']['value']] = {'title': r['t']['value'], 'apiuri': r['a']['value'], 'uri': r['p']['value'], 'id': r['id']['value'], 'software': r['s']['value'].split('#')[1], 'iso': r['iso']['value']}
         return results
+
+
+    def get_dead_portals(self):
+        statement = "SELECT * WHERE {?p a dcat:Catalog. ?p odpw:active false. ?p dct:title ?t. ?p odpw:api ?a. ?p odpw:identifier ?id. ?p odpw:software ?s. ?p odpw:iso ?iso}"
+        self.sparql.setQuery(statement)
+        self.sparql.setReturnFormat(JSON)
+        res = self.sparql.query().convert()
+        results = {}
+        for r in res['results']['bindings']:
+            results[r['p']['value']] = {'title': r['t']['value'], 'apiuri': r['a']['value'], 'uri': r['p']['value'], 'id': r['id']['value'], 'software': r['s']['value'].split('#')[1], 'iso': r['iso']['value']}
+        return results
+
 
     def get_portals_info(self, snapshot=None):
         if not snapshot:
@@ -154,8 +169,11 @@ class DB:
         return result
 
 
-    def get_portals_count(self):
-        statement = "SELECT COUNT(?p) AS ?c WHERE {?p a dcat:Catalog. ?p odpw:active true}"
+    def get_portals_count(self, active=True):
+        if active:
+            statement = "SELECT COUNT(DISTINCT ?p) AS ?c FROM <{0}> WHERE {{?p a dcat:Catalog. ?p odpw:active true}}".format(ODPW_GRAPH)
+        else:
+            statement = "SELECT COUNT(DISTINCT ?p) AS ?c FROM <{0}> WHERE {{?p a dcat:Catalog}}".format(ODPW_GRAPH)
         self.sparql.setQuery(statement)
         self.sparql.setReturnFormat(JSON)
         res = self.sparql.query().convert()

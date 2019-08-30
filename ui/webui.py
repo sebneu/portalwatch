@@ -37,17 +37,27 @@ def qualitymetrics():
 @ui.route('/portalslist', methods=['GET'])
 def portalslist():
     db=current_app.config['db']
-    ps = db.get_portals()
+    ps = db.get_portals(active=True)
     sn_info = db.get_snapshots_info()
+    #for p in ps:
+    #    if p in sn_info:
+    #        sn_info[p].update(ps[p])
+    #        p_info = db.get_portal_info(p, snapshot=sn_info[p]['snLast'])
+    #        sn_info[p].update(p_info)
     for p in ps:
         if p in sn_info:
-            sn_info[p].update(ps[p])
-            p_info = db.get_portal_info(p, snapshot=sn_info[p]['snLast'])
-            sn_info[p].update(p_info)
+            ps[p].update(sn_info[p])
+    return render('odpw_portals.jinja', data={'portals': ps.values()})
+
+
+@ui.route('/portalsdead', methods=['GET'])
+def portalsdead():
+    db=current_app.config['db']
+    ps = db.get_dead_portals()
     #for p in ps:
     #    if p in ps_info:
     #        ps[p].update(ps_info[p])
-    return render('odpw_portals.jinja', data={'portals': sn_info.values()})
+    return render('odpw_portals_dead.jinja', data={'portals': ps.values()})
 
 
 @ui.route('/about', methods=['GET'])
@@ -314,7 +324,7 @@ def create_app(conf, db):
     app = Flask(__name__)
     endpoint = conf['endpoint']
     app.config['db'] = db
-    app.config['portalCount'] = db.get_portals_count()
+    app.config['portalCount'] = db.get_portals_count(active=False)
     app.config['endpoint'] = endpoint
 
     app.register_blueprint(ui, url_prefix=conf['ui']['url_prefix_ui'])

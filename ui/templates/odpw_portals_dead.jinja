@@ -1,7 +1,7 @@
 {% extends "odpw_portals_layout.jinja" %}
-{% set title = "Active Portals" -%}
+{% set title = "Dead Portals" -%}
 
-{% set active_sub_page="ui.portalslist" %}
+{% set active_sub_page="ui.portalsdead" %}
 
 {% macro portalCard(portal) -%}
 
@@ -20,52 +20,25 @@
             <a href="{{portal.uri}}">Homepage</a>
             <a href="{{portal.apiuri}}">API</a>
         </div>
-
-        <div class="description">
-            <span class="date"><i class="calendar icon"></i>{{portal.snCount}} Snapshots</span>
-            <span class="right floated date"><i class="history icon"></i>Last <span class=""> {{portal.snLast|getWeekString}}</span></span>
-            <div class="ui mini statistics">
-                <div class=" statistic">
-                    <div class="value">
-                      {{portal.datasets}}
-                    </div>
-                    <div class="label">
-                      Datasets
-                    </div>
-                </div>
-                <div class="statistic">
-                    <div class="value">
-                      {{ portal.resources }}
-                    </div>
-                    <div class="label">
-                      Resources
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
-    <div class="ui two bottom attached buttons">
-        {% if portal.snLast %}
+    {% if portal.snLast %}
+        <div class="ui two bottom attached buttons">
             <a href="{{url_for("ui.portal", portalid=portal.id, snapshot=portal.snLast)}}" class="ui button">
                 <i class="line chart icon"></i>
                 Dashboard
             </a>
-        {% else %}
-            <div class="ui disabled button">
-                <i class="line chart icon"></i>
-                Dashboard
-            </div>
-        {% endif %}
-    </div>
+        </div>
+    {% else %}
+    {% endif %}
 </div>
 {%- endmacro %}
 
 
 {% block title %}
     <div class="ui form ">
-        <div class="floated fields">
+        <div class=" fields">
             <h2 class="four wide field">
-                <span id="pCount" class="floated white right">{{data.portals|length}} monitored portals</span>
+                <span id="pCount" class="floated white right">{{data.portals|length}} dead portals</span>
             </h2>
             <div class="twelve wide field">
                 <div class="ui icon input">
@@ -79,8 +52,12 @@
                 <a href="{{url_for('ui.portalstable')}}"><i class="table icon"></i></a>
             </div>
         </div>
+        <div class="fields">
+            <h4 class="floated white">
+                <a href="{{url_for("ui.about")}}">Contact us</a> if you want to get access to historic data of these portals.
+            </h4>
+        </div>
     </div>
-
 {% endblock %}
 
 
@@ -92,11 +69,11 @@
             {{portalCard(p)}}
         {% endfor %}
     </div>
-    </div>
+</div>
 {% endblock %}
 
-{% block script %}
 
+{% block script %}
   $('#filter').change( function () {
 	    var filter = $(this).val().toLowerCase().trim();
 	    var filter_tags = filter.split(" ");

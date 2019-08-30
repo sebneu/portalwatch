@@ -9,8 +9,9 @@
             <div class="ui secondary vertical inverted fluid labeled icon menu">
 
                 {% set navigation_bar = [
-                    ('ui.portalslist', 'grid layout', 'Portals List'),
-                    ('ui.portalssize', 'bar chart', 'Stats')
+                    ('ui.portalslist', 'grid layout', 'Active Portals'),
+                    ('ui.portalsdead', 'ban', 'Dead Portals'),
+                    ('ui.portalssize', 'bar chart', 'Portal Stats')
                     ]
                 -%}
                 {% set active_sub_page = active_sub_page|default('ui.portalslist') -%}
