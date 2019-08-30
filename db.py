@@ -1,4 +1,6 @@
 from SPARQLWrapper import SPARQLWrapper, JSON, JSONLD
+
+from utils.exceptions import NoResultException
 from utils.snapshots import getCurrentSnapshot
 
 ODPW_GRAPH = "https://data.wu.ac.at/portalwatch/ld"
@@ -13,6 +15,8 @@ class DB:
         self.sparql.setReturnFormat(JSON)
         res = self.sparql.query().convert()
         r = res['results']['bindings'][0]
+        if len(res['results']['bindings']) == 0:
+            raise NoResultException('Portal ' + portal_ref + ' not found.', DB.get_latest_snapshot.__name__)
         result = int(r['snapshot']['value'])
         return result
 
@@ -73,6 +77,8 @@ class DB:
         self.sparql.setQuery(statement)
         self.sparql.setReturnFormat(JSON)
         res = self.sparql.query().convert()
+        if len(res['results']['bindings']) == 0:
+            raise NoResultException('Portal ID "' + id + '" not found.', DB.get_portal.__name__)
         r = res['results']['bindings'][0]
         result = {'title': r['t']['value'], 'apiuri': r['a']['value'], 'uri': r['p']['value'], 'id': id, 'software': r['s']['value'].split('#')[1], 'iso': r['iso']['value']}
         return result
@@ -85,6 +91,8 @@ class DB:
         self.sparql.setQuery(statement)
         self.sparql.setReturnFormat(JSON)
         res = self.sparql.query().convert()
+        if len(res['results']['bindings']) == 0:
+            raise NoResultException('Portal ' + portal_ref + ' with snapshot ' + str(snapshot) + ' not found.', DB.get_portal_info.__name__)
         r = res['results']['bindings'][0]
         result = {'uri': portal_ref, 'datasets': r['datasets']['value'], 'resources': r['resources']['value']}
         return result

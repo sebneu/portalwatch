@@ -224,7 +224,12 @@ def get_datasets(s, portalid, snapshot):
     return data
 
 
-def portal_to_ttl(s, portal_uri, portal_api, portal_software, portal_id, snapshot, dir):
+def portal_to_ttl(s, portal_uri, portal_api, portal_software, portal_id, snapshot, dir, skip_portal=True):
+    filename = os.path.join(dir, portal_id + '.ttl')
+    if skip_portal and os.path.exists(filename):
+        print(portal_id + ' ' + str(snapshot) + ' already exists.')
+        return
+
     portalsnapshot = get_portal_snapshot(s, portalid=portal_id, snapshot=snapshot)
     datasets = get_datasets(s, portalid=portal_id, snapshot=snapshot)
 
@@ -251,7 +256,7 @@ def portal_to_ttl(s, portal_uri, portal_api, portal_software, portal_id, snapsho
     for d in datasets:
         dataset_to_ttl(d['raw'], g, portal_ref, portal_api, portal_software, portal_activity)
 
-    g.serialize(os.path.join(dir, portal_id + '.ttl'), format='ttl')
+    g.serialize(filename, format='ttl')
 
 
 def dataset_to_ttl(datasetdata, graph, portal_uri, portal_api, portal_software, activity):
