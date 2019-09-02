@@ -23,7 +23,7 @@
                         19 Metrics
                     </div>
                     <div class="description">
-                        More infroamtion about our quality dimensions and metrics.
+                        More information about our quality dimensions and metrics.
                     </div>
                 </div>
             </a>
@@ -34,7 +34,7 @@
                         Portals List
                     </div>
                     <div class="meta">
-                        261 registered Portals
+                        {{data.portalCount}} registered Portals
                     </div>
                     <div class="description">
                         Basic information such as the country, software and the number of datasets.
@@ -42,16 +42,16 @@
                 </div>
             </a>
 
-        <a href="{{url_for('ui.portaldash')}}" class="ui fluid card statsCard">
+        <a href="{{url_for('ui.sparqlendpoint')}}" class="ui fluid card statsCard">
             <div class="content">
                 <div class="header">
-                    Portal Dashboard
+                    SPARQL Endpoint
                 </div>
                 <div class="meta">
-                    Properties and quality for a portal
+                    Structured Queries
                 </div>
                 <div class="description">
-                    Different properties and the quality assessment metrics
+                    Query all datasets and quality assessments at a SPARQL endpoint
                 </div>
             </div>
         </a>
@@ -69,21 +69,20 @@
                 </div>
             </div>
         </a>
-<!--
-        <a href="" class="ui fluid card statsCard">
+
+        <a href="{{url_for('ui.data')}}" class="ui fluid card statsCard">
             <div class="content">
                 <div class="header">
                     Data dumps
                 </div>
                 <div class="meta">
-                    Metadata dumps
+                    All datasets as Turtle files
                 </div>
                 <div class="description">
-                    We provide all collected metadata for each portal and snapshot.
+                    We provide the collected metadata for each portal and snapshot.
                 </div>
             </div>
         </a>
--->
 
     </div>
 </div>

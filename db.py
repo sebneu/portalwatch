@@ -107,7 +107,7 @@ class DB:
         if len(res['results']['bindings']) == 0:
             raise NoResultException('Portal ' + portal_ref + ' with snapshot ' + str(snapshot) + ' not found.', DB.get_portal_info.__name__)
         r = res['results']['bindings'][0]
-        result = {'uri': portal_ref, 'datasets': r['datasets']['value'], 'resources': r['resources']['value']}
+        result = {'uri': portal_ref, 'datasets': int(r['datasets']['value']), 'resources': int(r['resources']['value'])}
         return result
 
     def get_portal_quality(self, portal_ref, snapshot=None):
