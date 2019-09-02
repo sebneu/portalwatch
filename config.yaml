@@ -6,3 +6,4 @@ rest:
    url_prefix_rest: /api
 fetch:
    dir: data
+   url: https://data.wu.ac.at/ld
