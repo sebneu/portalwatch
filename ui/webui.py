@@ -362,12 +362,12 @@ def help():
 
 
 def setupCLI(pa):
-    pass
+    pa.add_argument('--flask-debug', help="Turn flask debugger on", action='store_true')
 
 
 def cli(config, db, args):
     app = create_app(config, db)
-    app.run(debug=True, port=config['ui']['port'], host='0.0.0.0')
+    app.run(debug=args.flask_debug, port=config['ui']['port'], host='0.0.0.0')
 
 
 if __name__ == "__main__":
