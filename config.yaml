@@ -5,4 +5,8 @@ ui:
 rest:
    url_prefix_rest: /portalwatch/api/v1
 fetch:
+<<<<<<< HEAD
    dir: data
+=======
+   dir: tests/dumps
+>>>>>>> 7ee85ff20fe3b32f90bfb438e68cd32df110a4f1
