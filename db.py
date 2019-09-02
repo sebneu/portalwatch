@@ -32,6 +32,19 @@ class DB:
         return results
 
 
+    def get_graphs(self):
+        statement = "SELECT DISTINCT ?g WHERE { GRAPH ?g { ?s ?p ?o } }"
+        self.sparql.setQuery(statement)
+        self.sparql.setReturnFormat(JSON)
+        res = self.sparql.query().convert()
+        results = []
+        for r in res['results']['bindings']:
+            g = r['g']['value']
+            if ODPW_GRAPH in g:
+                results.append(g)
+        return results
+
+
     def get_portals(self, active=True):
         if active:
             statement = "SELECT * FROM <{0}> WHERE {{?p a dcat:Catalog. ?p odpw:active true. ?p dct:title ?t. ?p odpw:api ?a. ?p odpw:identifier ?id. ?p odpw:software ?s. ?p odpw:iso ?iso}}".format(ODPW_GRAPH)

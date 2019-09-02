@@ -82,7 +82,9 @@ def apispec():
 
 @ui.route('/sparql', methods=['GET'])
 def sparqlendpoint():
-    return render('sparql_endpoint.jinja', endpoint=current_app.config['endpoint'])
+    db=current_app.config['db']
+    graphs = db.get_graphs()
+    return render('sparql_endpoint.jinja', endpoint=current_app.config['endpoint'], graphs=graphs)
 
 
 @ui.route('/portals/portalsstats', methods=['GET'])
@@ -327,7 +329,6 @@ def create_app(conf, db):
     endpoint = conf['endpoint']
     app.config['db'] = db
     app.config['portalCount'] = db.get_portals_count(active=False)
-    # TODO app.config['graphs'] = db.get_graphs()
     app.config['endpoint'] = endpoint
 
     app.register_blueprint(ui, url_prefix=conf['ui']['url_prefix_ui'])
