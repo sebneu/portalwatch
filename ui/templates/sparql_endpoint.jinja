@@ -25,16 +25,26 @@
         <p>Access the DCAT metadata desciptions and their respective quality assessments via a SPARQL endpoint.</p>
         <p>The endpoint API is located at <a href="{{endpoint}}">{{endpoint}}</a>.</p>
     </div>
-    <div class="container ui">
-        <div class="ui segment">
-	        <div id='yasgui'></div>
+
+    <div class="ui top attached tabular menu">
+      <a class="active item" data-tab="first">Virtuoso</a>
+      <a class="item" data-tab="second">YASGUI</a>
+    </div>
+
+    <div class="ui bottom attached active tab segment" data-tab="first">
+          <iframe src="{{endpoint}}" width="100%" height="600">
+            <p>Your browser does not support iframes.</p>
+        </iframe>
+    </div>
+
+    <div class="ui bottom attached tab segment" data-tab="second">
+        <div class="container ui">
+            <div class="ui segment">
+                <div id='yasgui'></div>
+            </div>
         </div>
     </div>
-<!--
-    <iframe src="{{endpoint}}" width="100%" height="600">
-        <p>Your browser does not support iframes.</p>
-    </iframe>
--->
+
     <h2 class="ui header">Available Graphs</h2>
     <p>The following versions (i.e. snapshots) of the datasets are available as named graphs:</p>
     <ul>
@@ -107,11 +117,14 @@
 
 
 {% block script %}
-  var yasgui = YASGUI(document.getElementById("yasgui"), {
-    yasqe:{sparql:{endpoint:'https://data.wu.ac.at/sparql/'}}
-  });
-  tab = yasgui.current()
-  if(tab) {
-     tab.yasqe.addPrefixes({"odpw": "http://data.wu.ac.at/ns/odpw#", "pwq": "https://data.wu.ac.at/portalwatch/quality#", "dcat": "http://www.w3.org/ns/dcat#"})
-  }
+    var yasgui = YASGUI(document.getElementById("yasgui"), {
+        yasqe:{sparql:{endpoint:'https://data.wu.ac.at/sparql/'}}
+    });
+    tab = yasgui.current()
+    if(tab) {
+        tab.yasqe.addPrefixes({"odpw": "http://data.wu.ac.at/ns/odpw#", "pwq": "https://data.wu.ac.at/portalwatch/quality#", "dcat": "http://www.w3.org/ns/dcat#"})
+    }
+    $('.menu .item')
+      .tab()
+    ;
 {% endblock %}
