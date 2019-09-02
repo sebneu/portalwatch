@@ -35,28 +35,29 @@
         </script>
     </head>
 
-    <body>
+    <body class="Site">
 
     <!-- HEADER -->
         <header id="header" class="ui vertical segment">
-            <h1 class="ui header fifteen wide column">
+            <h1 class="ui header inverted fifteen wide column">
                 <div class="content">
                     Open Data Portal Watch
-                    <div class="sub header">Quality Assessment and Monitoring of {{data.portalCount}} Open Data Portals</div>
+                    <div class="sub header inverted">Quality Assessment and Monitoring of {{data.portalCount}} Open Data Portals</div>
                 </div>
                 <img  class="ui image" src="{{ url_for('.static', filename='img/wu.png')}}">
             </h1>
         </header>
 
     <!-- MAIN NAVIGATION -->
-        <nav id="mainnav" class="ui  fluid secondary stackable pointing icon menu " >
+        <main class="Site-content">
+        <nav id="mainnav" class="ui inverted fluid secondary stackable pointing icon menu " >
             {% set navigation_bar = [
                     ('ui.index','odpw', 'ODPW', 'info'),
                     ('ui.portalslist', 'portals', 'Portals','grid layout'),
                     ('ui.apispec', 'api', 'API','code'),
                     ('ui.qualitymetrics', 'quality', 'Quality Metrics','star outline'),
                     ('ui.sparqlendpoint', 'sparql', 'SPARQL','search'),
-                    ('ui.data', 'data', 'Data Dumps','file outline')
+                    ('ui.data', 'data', 'Data Dumps','download')
                 ]
             -%}
             {% set active_page = active_page|default('index') -%}
@@ -72,44 +73,37 @@
             </div>
         </nav>
 
-
     <!-- CONTENT -->
 
         <section class="ui text">
             {% block content %}
             {% endblock %}
         </section>
+        </main>
 
-    <!-- FOOTER
-        <footer class="ui background vertical footer segment">
+    <!-- FOOTER -->
+        <footer id="footer" class="ui background vertical footer segment">
             <div class="ui  container">
                 <div class="ui stackable inverted divided equal height stackable grid">
-                    <div class="three wide column">
-                        <h4 class="ui grey header">About</h4>
+                    <div class="four wide column">
+                        <h4 class="ui inverted header">Links</h4>
                         <div class="ui inverted link list">
-                            <a href="#" class="item">Sitemap</a>
-                            <a href="#" class="item">Contact Us</a>
-                            <a href="#" class="item">Religious Ceremonies</a>
-                            <a href="#" class="item">Gazebo Plans</a>
+                            <a href="https://www.wu.ac.at/en/infobiz/" class="item">Institute for Information Business</a>
+                            <a href="https://www.wu.ac.at/" class="item">WU Wien</a>
                         </div>
                     </div>
-                    <div class="three wide column">
-                        <h4 class="ui inverted header">Services</h4>
-                        <div class="ui inverted link list">
-                            <a href="#" class="item">Banana Pre-Order</a>
-                            <a href="#" class="item">DNA FAQ</a>
-                            <a href="#" class="item">How To Access</a>
-                            <a href="#" class="item">Favorite X-Men</a>
-                        </div>
+                    <div class="ten wide column">
+                        <p>Created and maintained by <a href="https://sebneumaier.wordpress.com/">Sebastian Neumaier</a> and <a href="{{url_for('ui.about')}}">colleagues</a>. Source code released under the <a href="https://github.com/sebneu/portalwatch">GPL-3.0 license</a>.</p>
                     </div>
-                    <div class="seven wide column">
-                        <h4 class="ui inverted header">Footer Header</h4>
-                        <p>Extra space for a call to action inside the footer that could help re-engage users.</p>
+                    <div class="two wide column">
+                        <div class="ui inverted link list">
+                            <a href="{{url_for('ui.impressum')}}" class="item">Impressum</a>
+                        </div>
+                        <h4 class="ui inverted header"></h4>
                     </div>
                 </div>
             </div>
         </footer>
- -->
     <!-- SCRIPTS -->
         <script>
             {% block script %} {% endblock %}
