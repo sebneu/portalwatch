@@ -325,6 +325,7 @@ def create_app(conf, db):
     endpoint = conf['endpoint']
     app.config['db'] = db
     app.config['portalCount'] = db.get_portals_count(active=False)
+    # TODO app.config['graphs'] = db.get_graphs()
     app.config['endpoint'] = endpoint
 
     app.register_blueprint(ui, url_prefix=conf['ui']['url_prefix_ui'])
