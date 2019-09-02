@@ -101,10 +101,13 @@ def portalssize():
     # results=[row2dict(r) for r in s.query(Portal, Portal.snapshot_count,Portal.first_snapshot, Portal.last_snapshot, Portal.datasetcount, Portal.resourcecount)]
 
     ps = db.get_portals()
-    ps_info = db.get_portals_info()
+    sn_info = db.get_snapshots_info()
     for p in ps:
-        if p in ps_info:
-            ps[p].update(ps_info[p])
+        if p in sn_info:
+            ps[p].update(sn_info[p])
+            p_info = db.get_portal_info(p, snapshot=sn_info[p]['snLast'])
+            ps[p].update(p_info)
+
     df = pd.DataFrame(ps).transpose()
 
     p = portalsScatter(df)
