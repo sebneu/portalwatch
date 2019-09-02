@@ -1,6 +1,23 @@
 {% extends "odpw_layout.jinja" %}
 
 {% set active_page = "sparql" -%}
+
+
+{% block headcss %}
+    <link href='//cdn.jsdelivr.net/yasgui/2.5.0/yasgui.min.css' rel='stylesheet' type='text/css'/>
+    <link href='http://cdn.jsdelivr.net/yasqe/2.2/yasqe.min.css' rel='stylesheet' type='text/css'/>
+{% endblock %}
+
+{% block headscripts %}
+    <script src='//cdn.jsdelivr.net/yasgui/2.5.0/yasgui.min.js'></script>
+    <script src='http://cdn.jsdelivr.net/yasqe/2.2/yasqe.bundled.min.js'></script>
+{% endblock %}
+
+{% block headerstyle %}
+      .yasgui .endpointText {display:none !important;}
+{% endblock %}
+
+
 {% block content %}
 <div class="ui  container">
     <h2 class="ui header">SPARQL Endpoint</h2>
@@ -8,10 +25,16 @@
         <p>Access the DCAT metadata desciptions and their respective quality assessments via a SPARQL endpoint.</p>
         <p>The endpoint API is located at <a href="{{endpoint}}">{{endpoint}}</a>.</p>
     </div>
-
+    <div class="container ui">
+        <div class="ui segment">
+	        <div id='yasgui'></div>
+        </div>
+    </div>
+<!--
     <iframe src="{{endpoint}}" width="100%" height="600">
         <p>Your browser does not support iframes.</p>
     </iframe>
+-->
     <h2 class="ui header">Available Graphs</h2>
     <p>The following versions (i.e. snapshots) of the datasets are available as named graphs:</p>
     <ul>
@@ -80,4 +103,15 @@
 
 <p style="padding-bottom: 50px;"></p>
 </div>
+{% endblock %}
+
+
+{% block script %}
+  var yasgui = YASGUI(document.getElementById("yasgui"), {
+    yasqe:{sparql:{endpoint:'https://data.wu.ac.at/sparql/'}}
+  });
+  tab = yasgui.current()
+  if(tab) {
+     tab.yasqe.addPrefixes({"odpw": "http://data.wu.ac.at/ns/odpw#", "pwq": "https://data.wu.ac.at/portalwatch/quality#", "dcat": "http://www.w3.org/ns/dcat#"})
+  }
 {% endblock %}

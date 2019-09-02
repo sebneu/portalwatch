@@ -2,17 +2,32 @@ body{
     color: #373f43;
 }
 
+
+.Site {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.Site-content {
+  flex: 1;
+}
+
+
 header#header{
     padding-left:20px;
     height:120px;
+    background-color: #373f43;
 
 }
 header#header img{
     float: right;
 }
 
+
 nav#mainnav {
-margin-top:0px;
+    margin-top:0px;
+    background-color: #1E656D;
 }
 
 .background{
@@ -21,6 +36,25 @@ background-color: #373f43!important;
     color: #fff!important;
 }
 
+a:hover {
+  color: #1E656D;
+}
+
+a {
+  color: #1E656D;
+}
+
+.header .a {
+  color: #1E656D!important;
+}
+
+#footer a {
+  color: rgba(255,255,255,.5);
+}
+
+#footer a:hover {
+  color: #1E656D;
+}
 
 #portalSelect{
     background:black;

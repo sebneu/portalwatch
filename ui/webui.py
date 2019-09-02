@@ -92,6 +92,11 @@ def data():
     return render('odpw_data.jinja', dataurl=current_app.config['dataurl'])
 
 
+@ui.route('/impressum')
+def impressum():
+    return render('impressum.jinja')
+
+
 
 @ui.route('/portals/portalsstats', methods=['GET'])
 def portalssize():
