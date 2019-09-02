@@ -1,0 +1,15 @@
+{% extends "odpw_layout.jinja" %}
+
+{% set active_page = "data" -%}
+{% block content %}
+<div class="ui  container">
+    <h2 class="ui header">Data Dumps</h2>
+    <div class="ui text vertical segment ">
+        Download the metadata from the portals as Turtle files.
+    </div>
+
+    <iframe src="{{dataurl}}" width="100%" height="600">
+        <p>Your browser does not support iframes.</p>
+    </iframe>
+</div>
+{% endblock %}

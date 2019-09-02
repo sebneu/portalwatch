@@ -24,10 +24,6 @@ from converter.dataset_converter import namespaces, DCAT, convert_socrata, graph
     graph_from_data_gouv_fr, CKANConverter
 import quality
 
-#from odpw.utils import extras_to_dicts, extras_to_dict
-#from odpw.utils.error_handling import ErrorHandler, TimeoutError, getExceptionCode, getExceptionString
-#from odpw.utils.timing import progressIndicator, Timer
-
 
 def getPortalProcessor(software):
     if software == 'CKAN':

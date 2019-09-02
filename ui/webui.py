@@ -1,6 +1,6 @@
 from bokeh.embed import components
 from bokeh.resources import INLINE
-from flask import Flask, render_template, current_app, Blueprint
+from flask import Flask, render_template, current_app, Blueprint, url_for
 import pandas as pd
 
 from ui.webapi import api, systemapi, portalapi, mementoapi
@@ -85,6 +85,12 @@ def sparqlendpoint():
     db=current_app.config['db']
     graphs = db.get_graphs()
     return render('sparql_endpoint.jinja', endpoint=current_app.config['endpoint'], graphs=graphs)
+
+
+@ui.route('/data')
+def data():
+    return render('odpw_data.jinja', dataurl=current_app.config['dataurl'])
+
 
 
 @ui.route('/portals/portalsstats', methods=['GET'])
@@ -327,10 +333,11 @@ def portalRes(portalid, snapshot=None):
 def create_app(conf, db):
     app = Flask(__name__)
     endpoint = conf['endpoint']
+    # DB config
     app.config['db'] = db
     app.config['portalCount'] = db.get_portals_count(active=False)
     app.config['endpoint'] = endpoint
-
+    app.config['dataurl'] = conf['fetch']['url']
     app.register_blueprint(ui, url_prefix=conf['ui']['url_prefix_ui'])
     blueprint = Blueprint('api', __name__, url_prefix=conf['rest']['url_prefix_rest'])
     api.init_app(blueprint)

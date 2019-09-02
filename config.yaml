@@ -6,3 +6,4 @@ rest:
    url_prefix_rest: /portalwatch/api/v1
 fetch:
    dir: data
+   url: https://data.wu.ac.at/ld
