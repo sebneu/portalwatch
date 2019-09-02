@@ -13,19 +13,32 @@
         <p>Your browser does not support iframes.</p>
     </iframe>
     <h2 class="ui header">Available Graphs</h2>
-    <p>The following versions (/snapshots) of the datasets are available as named graphs:</p>
+    <p>The following versions (i.e. snapshots) of the datasets are available as named graphs:</p>
     <ul>
-        <li>http://data.wu.ac.at/portalwatch/1704</li>
-        <li>http://data.wu.ac.at/portalwatch/1703</li>
-        <li>http://data.wu.ac.at/portalwatch/1702</li>
-        <!--<li>http://data.wu.ac.at/portalwatch/1701</li>-->
+        {% for g in graphs %}
+        <li>{{g}}</li>
+        {% endfor %}
     </ul>
     <h2 class="ui header">Example Queries</h2>
+    <p>Get the list of portals and respective number of datasets for a snapshot:</p>
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">select</span> ?activity ?start ?end ?portal <span style="color: #000080; font-weight: bold">count</span>(?d) <span style="color: #000080; font-weight: bold">as</span> ?datasets
+<span style="color: #000080; font-weight: bold">from</span> &lt;https://data.wu.ac.at/portalwatch/ld/1935&gt;
+<span style="color: #000080; font-weight: bold">where</span> <span style="color: #a61717; background-color: #e3d2d2">{</span>
+  ?activity odpw:fetched ?portal ;
+            prov:startedAtTime ?start ;
+            prov:endedAtTime ?end .
+  ?portal dcat:dataset ?d .
+<span style="color: #a61717; background-color: #e3d2d2">}</span>
+<span style="color: #000080; font-weight: bold">group</span> <span style="color: #000080; font-weight: bold">by</span> ?activity ?start ?end ?portal
+<span style="color: #000080; font-weight: bold">order</span> <span style="color: #000080; font-weight: bold">by</span> <span style="color: #000080; font-weight: bold">desc</span>(?datasets)
+</pre></div>
+
+    <p style="padding-bottom: 30px;"></p>
     <p>Select all portals that describe transportation data, i.e., portals holding datasets that use "transportation" as a keyword:</p>
 <!-- HTML generated using hilite.me -->
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
 <pre style="margin: 0; line-height: 125%"><span style="color: #000080; font-weight: bold">select</span> <span style="color: #000080; font-weight: bold">distinct</span>(?p)
-<span style="color: #000080; font-weight: bold">from</span> &lt;http://data.wu.ac.at/portalwatch/1703&gt;
+<span style="color: #000080; font-weight: bold">from</span> &lt;https://data.wu.ac.at/portalwatch/ld/1935&gt;
 <span style="color: #000080; font-weight: bold">where</span> <span style="color: #a61717; background-color: #e3d2d2">{</span>
   ?p dcat:dataset ?d.
   ?d a dcat:Dataset.
@@ -39,8 +52,8 @@
 <!-- HTML generated using hilite.me -->
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
 <pre style="margin: 0; line-height: 125%">
-<span style="color: #000080; font-weight: bold">select</span> ?orga <span style="color: #000080; font-weight: bold">avg</span>(?v) <span style="color: #000080; font-weight: bold">as</span> ?emailmetric
-<span style="color: #000080; font-weight: bold">from</span> &lt;http://data.wu.ac.at/portalwatch/1703&gt;
+<span style="color: #000080; font-weight: bold">select</span> ?orga <span style="color: #000080; font-weight: bold">sum</span>(?v)/<span style="color: #000080; font-weight: bold">count</span>(?v) <span style="color: #000080; font-weight: bold">as</span> ?emailmetric
+<span style="color: #000080; font-weight: bold">from</span> &lt;https://data.wu.ac.at/portalwatch/ld/1935&gt;
 <span style="color: #000080; font-weight: bold">where</span> <span style="color: #a61717; background-color: #e3d2d2">{</span>
   &lt;http://data.gv.at&gt; dcat:dataset ?d .
   ?d dct:publisher ?o .
@@ -57,11 +70,12 @@
 <!-- HTML generated using hilite.me -->
 <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
 <pre style="margin: 0; line-height: 125%">
+<span style="color: #000080; font-weight: bold">PREFIX</span> odpw: &lt;http://data.wu.ac.at/ns/odpw#&gt;
+<span style="color: #000080; font-weight: bold">PREFIX</span> pwq: &lt;https://data.wu.ac.at/portalwatch/quality#&gt;
 <span style="color: #000080; font-weight: bold">PREFIX</span> dcat: &lt;http://www.w3.org/ns/dcat#&gt;
 <span style="color: #000080; font-weight: bold">PREFIX</span> dqv: &lt;http://www.w3.org/ns/dqv#&gt;
 <span style="color: #000080; font-weight: bold">PREFIX</span> prov: &lt;http://www.w3.org/ns/prov#&gt;
 <span style="color: #000080; font-weight: bold">PREFIX</span> csvw: &lt;http://www.w3.org/ns/csvw#&gt;
-<span style="color: #000080; font-weight: bold">PREFIX</span> pwq: &lt;http://data.wu.ac.at/portalwatch/quality#&gt;
 </pre></div>
 
 <p style="padding-bottom: 50px;"></p>

@@ -254,7 +254,7 @@ def portal_to_ttl(s, portal_uri, portal_api, portal_software, portal_id, snapsho
     g.add((portal_activity, PROV.wasStartedBy, sn_activity))
 
     if portal_software == 'SPARQL' or portal_software == 'CKANDCAT':
-        portal_software == 'CKAN'
+        portal_software = 'CKAN'
     for d in datasets:
         dataset_to_ttl(d['raw'], g, portal_ref, portal_api, portal_software, portal_activity)
 
