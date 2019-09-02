@@ -92,7 +92,7 @@ def setupCLI(pa):
     pa.add_argument('--pid', dest='portalid', help="Fetch a specific portal ID")
     pa.add_argument("-c", "--cores", type=int, help='Number of processors to use', dest='processors', default=4)
     pa.add_argument("--format", help='The file format for the RDF dump', default='ttl')
-    pa.add_argument('--skip-portal', help="Skip a portal if it already exists in the directory", action='store_true', default=True)
+    pa.add_argument('--skip-portal', help="Skip a portal if it already exists in the directory", action='store_true')
 
 
 def cli(config, db, args):
