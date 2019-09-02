@@ -5,4 +5,4 @@ ui:
 rest:
    url_prefix_rest: /api
 fetch:
-   dir: data
+   dir: tests/dumps

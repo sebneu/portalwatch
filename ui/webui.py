@@ -47,6 +47,8 @@ def portalslist():
     for p in ps:
         if p in sn_info:
             ps[p].update(sn_info[p])
+            p_info = db.get_portal_info(p, snapshot=sn_info[p]['snLast'])
+            ps[p].update(p_info)
     return render('odpw_portals.jinja', data={'portals': ps.values()})
 
 
