@@ -27,13 +27,14 @@ def render(template, data=None, **kwargs):
 @ui.route("/", methods=['GET'])
 def index():
     db=current_app.config['db']
-    ps_info = db.get_top_portals_info(limit=10)
+    sn = db.get_latest_snapshot()
+    ps_info = db.get_top_portals_info(snapshot=sn, limit=10)
     ps = db.get_portals()
     for p in ps_info:
         p.update(ps[p['uri']])
-    formats = db.get_formats(limit=10)
-    licenses = db.get_licenses(limit=10)
-    orga = db.get_organisations(limit=10)
+    formats = db.get_formats(snapshot=sn, limit=10)
+    licenses = db.get_licenses(snapshot=sn, limit=10)
+    orga = db.get_organisations(snapshot=sn, limit=10)
     data = {'portals': ps_info, 'formats': formats, 'licenses': licenses, 'organisations': orga}
     return render("index.jinja", data=data)
 
@@ -255,7 +256,7 @@ def portalEvolution(snapshot, portalid):
         portal['snapshot'] = sn
         # TODO query activity metadata
         portal['end'] = toLastdayinisoweek(sn)
-        data[portalid + str(sn)] = portal
+        data[portalid + str(sn)] = portal.copy()
 
     df=pd.DataFrame([v for k,v in data.items()])
     p=evolutionCharts(df)
