@@ -1,7 +1,6 @@
 from SPARQLWrapper import SPARQLWrapper, JSON, JSONLD
 
 from utils.exceptions import NoResultException
-from utils.snapshots import getCurrentSnapshot
 
 ODPW_GRAPH = "https://data.wu.ac.at/portalwatch/ld"
 
@@ -9,8 +8,11 @@ class DB:
     def __init__(self, endpoint):
         self.sparql = SPARQLWrapper(endpoint)
 
-    def get_latest_snapshot(self, portal_ref):
-        statement = "SELECT MAX(?s) AS ?snapshot WHERE {{ ?a odpw:snapshot ?s. ?a odpw:fetched <{0}> }}".format(portal_ref)
+    def get_latest_snapshot(self, portal_ref=None):
+        if portal_ref:
+            statement = "SELECT MAX(?s) AS ?snapshot WHERE {{ ?a odpw:snapshot ?s. ?a odpw:fetched <{0}> }}".format(portal_ref)
+        else:
+            statement = "SELECT MAX(?s) AS ?snapshot WHERE {{ ?a odpw:snapshot ?s }}".format(portal_ref)
         self.sparql.setQuery(statement)
         self.sparql.setReturnFormat(JSON)
         res = self.sparql.query().convert()
@@ -72,10 +74,10 @@ class DB:
 
     def get_portals_info(self, snapshot=None):
         if not snapshot:
-            snapshot = getCurrentSnapshot()
+            snapshot = self.get_latest_snapshot()
         # datasets, resources, snLast
         sn_graph = ODPW_GRAPH + '/' + str(snapshot)
-        statement = "SELECT ?p COUNT(DISTINCT ?d) AS ?datasets COUNT(?r) AS ?resources FROM <{0}> WHERE {{?p dcat:dataset ?d. ?d dcat:distribution ?r }}".format(sn_graph)
+        statement = "SELECT ?p COUNT(DISTINCT ?d) AS ?datasets COUNT(?r) AS ?resources FROM <{0}> WHERE {{ ?p dcat:dataset ?d. ?d dcat:distribution ?r }}".format(sn_graph)
         self.sparql.setQuery(statement)
         self.sparql.setReturnFormat(JSON)
         res = self.sparql.query().convert()
@@ -83,6 +85,23 @@ class DB:
         for r in res['results']['bindings']:
             results[r['p']['value']] = {'uri': r['p']['value'], 'datasets': int(r['datasets']['value']), 'resources': int(r['resources']['value']), 'snLast': snapshot}
         return results
+
+    def get_top_portals_info(self, snapshot=None, limit=None):
+        if not snapshot:
+            snapshot = self.get_latest_snapshot()
+        # datasets, resources, snLast
+        sn_graph = ODPW_GRAPH + '/' + str(snapshot)
+        statement = "SELECT DISTINCT ?p COUNT(DISTINCT ?d) AS ?datasets COUNT(?r) AS ?resources FROM <{0}> WHERE {{?p dcat:dataset ?d. ?d dcat:distribution ?r }} ORDER BY DESC(?datasets)".format(sn_graph)
+        if limit:
+            statement += " LIMIT " + str(limit)
+        self.sparql.setQuery(statement)
+        self.sparql.setReturnFormat(JSON)
+        res = self.sparql.query().convert()
+        results = []
+        for r in res['results']['bindings']:
+            results.append({'uri': r['p']['value'], 'datasets': int(r['datasets']['value']), 'resources': int(r['resources']['value']), 'snLast': snapshot})
+        return results
+
 
 
     def get_portal(self, id):
@@ -98,7 +117,7 @@ class DB:
 
     def get_portal_info(self, portal_ref, snapshot=None):
         if snapshot == None:
-            snapshot = getCurrentSnapshot()
+            snapshot = self.get_latest_snapshot()
         sn_graph = ODPW_GRAPH + '/' + str(snapshot)
         statement = "SELECT COUNT(DISTINCT ?d) AS ?datasets COUNT(?r) AS ?resources FROM <{0}> WHERE {{<{1}> dcat:dataset ?d. ?d dcat:distribution ?r }}".format(sn_graph, portal_ref)
         self.sparql.setQuery(statement)
@@ -112,7 +131,7 @@ class DB:
 
     def get_portal_quality(self, portal_ref, snapshot=None):
         if snapshot == None:
-            snapshot = getCurrentSnapshot()
+            snapshot = self.get_latest_snapshot()
         sn_graph = ODPW_GRAPH + '/' + str(snapshot)
         statement = "SELECT ?metric ?id SUM(?value)/COUNT(?value) AS ?measurement COUNT(?value) AS ?numValues COUNT(?d) AS ?datasets FROM <{0}> FROM <{1}> WHERE {{ <{2}> dcat:dataset ?d. ?d dqv:hasQualityMeasurement ?m. ?m dqv:isMeasurementOf ?metric. ?metric odpw:identifier ?id. ?m dqv:value ?value }} GROUP BY ?metric ?id".format(ODPW_GRAPH, sn_graph, portal_ref)
         self.sparql.setQuery(statement)
@@ -136,7 +155,7 @@ class DB:
 
     def get_portal_datasets(self, portal_ref, snapshot=None):
         if not snapshot:
-            snapshot = getCurrentSnapshot()
+            snapshot = self.get_latest_snapshot()
         sn_graph = ODPW_GRAPH + '/' + str(snapshot)
         statement = "SELECT ?d ?title ?id FROM <{0}> WHERE {{ <{1}> dcat:dataset ?d. ?d dct:title ?title. ?d dct:identifier ?id }}".format(sn_graph, portal_ref)
         self.sparql.setQuery(statement)
@@ -146,10 +165,58 @@ class DB:
         for r in res['results']['bindings']:
             result.append({'dataset': r['d']['value'], 'title': r['title']['value'], 'id': r['id']['value']})
         return result
+    
+    
+    def get_formats(self, snapshot=None, limit=10):
+        if not snapshot:
+            snapshot = self.get_latest_snapshot()
+        sn_graph = ODPW_GRAPH + '/' + str(snapshot)
+        statement = "SELECT ?format COUNT(?format) AS ?count xsd:float(COUNT(?format))/xsd:float(?allformat) AS ?perc FROM <{0}> WHERE {{ {{ SELECT COUNT(*) AS ?allformat FROM <{0}> WHERE {{ ?dist dct:format ?format }} }} {{?dist dct:format ?format . FILTER(isLiteral(?format)) }} UNION {{ ?dist dct:format ?b . ?b rdfs:label ?format }} }} GROUP BY ?format ?allformat ORDER BY DESC(?count)".format(sn_graph)
+        if limit:
+            statement += " LIMIT " + str(limit)
+        self.sparql.setQuery(statement)
+        self.sparql.setReturnFormat(JSON)
+        res = self.sparql.query().convert()
+        result = []
+        for r in res['results']['bindings']:
+            result.append({'label': r['format']['value'], 'count': int(r['count']['value']), 'perc': float(r['perc']['value'])})
+        return result
+
+    def get_licenses(self, snapshot=None, limit=10):
+        if not snapshot:
+            snapshot = self.get_latest_snapshot()
+        sn_graph = ODPW_GRAPH + '/' + str(snapshot)
+        statement = "SELECT ?license COUNT(?license) AS ?count xsd:float(COUNT(?license))/xsd:float(?alllicense) AS ?perc FROM <{0}> WHERE {{ {{ SELECT COUNT(*) AS ?alllicense FROM <{0}> WHERE {{ ?dist dct:license ?license }} }} {{ ?dist dct:license ?license . FILTER(isLiteral(?license)) }} UNION {{ ?dist dct:license ?b . ?b rdfs:label ?license }} }} GROUP BY ?license ?alllicense ORDER BY DESC(?count)".format(sn_graph)
+        if limit:
+            statement += " LIMIT " + str(limit)
+        self.sparql.setQuery(statement)
+        self.sparql.setReturnFormat(JSON)
+        res = self.sparql.query().convert()
+        result = []
+        for r in res['results']['bindings']:
+            result.append({'label': r['license']['value'], 'count': int(r['count']['value']), 'perc': float(r['perc']['value'])})
+        return result
+
+
+    def get_organisations(self, snapshot=None, limit=10):
+        if not snapshot:
+            snapshot = self.get_latest_snapshot()
+        sn_graph = ODPW_GRAPH + '/' + str(snapshot)
+        statement = "SELECT ?orga COUNT(?orga) AS ?count xsd:float(COUNT(?orga))/xsd:float(?allorga) AS ?perc FROM <{0}> WHERE {{ {{ SELECT COUNT(*) AS ?allorga FROM <{0}> WHERE {{?d dct:publisher ?orga }} }} {{ ?d dct:publisher ?orga . FILTER(isLiteral(?orga)) }} UNION {{ ?d dct:publisher ?b . ?b foaf:name ?orga }} }} GROUP BY ?orga ?allorga ORDER BY DESC(?count)".format(sn_graph)
+        if limit:
+            statement += " LIMIT " + str(limit)
+        self.sparql.setQuery(statement)
+        self.sparql.setReturnFormat(JSON)
+        res = self.sparql.query().convert()
+        result = []
+        for r in res['results']['bindings']:
+            result.append({'label': r['orga']['value'], 'count': int(r['count']['value']), 'perc': float(r['perc']['value'])})
+        return result
+
 
     def get_portal_formats(self, portal_ref, snapshot=None):
         if not snapshot:
-            snapshot = getCurrentSnapshot()
+            snapshot = self.get_latest_snapshot()
         sn_graph = ODPW_GRAPH + '/' + str(snapshot)
         statement = "SELECT ?format COUNT(?format) AS ?count xsd:float(COUNT(?format))/xsd:float(?allformat) AS ?perc FROM <{0}> WHERE {{ {{ SELECT COUNT(*) AS ?allformat FROM <{0}> WHERE {{ <{1}> dcat:dataset ?d . ?d dcat:distribution ?dist . ?dist dct:format ?format }} }} {{ <{1}> dcat:dataset ?d . ?d dcat:distribution ?dist . ?dist dct:format ?format . FILTER(isLiteral(?format)) }} UNION {{ <{1}> dcat:dataset ?d . ?d dcat:distribution ?dist . ?dist dct:format ?b . ?b rdfs:label ?format }} }} GROUP BY ?format ?allformat ORDER BY DESC(?count)".format(sn_graph, portal_ref)
         self.sparql.setQuery(statement)
@@ -163,7 +230,7 @@ class DB:
 
     def get_portal_licenses(self, portal_ref, snapshot=None):
         if not snapshot:
-            snapshot = getCurrentSnapshot()
+            snapshot = self.get_latest_snapshot()
         sn_graph = ODPW_GRAPH + '/' + str(snapshot)
         statement = "SELECT ?license COUNT(?license) AS ?count xsd:float(COUNT(?license))/xsd:float(?alllicense) AS ?perc FROM <{0}> WHERE {{ {{ SELECT COUNT(*) AS ?alllicense FROM <{0}> WHERE {{ <{1}> dcat:dataset ?d . ?d dcat:distribution ?dist . ?dist dct:license ?license }} }} {{ <{1}> dcat:dataset ?d . ?d dcat:distribution ?dist . ?dist dct:license ?license . FILTER(isLiteral(?license)) }} UNION {{ <{1}> dcat:dataset ?d . ?d dcat:distribution ?dist . ?dist dct:license ?b . ?b rdfs:label ?license }} }} GROUP BY ?license ?alllicense ORDER BY DESC(?count)".format(sn_graph, portal_ref)
         self.sparql.setQuery(statement)
@@ -177,7 +244,7 @@ class DB:
 
     def get_portal_organisations(self, portal_ref, snapshot=None):
         if not snapshot:
-            snapshot = getCurrentSnapshot()
+            snapshot = self.get_latest_snapshot()
         sn_graph = ODPW_GRAPH + '/' + str(snapshot)
         statement = "SELECT ?orga COUNT(?orga) AS ?count xsd:float(COUNT(?orga))/xsd:float(?allorga) AS ?perc FROM <{0}> WHERE {{ {{ SELECT COUNT(*) AS ?allorga FROM <{0}> WHERE {{ <{1}> dcat:dataset ?d . ?d dct:publisher ?orga }} }} {{ <{1}> dcat:dataset ?d . ?d dct:publisher ?orga . FILTER(isLiteral(?orga)) }} UNION {{ <{1}> dcat:dataset ?d . ?d dct:publisher ?b . ?b foaf:name ?orga }} }} GROUP BY ?orga ?allorga ORDER BY DESC(?count)".format(sn_graph, portal_ref)
         print(statement)
@@ -203,7 +270,7 @@ class DB:
 
     def get_full_dataset(self, d_uri, snapshot=None):
         if not snapshot:
-            snapshot = getCurrentSnapshot()
+            snapshot = self.get_latest_snapshot()
         sn_graph = ODPW_GRAPH + '/' + str(snapshot)
         statement = "CONSTRUCT {{ <{1}> ?p ?o. ?o ?r ?q }}  FROM <{0}>  WHERE {{ <{1}> ?p ?o . ?o ?r ?q . }}".format(sn_graph, d_uri)
         self.sparql.setQuery(statement)
@@ -214,13 +281,13 @@ class DB:
 
     def get_full_dataset_by_id(self, datasetid, snapshot=None):
         if not snapshot:
-            snapshot = getCurrentSnapshot()
+            snapshot = self.get_latest_snapshot()
         sn_graph = ODPW_GRAPH + '/' + str(snapshot)
         statement = "CONSTRUCT {{ ?d ?p ?o. ?o ?r ?q }}  FROM <{0}>  WHERE {{ ?d ?p ?o . ?o ?r ?q . ?d dct:identifier \"{1}\" }}".format(sn_graph, datasetid)
         self.sparql.setQuery(statement)
-        self.sparql.setReturnFormat(JSONLD)
+        self.sparql.setReturnFormat(JSON)
         res = self.sparql.query().convert()
-        return res.serialize('jsonld')
+        return res
 
 
     def get_dataset_graphs(self, dataset_uri):

@@ -1,0 +1,84 @@
+{% extends "odpw_portal_layout.jinja" %}
+
+{% set active_sub_page = "ui.portalDatasets" -%}
+
+
+{% block headcss %}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.semanticui.min.css">
+{% endblock %}
+{% block headscripts %}
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.18/js/dataTables.semanticui.min.js"></script>
+{% endblock %}
+
+
+
+{% macro datasetRow(dataset) -%}
+<tr>
+    <td>{{dataset.title}}</td>
+    <td>
+        <a href="{{dataset.dataset}}">
+            <i class="external alternate icon"></i>
+        </a>
+    </td>
+    <td>
+        <a href="{{url_for("ui.portalDataset", portalid=portalid, snapshot=snapshot, dataset=dataset.id)}}">
+            <i class="line chart icon"></i>
+        </a>
+    </td>
+</tr>
+
+
+{%- endmacro %}
+
+
+{% block title %}
+<div class="ui form ">
+    <div class=" fields">
+        <h2 class="two wide field">
+            <span id="pCount" class="floated white right">{{data|length}} Datasets</span>
+        </h2>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block portalcontent %}
+<table class="ui table" id="datasetsTable">
+    <thead>
+        <tr>
+            <th class="six wide">Title</th>
+            <th class="one wide">Original</th>
+            <th class="one wide">Dashboard</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for d in data.datasets %}
+            {{ datasetRow(d)  }}
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <th class="six wide">Title</th>
+            <th class="one wide">Original</th>
+            <th class="one wide">Dashboard</th>
+        </tr>
+    </tfoot>
+</table>
+
+
+{% endblock %}
+
+
+
+{% block script %}
+    {{ super() }}
+    $(document).ready(function() {
+        var table = $('#datasetsTable').DataTable(
+        {
+            dom: 'lfrBtip',
+            lengthChange: false
+        });
+    })
+
+ {% endblock %}
