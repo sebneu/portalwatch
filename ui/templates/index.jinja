@@ -11,7 +11,7 @@
     </div>
     <h2 class="ui divider horizontal header">Available Content</h2>
 
-    <div class="ui two column cards">
+    <div class="ui three column cards">
 
             <a href="{{url_for('ui.qualitymetrics')}}" class="ui fluid card statsCard">
                 <div class="content">
@@ -83,7 +83,118 @@
                 </div>
             </div>
         </a>
-
     </div>
+
+
+    <h2 class="ui divider horizontal header">Statistics</h2>
+
+    <div class="ui two column cards">
+
+            <div class="ui fluid card statsCard">
+                <div class="content">
+                    <div class="header">
+                        Top 10 portals (by datasets)
+                    </div>
+                    <table class="ui celled table" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Portal</th>
+                                <th>Datasets</th>
+                                <th>Resources</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for p in data.portals %}
+                            <tr>
+                                <td><a href="{{url_for("ui.portal", portalid=p.id, snapshot=p.snLast)}}">{{p.title}}</a></td>
+                                <td>{{p.datasets}}</td>
+                                <td>{{p.resources}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </a>
+    </div>
+
+
+    <div class="ui fluid card statsCard">
+        <div class="content">
+            <div class="header">
+                Top 10 file formats
+            </div>
+            <table class="ui celled table" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Format</th>
+                        <th>Count</th>
+                        <th>Percentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for f in data.formats %}
+                    <tr>
+                        <td>{{f.label}}</td>
+                        <td>{{f.count}}</td>
+                        <td>{{ (f.perc*100)| round(2)}}%</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="ui fluid card statsCard">
+        <div class="content">
+            <div class="header">
+                Top 10 licenses
+            </div>
+            <table class="ui celled table" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>License</th>
+                        <th>Count</th>
+                        <th>Percentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for f in data.licenses %}
+                    <tr>
+                        <td>{{f.label}}</td>
+                        <td>{{f.count}}</td>
+                        <td>{{ (f.perc*100)| round(2)}}%</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="ui fluid card statsCard">
+        <div class="content">
+            <div class="header">
+                Top 10 publishing organisations
+            </div>
+            <table class="ui celled table" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Organisation</th>
+                        <th>Count</th>
+                        <th>Percentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for f in data.organisations %}
+                    <tr>
+                        <td>{{f.label}}</td>
+                        <td>{{f.count}}</td>
+                        <td>{{ (f.perc*100)| round(2)}}%</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 </div>
 {% endblock %}

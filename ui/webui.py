@@ -26,7 +26,16 @@ def render(template, data=None, **kwargs):
 
 @ui.route("/", methods=['GET'])
 def index():
-    return render("index.jinja")
+    db=current_app.config['db']
+    ps_info = db.get_top_portals_info(limit=10)
+    ps = db.get_portals()
+    for p in ps_info:
+        p.update(ps[p['uri']])
+    formats = db.get_formats(limit=10)
+    licenses = db.get_licenses(limit=10)
+    orga = db.get_organisations(limit=10)
+    data = {'portals': ps_info, 'formats': formats, 'licenses': licenses, 'organisations': orga}
+    return render("index.jinja", data=data)
 
 
 @ui.route('/quality', methods=['GET'])
@@ -268,9 +277,21 @@ def portalEvolution(snapshot, portalid):
     )
 
 
-@ui.route('/portal/<portalid>/<int:snapshot>/dataset', methods=['GET'], defaults={'dataset': None})
-@ui.route('/portal/<portalid>/dataset/<path:dataset>', methods=['GET'], defaults={'snapshot': None})
-@ui.route('/portal/<portalid>/<int:snapshot>/dataset/<path:dataset>', methods=['GET'])
+@ui.route('/portal/<portalid>/<int:snapshot>/dataset', methods=['GET'])
+def portalDatasets(snapshot, portalid):
+    if not snapshot:
+        snapshot = getCurrentSnapshot()
+
+    db=current_app.config['db']
+    data = getPortalInfos(db,portalid,snapshot)
+    portal = db.get_portal(portalid)
+    data['datasets'] = db.get_portal_datasets(portal['uri'], snapshot=snapshot)
+
+    return render("odpw_portal_datasets.jinja", data=data, snapshot=snapshot, portalid=portalid, qa=qa)
+
+
+@ui.route('/portal/<portalid>/dataset/<path:dataset>', methods=['GET'])
+@ui.route('/portal/<portalid>/<int:snapshot>/dataset/<path:dataset>')
 def portalDataset(snapshot, portalid, dataset):
     if not snapshot:
         snapshot = getCurrentSnapshot()
@@ -278,8 +299,6 @@ def portalDataset(snapshot, portalid, dataset):
     db=current_app.config['db']
     data = getPortalInfos(db,portalid,snapshot)
     portal = db.get_portal(portalid)
-    data['datasets'] = db.get_portal_datasets(portal['uri'])
-
 
     dd=None
     if dataset:
@@ -306,6 +325,7 @@ def portalDataset(snapshot, portalid, dataset):
     # data['versions']=r
 
     return render("odpw_portal_dataset.jinja", data=data, snapshot=snapshot, portalid=portalid, dataset=dd, qa=qa)
+
 
 
 @ui.route('/portal/<portalid>/<int:snapshot>/dist/formats', methods=['GET'])

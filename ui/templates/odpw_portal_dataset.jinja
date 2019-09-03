@@ -2,49 +2,12 @@
 
 {% set active_sub_page = "ui.portalDataset" -%}
 
-{% block headcss %}
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.css">
-
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/dataTables.semanticui.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.2.1/css/buttons.semanticui.min.css">
-{% endblock %}
-{% block headscripts %}
-    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.js"></script>
-    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
-{% endblock %}
-
 {% block portalcontent %}
     <div class="ui padded centered fifteen wide column ">
         <div class="ui fluid card">
             <div class="content">
                 <div class="header">
-                    Dataset:
-                    {% if dataset %}
-                        {{dataset.title}}
-                    {% else %}
-                        Please select
-                    {% endif %}
-
-                    <div class="ui left pointing scrolling dropdown icon">
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            <div class="ui left search icon input">
-                                <i class="search icon"></i>
-                                <input type="text" name="search" placeholder="Search datasets...">
-                            </div>
-                            <div class="header">
-                                <i class="tags icon"></i>
-                                Dataset
-                            </div>
-                            {% for dataset in data.datasets%}
-                                <div  class="item">
-                                    <a href="{{url_for(active_sub_page, portalid=portalid, snapshot=snapshot, dataset=dataset.id)}}">
-                                        {{dataset.title}}
-                                    </a>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
+                    {{dataset.title}}
                 </div>
 
             </div>
