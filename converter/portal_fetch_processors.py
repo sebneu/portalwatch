@@ -245,7 +245,6 @@ class XMLDCAT(PortalProcessor):
 
 class SPARQL(PortalProcessor):
     def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot, activity):
-        
 
         url = portal_api + "?format=text/turtle&query="
         query = """
@@ -257,25 +256,33 @@ class SPARQL(PortalProcessor):
         limit = 10000
         offset = 0
         download_url = url + urllib.parse.quote(query + " OFFSET " + str(offset) + " LIMIT " + str(limit))
+        tmpgraph = rdflib.Graph()
+        tmpgraph.parse(download_url, format='ttl')
+        datasets = [d for d in tmpgraph.subjects(RDF.type, DCAT.Dataset)]
 
-        graph.parse(download_url, format='ttl')
+        while len(datasets) > 0:
+            for dataset_uri in tmpgraph.subjects(RDF.type, DCAT.Dataset):
+                construct_query = """
+                CONSTRUCT {{ <{0}> ?p ?o. ?o ?q ?r}}
+                WHERE {{
+                <{0}> a dcat:Dataset.
+                <{0}> ?p ?o
+                OPTIONAL {{?o ?q ?r}}
+                }}
+                """.format(str(dataset_uri))
 
-        for dataset_uri in graph.subjects(RDF.type, DCAT.Dataset):
-            construct_query = """
-            CONSTRUCT {{ <{0}> ?p ?o. ?o ?q ?r}}
-            WHERE {{
-            <{0}> a dcat:Dataset.
-            <{0}> ?p ?o
-            OPTIONAL {{?o ?q ?r}}
-            }}
-            """.format(str(dataset_uri))
+                ds_url = url + urllib.parse.quote(construct_query)
+                graph.parse(ds_url, format='ttl')
+                graph.add((portal_ref, DCAT.dataset, dataset_uri))
+                graph.add((dataset_uri, RDF.type, DCAT.Dataset))
+                quality.add_quality_measures(dataset_uri, graph, activity)
 
-            ds_url = url + urllib.parse.quote(construct_query)
-            graph.parse(ds_url, format='ttl')
-            graph.add((portal_ref, DCAT.dataset, dataset_uri))
+            offset += limit
+            download_url = url + urllib.parse.quote(query + " OFFSET " + str(offset) + " LIMIT " + str(limit))
+            tmpgraph = rdflib.Graph()
+            tmpgraph.parse(download_url, format='ttl')
+            datasets = [d for d in tmpgraph.subjects(RDF.type, DCAT.Dataset)]
 
-            quality.add_quality_measures(dataset_uri, graph, activity)
-            offset = offset + limit
 
 
 class CKANDCAT(PortalProcessor):

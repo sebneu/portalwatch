@@ -180,6 +180,7 @@ def add_quality_measures(dataset_uri, graph, act):
                 openness += 1
             if v and str(v).lower() in MACHINE_FORMATS:
                 machine += 1
+    conform = conform/c if c > 0 else 0.0
     openness = openness/c if c > 0 else 0.0
     machine = machine/c if c > 0 else 0.0
     add_measure(graph, conform, PWQ.FileFormat, dataset_uri, act)
