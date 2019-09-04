@@ -42,9 +42,9 @@ class DB:
         results = []
         for r in res['results']['bindings']:
             g = r['g']['value']
-            if ODPW_GRAPH in g:
+            if ODPW_GRAPH + '/' in g:
                 results.append(g)
-        return results
+        return sorted(results, reverse=True)
 
 
     def get_portals(self, active=True):
