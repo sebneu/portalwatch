@@ -1,6 +1,6 @@
 from bokeh.embed import components
 from bokeh.resources import INLINE
-from flask import Flask, render_template, current_app, Blueprint, url_for
+from flask import Flask, render_template, current_app, Blueprint, redirect
 import pandas as pd
 
 from ui.webapi import api, systemapi, portalapi, mementoapi
@@ -100,6 +100,12 @@ def sparqlendpoint():
 @ui.route('/data')
 def data():
     return render('odpw_data.jinja', dataurl=current_app.config['dataurl'])
+
+
+@ui.route('ld/', defaults={'u_path': ''})
+@ui.route('ld/<path:u_path>')
+def ld_redirect(u_path):
+    return redirect("https://data.wu.ac.at/ld/" + u_path, code=302)
 
 
 @ui.route('/impressum')
