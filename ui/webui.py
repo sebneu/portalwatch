@@ -129,9 +129,11 @@ def evolution():
         p_refs.append(p['uri'])
         data['portals'].append(p)
 
-    formats = selected_plots.format_evolution(db, p_refs, SNAPSHOTS)
-    licenses = selected_plots.dataset_evolution(db, p_refs, SNAPSHOTS)
-    plots={'formats': formats, 'licenses': licenses}
+    #formats = selected_plots.format_evolution(db, p_refs, SNAPSHOTS)
+    #licenses = selected_plots.dataset_evolution(db, p_refs, SNAPSHOTS)
+    #plots={'formats': formats, 'licenses': licenses}
+    csv_evolution = selected_plots.format_per_portal(db, p_refs, SNAPSHOTS)
+    plots={'csv_evolution': csv_evolution}
 
     script, div = components(plots)
 

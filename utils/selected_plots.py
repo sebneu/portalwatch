@@ -6,7 +6,8 @@ from bokeh.palettes import brewer
 import collections
 
 from utils.snapshots import getDateString
-
+PLOT_HEIGHT=600
+PLOT_WIDTH=1000
 
 def dataset_evolution(db, portals, snapshots):
     info = {}
@@ -32,7 +33,7 @@ def dataset_evolution(db, portals, snapshots):
     for l in format_labels:
         data[l] = sorted_formats[l]
 
-    p = figure(x_range=dates, plot_height=600, plot_width=1000, title="Crawl Dates",
+    p = figure(x_range=dates, plot_height=PLOT_HEIGHT, plot_width=PLOT_WIDTH, title="Crawl Dates",
                toolbar_location=None, tools="hover", tooltips="$name @dates: @$name")
 
     p.vbar_stack(format_labels, x='dates', width=0.9, color=colors, source=data,
@@ -77,7 +78,7 @@ def format_evolution(db, portals, snapshots):
     for l in format_labels:
         data[l] = sorted_formats[l]
 
-    p = figure(x_range=dates, plot_height=600, plot_width=1000, title="Crawl Dates",
+    p = figure(x_range=dates, plot_height=PLOT_HEIGHT, plot_width=PLOT_WIDTH, title="Crawl Dates",
                toolbar_location=None, tools="hover", tooltips="$name @dates: @$name")
 
     p.vbar_stack(format_labels, x='dates', width=0.9, color=colors, source=data,
@@ -90,5 +91,23 @@ def format_evolution(db, portals, snapshots):
     p.outline_line_color = None
     p.legend.location = "top_left"
     p.legend.orientation = "horizontal"
+
+    return p
+
+
+def format_per_portal(db, portals, snapshots, format='csv'):
+    format_counts = {}
+    for i, p in enumerate(portals):
+        format_counts[p] = []
+        for sn in snapshots:
+            format_counts[p].append(db.get_portal_format_count(p, format, sn))
+
+    p = figure(plot_height=PLOT_HEIGHT, plot_width=PLOT_WIDTH)
+
+    colors = brewer['BrBG'][len(portals)]
+    # add a line renderer
+    for i, portal in enumerate(format_counts):
+        p.line(snapshots, format_counts[portal], line_width=2, legend=portal, color=colors[i])
+
 
     return p
