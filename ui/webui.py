@@ -4,6 +4,7 @@ from flask import Flask, render_template, current_app, Blueprint, redirect
 import pandas as pd
 
 from ui.webapi import api, systemapi, portalapi, mementoapi
+from utils import selected_plots
 from utils.plots import portalsScatter, qualityChart, evolutionCharts
 from utils.snapshots import getWeekString, getCurrentSnapshot, toLastdayinisoweek
 from db import DB
@@ -111,6 +112,33 @@ def ld_redirect(u_path):
 @ui.route('/impressum')
 def impressum():
     return render('impressum.jinja')
+
+
+
+@ui.route('/evolution', methods=['GET'])
+def evolution():
+    SNAPSHOTS = [1631, 1701, 1721, 1731, 1801, 1811, 1821, 1830, 1935]
+    PORTALS = ['data_gv_at', 'govdata_de', 'www_data_go_jp', 'hubofdata_ru', 'www_data_gc_ca', 'data_gov', 'data_gov_uk', 'www_data_gouv_fr']
+
+    db=current_app.config['db']
+    data={'portals': []}
+    p_refs = []
+
+    for p_id in PORTALS:
+        p = db.get_portal(p_id)
+        p_refs.append(p['uri'])
+        data['portals'].append(p)
+
+    formats = selected_plots.format_evolution(db, p_refs, SNAPSHOTS)
+    licenses = selected_plots.dataset_evolution(db, p_refs, SNAPSHOTS)
+    plots={'formats': formats, 'licenses': licenses}
+
+    script, div = components(plots)
+
+    js_resources = INLINE.render_js()
+    css_resources = INLINE.render_css()
+
+    return render("odpw_evolution.jinja", plot_script=script, plot_div=div, js_resources=js_resources, css_resources=css_resources, data=data, snapshot=SNAPSHOTS[-1])
 
 
 

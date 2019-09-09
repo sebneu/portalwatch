@@ -81,3 +81,9 @@ def getWeekString1(yearweek):
     year="'"+str(yearweek)[:2]
     week=int(str(yearweek)[2:])
     return 'W'+str(week)+'-'+str(year)
+
+
+def getDateString(yearweek):
+    if yearweek is None or len(str(yearweek))==0:
+        return ''
+    return toLastdayinisoweek(yearweek).strftime("%B %Y")

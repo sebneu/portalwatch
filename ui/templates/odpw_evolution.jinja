@@ -1,0 +1,52 @@
+{% extends "odpw_layout.jinja" %}
+
+{% set active_page = "evolution" -%}
+
+
+{% block headcss %}
+    {{ css_resources }}
+{% endblock %}
+
+{% block headscripts %}
+    {{ js_resources }}
+{% endblock %}
+
+
+
+{% block content %}
+<div class="ui  container">
+    <h2 class="ui header">Evolution of Governmental Open Data</h2>
+    <div class="ui text vertical segment ">
+    
+    </div>
+
+    <div class="ui padded text segment">
+        <h2 class="ui header">Selected Data Portals</h2>
+        <div class="ui relaxed list">
+        {% for portal in data.portals %}
+            <div class="item">
+                <i class="{{portal.iso| lower}} flag middle aligned"></i>
+                <div class="content">
+                    <a href="{{url_for('ui.portal', portalid=portal.id, snapshot=snapshot)}}" class="header">
+                        {{portal.title}}
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+
+    <div class="ui padded text segment">
+        <h2 class="ui header">File Format Evolution</h2>
+        {{ plot_div['formats'] }}
+    </div>
+
+    <div class="ui padded text segment">
+        <h2 class="ui header">Number of Datasets and Resources</h2>
+        {{ plot_div['licenses'] }}
+    </div>
+
+
+     {{ plot_script }}
+</div>
+{% endblock %}
