@@ -35,8 +35,9 @@ def index():
         p.update(ps[p['uri']])
     formats = db.get_formats(snapshot=sn, limit=10)
     licenses = db.get_licenses(snapshot=sn, limit=10)
-    orga = db.get_organisations(snapshot=sn, limit=10)
-    data = {'portals': ps_info, 'formats': formats, 'licenses': licenses, 'organisations': orga}
+    #orga = db.get_organisations(snapshot=sn, limit=10)
+    #data = {'portals': ps_info, 'formats': formats, 'licenses': licenses, 'organisations': orga}
+    data = {'portals': ps_info, 'formats': formats, 'licenses': licenses}
     return render("index.jinja", data=data)
 
 
@@ -117,31 +118,36 @@ def impressum():
 
 @ui.route('/evolution', methods=['GET'])
 def evolution():
-    SNAPSHOTS = [1631, 1701, 1721, 1731, 1801, 1811, 1821, 1830, 1935]
+    SNAPSHOTS = [1631, 1701, 1721, 1731, 1801, 1811, 1821, 1830, 1937]
     PORTALS = ['data_gv_at', 'govdata_de', 'www_data_go_jp', 'hubofdata_ru', 'www_data_gc_ca', 'data_gov', 'data_gov_uk', 'www_data_gouv_fr']
 
     db=current_app.config['db']
     data={'portals': []}
     p_refs = []
 
+    sn_info = db.get_snapshots_info()
     for p_id in PORTALS:
         p = db.get_portal(p_id)
+        if p['uri'] in sn_info:
+            p.update(sn_info[p['uri']])
+            p_info = db.get_portal_info(p['uri'], snapshot=sn_info[p['uri']]['snLast'])
+            p.update(p_info)
+
         p_refs.append(p['uri'])
         data['portals'].append(p)
 
     #formats = selected_plots.format_evolution(db, p_refs, SNAPSHOTS)
-    #licenses = selected_plots.dataset_evolution(db, p_refs, SNAPSHOTS)
-    #plots={'formats': formats, 'licenses': licenses}
-    csv_evolution = selected_plots.format_per_portal(db, p_refs, SNAPSHOTS)
-    plots={'csv_evolution': csv_evolution}
-
+    #datasets = selected_plots.dataset_evolution(db, p_refs, SNAPSHOTS)
+    #csv_evolution = selected_plots.format_per_portal(db, p_refs, SNAPSHOTS)
+    #plots={'formats': formats, 'datasets_evolution': datasets, 'csv_evolution': csv_evolution}
+    openness_evolution = selected_plots.openness_evolution(db, p_refs, SNAPSHOTS)
+    plots={'openness_evolution': openness_evolution}
     script, div = components(plots)
 
     js_resources = INLINE.render_js()
     css_resources = INLINE.render_css()
 
     return render("odpw_evolution.jinja", plot_script=script, plot_div=div, js_resources=js_resources, css_resources=css_resources, data=data, snapshot=SNAPSHOTS[-1])
-
 
 
 @ui.route('/portals/portalsstats', methods=['GET'])

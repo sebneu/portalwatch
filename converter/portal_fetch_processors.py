@@ -7,6 +7,7 @@ import requests
 import ckanapi
 
 import rdflib
+from pip._vendor.requests.sessions import session
 from rdflib import URIRef
 from rdflib.namespace import RDF
 from rdflib import Namespace
@@ -71,7 +72,9 @@ class CKAN(PortalProcessor):
     def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot, activity, timeout_attempts=5, timeout=24*60*60):
 
         starttime=time.time()
-        api = ckanapi.RemoteCKAN(portal_api, get_only=True)
+        session = requests.Session()
+        session.verify = False
+        api = ckanapi.RemoteCKAN(portal_api, get_only=True, session=session)
         start=0
         rows=1000
         total=0
@@ -355,7 +358,9 @@ def getPackageList(apiurl):
     status=200
     package_list=set([])
     try:
-        api = ckanapi.RemoteCKAN(apiurl, get_only=True)
+        session = requests.Session()
+        session.verify = False
+        api = ckanapi.RemoteCKAN(apiurl, get_only=True, session=session)
 
         start=0
         steps=1000

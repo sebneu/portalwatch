@@ -24,7 +24,7 @@ PW_AGENT = URIRef("https://data.wu.ac.at/portalwatch")
 
 
 
-def fetch_portal_to_dir(p, snapshot, path, format='ttl', skip_portal=True):
+def fetch_portal_to_dir(p, snapshot, path, format='nt', skip_portal=True):
     try:
         logger.info("FETCH: " + p['id'])
         portal_ref = rdflib.URIRef(p['uri'])
@@ -91,7 +91,7 @@ def name():
 def setupCLI(pa):
     pa.add_argument('--pid', dest='portalid', help="Fetch a specific portal ID")
     pa.add_argument("-c", "--cores", type=int, help='Number of processors to use', dest='processors', default=4)
-    pa.add_argument("--format", help='The file format for the RDF dump', default='ttl')
+    pa.add_argument("--format", help='The file format for the RDF dump', default='nt')
     pa.add_argument('--skip-portal', help="Skip a portal if it already exists in the directory", action='store_true')
 
 
