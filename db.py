@@ -227,6 +227,18 @@ class DB:
             result.append({'label': r['format']['value'], 'count': int(r['count']['value']), 'perc': float(r['perc']['value'])})
         return result
 
+    def get_portal_format_count(self, portal_ref, format, snapshot=None):
+        if not snapshot:
+            snapshot = self.get_latest_snapshot()
+        sn_graph = ODPW_GRAPH + '/' + str(snapshot)
+        statement = "SELECT COUNT(?format) AS ?count FROM <{0}> WHERE {{ {{ <{1}> dcat:dataset ?d . ?d dcat:distribution ?dist . ?dist dct:format ?format . }} UNION {{ <{1}> dcat:dataset ?d . ?d dcat:distribution ?dist . ?dist dct:format ?b . ?b rdfs:label ?format }} FILTER (lcase(str(?format)) = \"{2}\") }}".format(sn_graph, portal_ref, format)
+        self.sparql.setQuery(statement)
+        self.sparql.setReturnFormat(JSON)
+        res = self.sparql.query().convert()
+        if len(res['results']['bindings']) == 0:
+            raise NoResultException('Error while counting formats for portal ' + portal_ref + ' with snapshot ' + str(snapshot) + '.', DB.get_portal_format_count.__name__)
+        r = res['results']['bindings'][0]
+        return int(r['count']['value'])
 
     def get_portal_licenses(self, portal_ref, snapshot=None):
         if not snapshot:

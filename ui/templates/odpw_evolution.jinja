@@ -17,7 +17,7 @@
 <div class="ui  container">
     <h2 class="ui header">Evolution of Governmental Open Data</h2>
     <div class="ui text vertical segment ">
-    
+
     </div>
 
     <div class="ui padded text segment">
@@ -36,16 +36,26 @@
         </div>
     </div>
 
+    {% if 'formats' in plot_div %}
     <div class="ui padded text segment">
         <h2 class="ui header">File Format Evolution</h2>
         {{ plot_div['formats'] }}
     </div>
+    {% endif %}
 
+    {% if 'csv_evolution' in plot_div %}
+    <div class="ui padded text segment">
+        <h2 class="ui header">CSV Files per Portal</h2>
+        {{ plot_div['csv_evolution'] }}
+    </div>
+    {% endif %}
+
+    {% if 'licenses' in plot_div %}
     <div class="ui padded text segment">
         <h2 class="ui header">Number of Datasets and Resources</h2>
         {{ plot_div['licenses'] }}
     </div>
-
+    {% endif %}
 
      {{ plot_script }}
 </div>
