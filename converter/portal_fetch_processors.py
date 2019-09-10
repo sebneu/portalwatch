@@ -7,7 +7,6 @@ import requests
 import ckanapi
 
 import rdflib
-from pip._vendor.requests.sessions import session
 from rdflib import URIRef
 from rdflib.namespace import RDF
 from rdflib import Namespace
