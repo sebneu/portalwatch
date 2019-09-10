@@ -88,6 +88,7 @@
 
     <h2 class="ui divider horizontal header">Statistics</h2>
 
+    {% if 'portals' in data %}
     <div class="ui two column cards">
 
             <div class="ui fluid card statsCard">
@@ -116,8 +117,10 @@
                 </div>
             </a>
     </div>
+    {% endif %}
 
 
+    {% if 'formats' in data %}
     <div class="ui fluid card statsCard">
         <div class="content">
             <div class="header">
@@ -143,7 +146,9 @@
             </table>
         </div>
     </div>
+    {% endif %}
 
+    {% if 'licenses' in data %}
     <div class="ui fluid card statsCard">
         <div class="content">
             <div class="header">
@@ -169,7 +174,9 @@
             </table>
         </div>
     </div>
+    {% endif %}
 
+    {% if 'organisations' in data %}
     <div class="ui fluid card statsCard">
         <div class="content">
             <div class="header">
@@ -195,6 +202,7 @@
             </table>
         </div>
     </div>
+    {% endif %}
 
 </div>
 {% endblock %}

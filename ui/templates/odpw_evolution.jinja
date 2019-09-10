@@ -22,19 +22,34 @@
 
     <div class="ui padded text segment">
         <h2 class="ui header">Selected Data Portals</h2>
-        <div class="ui relaxed list">
+        <div class="ui link cards">
         {% for portal in data.portals %}
-            <div class="item">
-                <i class="{{portal.iso| lower}} flag middle aligned"></i>
-                <div class="content">
-                    <a href="{{url_for('ui.portal', portalid=portal.id, snapshot=snapshot)}}" class="header">
-                        {{portal.title}}
-                    </a>
-                </div>
+          <a class="card" href="{{url_for('ui.portal', portalid=portal.id, snapshot=snapshot)}}">
+            <div class="content">
+              <i class="right floated {{portal.iso| lower}} flag"></i>
+              <div class="header">{{portal.title}}</div>
+              <div class="meta">{{portal.software}}</div>
+              <div class="description">{{portal.snCount}} Snapshots</div>
+              <span>
+                <i class="list icon"></i>
+                {{portal.datasets}}  Datasets
+              </span>
+              <span>
+                <i class="file icon"></i>
+                {{portal.resources}}  Resources
+              </span>
             </div>
+          </a>
         {% endfor %}
         </div>
     </div>
+
+    {% if 'datasets_evolution' in plot_div %}
+    <div class="ui padded text segment">
+        <h2 class="ui header">Number of Datasets and Resources</h2>
+        {{ plot_div['datasets_evolution'] }}
+    </div>
+    {% endif %}
 
     {% if 'formats' in plot_div %}
     <div class="ui padded text segment">
@@ -50,10 +65,10 @@
     </div>
     {% endif %}
 
-    {% if 'licenses' in plot_div %}
+    {% if 'openness_evolution' in plot_div %}
     <div class="ui padded text segment">
-        <h2 class="ui header">Number of Datasets and Resources</h2>
-        {{ plot_div['licenses'] }}
+        <h2 class="ui header">Evolution of Openness Metrics</h2>
+        {{ plot_div['openness_evolution'] }}
     </div>
     {% endif %}
 
