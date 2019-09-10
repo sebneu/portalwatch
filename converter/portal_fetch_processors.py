@@ -11,6 +11,8 @@ from rdflib import URIRef
 from rdflib.namespace import RDF
 from rdflib import Namespace
 
+from utils.ssl_ignore import no_ssl_verification
+
 PROV = Namespace('http://www.w3.org/ns/prov#')
 
 PROV_ACTIVITY = 'https://data.wu.ac.at/portalwatch/ld/activity#'
@@ -69,51 +71,50 @@ class CKAN(PortalProcessor):
                     raise e
 
     def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot, activity, timeout_attempts=5, timeout=24*60*60):
-
         starttime=time.time()
-        session = requests.Session()
-        session.verify = False
-        api = ckanapi.RemoteCKAN(portal_api, get_only=True, session=session)
         start=0
         rows=1000
         total=0
         processed_ids=set([])
         processed_names=set([])
 
-        tstart=time.time()
         try:
-            response = api.action.package_search(rows=0)
-            total = response["count"]
-            # TODO store total
+            with no_ssl_verification():
+                session = requests.Session()
+                session.verify = False
+                api = ckanapi.RemoteCKAN(portal_api, get_only=True, session=session)
+                response = api.action.package_search(rows=0)
+                total = response["count"]
+                # TODO store total
 
-            while True:
-                response = self._get_datasets(api, timeout_attempts, rows, start)
+                while True:
+                    response = self._get_datasets(api, timeout_attempts, rows, start)
 
-                #print Portal.apiurl, start, rows, len(processed)
-                datasets = response["results"] if response else None
-                if datasets:
-                    rows = len(datasets)
-                    start+=rows
-                    for datasetJSON in datasets:
-                        datasetID = datasetJSON['id']
-                        try:
-                            if datasetID not in processed_ids:
-                                converter = CKANConverter(graph, portal_api)
-                                dataset_ref = converter.graph_from_ckan(datasetJSON)
-                                graph.add((portal_ref, DCAT.dataset, dataset_ref))
-                                quality.add_quality_measures(dataset_ref, graph, activity)
-                                processed_ids.add(datasetID)
-                                processed_names.add(datasetJSON['name'])
+                    #print Portal.apiurl, start, rows, len(processed)
+                    datasets = response["results"] if response else None
+                    if datasets:
+                        rows = len(datasets)
+                        start+=rows
+                        for datasetJSON in datasets:
+                            datasetID = datasetJSON['id']
+                            try:
+                                if datasetID not in processed_ids:
+                                    converter = CKANConverter(graph, portal_api)
+                                    dataset_ref = converter.graph_from_ckan(datasetJSON)
+                                    graph.add((portal_ref, DCAT.dataset, dataset_ref))
+                                    quality.add_quality_measures(dataset_ref, graph, activity)
+                                    processed_ids.add(datasetID)
+                                    processed_names.add(datasetJSON['name'])
 
 
-                                now = time.time()
-                                if now-starttime>timeout:
-                                    raise TimeoutError("Timeout of "+portal_api+" and "+str(timeout)+" seconds", timeout)
-                        except Exception as e:
-                            logger.error("CKANDSFetchDatasetBatchError: " + str(e))
-                    rows = min([int(rows*1.2),1000])
-                else:
-                    break
+                                    now = time.time()
+                                    if now-starttime>timeout:
+                                        raise TimeoutError("Timeout of "+portal_api+" and "+str(timeout)+" seconds", timeout)
+                            except Exception as e:
+                                logger.error("CKANDSFetchDatasetBatchError: " + str(e))
+                        rows = min([int(rows*1.2),1000])
+                    else:
+                        break
         except TimeoutError as e:
 
             raise e
@@ -173,31 +174,32 @@ class Socrata(PortalProcessor):
         page = 1
         processed=set([])
 
-        while True:
-            resp = requests.get(urllib.parse.urljoin(api, '/views/metadata/v1?page=' + str(page)), verify=False)
-            if resp.status_code != requests.codes.ok:
-                # TODO wait? appropriate message
-                pass
+        with no_ssl_verification():
+            while True:
+                resp = requests.get(urllib.parse.urljoin(api, '/views/metadata/v1?page=' + str(page)), verify=False)
+                if resp.status_code != requests.codes.ok:
+                    # TODO wait? appropriate message
+                    pass
 
-            res = resp.json()
-            # returns a list of datasets
-            if not res:
-                break
-            for datasetJSON in res:
-                if 'id' not in datasetJSON:
-                    continue
+                res = resp.json()
+                # returns a list of datasets
+                if not res:
+                    break
+                for datasetJSON in res:
+                    if 'id' not in datasetJSON:
+                        continue
 
-                datasetID = datasetJSON['id']
-                if datasetID not in processed:
-                    dataset_ref = convert_socrata(graph, datasetJSON, portal_api)
-                    graph.add((portal_ref, DCAT.dataset, dataset_ref))
-                    quality.add_quality_measures(dataset_ref, graph, activity)
-                    processed.add(datasetID)
+                    datasetID = datasetJSON['id']
+                    if datasetID not in processed:
+                        dataset_ref = convert_socrata(graph, datasetJSON, portal_api)
+                        graph.add((portal_ref, DCAT.dataset, dataset_ref))
+                        quality.add_quality_measures(dataset_ref, graph, activity)
+                        processed.add(datasetID)
 
-                    if len(processed) % 1000 == 0:
-                        logger.info("ProgressDSFetch: " + portal_api + ", processed= " + str(len(processed)))
-            page += 1
-            # TODO store total len(processed)
+                        if len(processed) % 1000 == 0:
+                            logger.info("ProgressDSFetch: " + portal_api + ", processed= " + str(len(processed)))
+                page += 1
+                # TODO store total len(processed)
 
 
 class OpenDataSoft(PortalProcessor):
@@ -207,42 +209,44 @@ class OpenDataSoft(PortalProcessor):
         rows=10000
         processed=set([])
 
-        while True:
-            query = '/api/datasets/1.0/search?rows=' + str(rows) + '&start=' + str(start)
-            resp = requests.get(urllib.parse.urljoin(portal_api, query), verify=False)
-            res = resp.json()
-            datasets = res['datasets']
-            if datasets:
-                rows = len(datasets) if start==0 else rows
-                start+=rows
-                for datasetJSON in datasets:
-                    if 'datasetid' not in datasetJSON:
-                        continue
-                    datasetID = datasetJSON['datasetid']
+        with no_ssl_verification():
+            while True:
+                query = '/api/datasets/1.0/search?rows=' + str(rows) + '&start=' + str(start)
+                resp = requests.get(urllib.parse.urljoin(portal_api, query), verify=False)
+                res = resp.json()
+                datasets = res['datasets']
+                if datasets:
+                    rows = len(datasets) if start==0 else rows
+                    start+=rows
+                    for datasetJSON in datasets:
+                        if 'datasetid' not in datasetJSON:
+                            continue
+                        datasetID = datasetJSON['datasetid']
 
-                    if datasetID not in processed:
-                        dataset_ref = graph_from_opendatasoft(graph, datasetJSON, portal_api)
-                        graph.add((portal_ref, DCAT.dataset, dataset_ref))
-                        quality.add_quality_measures(dataset_ref, graph, activity)
-                        processed.add(datasetID)
+                        if datasetID not in processed:
+                            dataset_ref = graph_from_opendatasoft(graph, datasetJSON, portal_api)
+                            graph.add((portal_ref, DCAT.dataset, dataset_ref))
+                            quality.add_quality_measures(dataset_ref, graph, activity)
+                            processed.add(datasetID)
 
-                        if len(processed) % 1000 == 0:
-                            logger.info("ProgressDSFetch: " + portal_api + ", processed= " + str(len(processed)))
-            else:
-                break
-        # TODO store total len(processed)
+                            if len(processed) % 1000 == 0:
+                                logger.info("ProgressDSFetch: " + portal_api + ", processed= " + str(len(processed)))
+                else:
+                    break
+            # TODO store total len(processed)
 
 
 class XMLDCAT(PortalProcessor):
     def fetchAndConvertToDCAT(self, graph, portal_ref, portal_api, snapshot, activity):
 
-        graph = rdflib.Graph()
-        graph.parse(portal_api, format="xml")
+        with no_ssl_verification():
+            graph = rdflib.Graph()
+            graph.parse(portal_api, format="xml")
 
-        for d in graph.subjects(RDF.type, DCAT.Dataset):
-            quality.add_quality_measures(d, graph, activity)
+            for d in graph.subjects(RDF.type, DCAT.Dataset):
+                quality.add_quality_measures(d, graph, activity)
 
-        # TODO store total len(processed)
+            # TODO store total len(processed)
 
 
 class SPARQL(PortalProcessor):
@@ -262,28 +266,29 @@ class SPARQL(PortalProcessor):
         tmpgraph.parse(download_url, format='ttl')
         datasets = [d for d in tmpgraph.subjects(RDF.type, DCAT.Dataset)]
 
-        while len(datasets) > 0:
-            for dataset_uri in tmpgraph.subjects(RDF.type, DCAT.Dataset):
-                construct_query = """
-                CONSTRUCT {{ <{0}> ?p ?o. ?o ?q ?r}}
-                WHERE {{
-                <{0}> a dcat:Dataset.
-                <{0}> ?p ?o
-                OPTIONAL {{?o ?q ?r}}
-                }}
-                """.format(str(dataset_uri))
+        with no_ssl_verification():
+            while len(datasets) > 0:
+                for dataset_uri in tmpgraph.subjects(RDF.type, DCAT.Dataset):
+                    construct_query = """
+                    CONSTRUCT {{ <{0}> ?p ?o. ?o ?q ?r}}
+                    WHERE {{
+                    <{0}> a dcat:Dataset.
+                    <{0}> ?p ?o
+                    OPTIONAL {{?o ?q ?r}}
+                    }}
+                    """.format(str(dataset_uri))
 
-                ds_url = url + urllib.parse.quote(construct_query)
-                graph.parse(ds_url, format='ttl')
-                graph.add((portal_ref, DCAT.dataset, dataset_uri))
-                graph.add((dataset_uri, RDF.type, DCAT.Dataset))
-                quality.add_quality_measures(dataset_uri, graph, activity)
+                    ds_url = url + urllib.parse.quote(construct_query)
+                    graph.parse(ds_url, format='ttl')
+                    graph.add((portal_ref, DCAT.dataset, dataset_uri))
+                    graph.add((dataset_uri, RDF.type, DCAT.Dataset))
+                    quality.add_quality_measures(dataset_uri, graph, activity)
 
-            offset += limit
-            download_url = url + urllib.parse.quote(query + " OFFSET " + str(offset) + " LIMIT " + str(limit))
-            tmpgraph = rdflib.Graph()
-            tmpgraph.parse(download_url, format='ttl')
-            datasets = [d for d in tmpgraph.subjects(RDF.type, DCAT.Dataset)]
+                offset += limit
+                download_url = url + urllib.parse.quote(query + " OFFSET " + str(offset) + " LIMIT " + str(limit))
+                tmpgraph = rdflib.Graph()
+                tmpgraph.parse(download_url, format='ttl')
+                datasets = [d for d in tmpgraph.subjects(RDF.type, DCAT.Dataset)]
 
 
 
@@ -292,26 +297,27 @@ class CKANDCAT(PortalProcessor):
 
         logger.debug('Fetching CKAN portal via RDF endpoint: ' + portal_api)
 
-        graph.parse(portal_api, format=format)
-        cur = graph.value(predicate=RDF.type, object=namespaces['hydra'].PagedCollection)
-        next_page = graph.value(subject=cur, predicate=namespaces['hydra'].nextPage)
-        page = 0
-        while next_page:
-            page += 1
-            if page % 10 == 0:
-                logger.debug('Processed pages:' + str(page))
+        with no_ssl_verification():
+            graph.parse(portal_api, format=format)
+            cur = graph.value(predicate=RDF.type, object=namespaces['hydra'].PagedCollection)
+            next_page = graph.value(subject=cur, predicate=namespaces['hydra'].nextPage)
+            page = 0
+            while next_page:
+                page += 1
+                if page % 10 == 0:
+                    logger.debug('Processed pages:' + str(page))
 
-            p = str(next_page)
-            g = rdflib.Graph()
-            g.parse(p, format=format)
-            next_page = g.value(subject=URIRef(next_page), predicate=namespaces['hydra'].nextPage)
-            graph.parse(p, format=format)
+                p = str(next_page)
+                g = rdflib.Graph()
+                g.parse(p, format=format)
+                next_page = g.value(subject=URIRef(next_page), predicate=namespaces['hydra'].nextPage)
+                graph.parse(p, format=format)
 
-        logger.debug('Total pages:' + str(page))
-        logger.info('Fetching finished')
+            logger.debug('Total pages:' + str(page))
+            logger.info('Fetching finished')
 
-        for d in graph.subjects(RDF.type, DCAT.Dataset):
-            quality.add_quality_measures(d, graph, activity)
+            for d in graph.subjects(RDF.type, DCAT.Dataset):
+                quality.add_quality_measures(d, graph, activity)
 
 
 class DataGouvFr(PortalProcessor):
@@ -320,34 +326,35 @@ class DataGouvFr(PortalProcessor):
         api = urllib.parse.urljoin(portal_api, '/api/1/datasets/?page_size=100')
         processed = set([])
 
-        while True:
-            resp = requests.get(api, verify=False)
-            if resp.status_code != requests.codes.ok:
-                # TODO wait? appropriate message
-                pass
+        with no_ssl_verification():
+            while True:
+                resp = requests.get(api, verify=False)
+                if resp.status_code != requests.codes.ok:
+                    # TODO wait? appropriate message
+                    pass
 
-            res = resp.json()
-            # returns a list of datasets
-            if not res or 'data' not in res:
-                break
-            for datasetJSON in res['data']:
-                if 'id' not in datasetJSON:
-                    continue
+                res = resp.json()
+                # returns a list of datasets
+                if not res or 'data' not in res:
+                    break
+                for datasetJSON in res['data']:
+                    if 'id' not in datasetJSON:
+                        continue
 
-                datasetID = datasetJSON['id']
-                if datasetID not in processed:
-                    processed.add(datasetID)
-                    dataset_ref = graph_from_data_gouv_fr(graph, datasetJSON, portal_api)
-                    graph.add((portal_ref, DCAT.dataset, dataset_ref))
-                    quality.add_quality_measures(dataset_ref, graph, activity)
+                    datasetID = datasetJSON['id']
+                    if datasetID not in processed:
+                        processed.add(datasetID)
+                        dataset_ref = graph_from_data_gouv_fr(graph, datasetJSON, portal_api)
+                        graph.add((portal_ref, DCAT.dataset, dataset_ref))
+                        quality.add_quality_measures(dataset_ref, graph, activity)
 
-                    if len(processed) % 1000 == 0:
-                        logger.info("ProgressDSFetch: " + portal_api + ", processed= " + str(len(processed)))
-            if 'next_page' in res and res['next_page']:
-                api = res['next_page']
-            else:
-                break
-        # TODO store total len(processed)
+                        if len(processed) % 1000 == 0:
+                            logger.info("ProgressDSFetch: " + portal_api + ", processed= " + str(len(processed)))
+                if 'next_page' in res and res['next_page']:
+                    api = res['next_page']
+                else:
+                    break
+            # TODO store total len(processed)
 
 
 def getPackageList(apiurl):
@@ -357,37 +364,39 @@ def getPackageList(apiurl):
     status=200
     package_list=set([])
     try:
-        session = requests.Session()
-        session.verify = False
-        api = ckanapi.RemoteCKAN(apiurl, get_only=True, session=session)
+        with no_ssl_verification():
+            session = requests.Session()
+            session.verify = False
+            api = ckanapi.RemoteCKAN(apiurl, get_only=True, session=session)
 
-        start=0
-        steps=1000
-        while True:
-            p_l = api.action.package_list(limit=steps, offset=start)
-            if p_l:
-                c=len(package_list)
-                steps= c if start==0 else steps
-                package_list.update(p_l)
-                if c == len(package_list):
-                    #no new packages
+            start=0
+            steps=1000
+            while True:
+                p_l = api.action.package_list(limit=steps, offset=start)
+                if p_l:
+                    c=len(package_list)
+                    steps= c if start==0 else steps
+                    package_list.update(p_l)
+                    if c == len(package_list):
+                        #no new packages
+                        break
+                    start+=steps
+                else:
                     break
-                start+=steps
-            else:
-                break
     except Exception as e:
         logger.error("getPackageListRemoteCKAN: " + str(e))
         ex = e
 
     ex1=None
     try:
-        url = urllib.parse.urljoin(apiurl, "api/2/rest/dataset")
-        resp = requests.get(url, verify=False)
-        if resp.status_code == requests.codes.ok:
-            p_l = resp.json()
-            package_list.update(p_l)
-        else:
-            status = resp.status_code
+        with no_ssl_verification():
+            url = urllib.parse.urljoin(apiurl, "api/2/rest/dataset")
+            resp = requests.get(url, verify=False)
+            if resp.status_code == requests.codes.ok:
+                p_l = resp.json()
+                package_list.update(p_l)
+            else:
+                status = resp.status_code
     except Exception as e:
         logger.error("getPackageListHTTPGet: " + str(e))
         ex1=e
@@ -401,13 +410,14 @@ def getPackageList(apiurl):
 
 def getPackage(apiurl, id):
     try:
-        url = urllib.parse.urljoin(apiurl, "api/2/rest/dataset/" + id)
-        resp = requests.get(url, verify=False)
-        if resp.status_code == requests.codes.ok:
-            package = resp.json()
-            return package,resp.status_code
-        else:
-            return None, resp.status_code
+        with no_ssl_verification():
+            url = urllib.parse.urljoin(apiurl, "api/2/rest/dataset/" + id)
+            resp = requests.get(url, verify=False)
+            if resp.status_code == requests.codes.ok:
+                package = resp.json()
+                return package,resp.status_code
+            else:
+                return None, resp.status_code
     except Exception as ex:
         logger.error("getPackageList: " + str(ex))
         raise ex
