@@ -17,6 +17,7 @@ from db import ODPW_GRAPH
 from converter.portal_fetch_processors import PROV_ACTIVITY
 
 PROV = Namespace('http://www.w3.org/ns/prov#')
+LOCN = Namespace("http://www.w3.org/ns/locn#")
 
 ODPW = Namespace('http://data.wu.ac.at/ns/odpw#')
 
@@ -24,7 +25,7 @@ PW_AGENT = URIRef("https://data.wu.ac.at/portalwatch")
 
 
 
-def fetch_portal_to_dir(p, snapshot, path, format='nt', skip_portal=True):
+def fetch_portal_to_dir(p, snapshot, path, format='nt', skip_portal=False, remove_geometries=False):
     try:
         logger.info("FETCH: " + p['id'])
         portal_ref = rdflib.URIRef(p['uri'])
@@ -63,6 +64,11 @@ def fetch_portal_to_dir(p, snapshot, path, format='nt', skip_portal=True):
         g.add((portal_ref, ODPW.wasFetchedBy, portal_activity))
         g.add((portal_activity, PROV.wasStartedBy, sn_activity))
 
+        # remove GeoSPARQL geometries
+        if remove_geometries:
+            for s, p, o in g.triples((None, LOCN.geometry, None)):
+                g.remove((s, p, o))
+
         # serialize
         g.serialize(fp, format=format)
     except Exception as e:
@@ -93,6 +99,7 @@ def setupCLI(pa):
     pa.add_argument("-c", "--cores", type=int, help='Number of processors to use', dest='processors', default=4)
     pa.add_argument("--format", help='The file format for the RDF dump', default='nt')
     pa.add_argument('--skip-portal', help="Skip a portal if it already exists in the directory", action='store_true')
+    pa.add_argument('--remove-geometries', help="Remove GeoSPARQL geometries due to Virtuoso parsing errors", action='store_true')
 
 
 def cli(config, db, args):
@@ -110,6 +117,6 @@ def cli(config, db, args):
     if not os.path.exists(path):
         os.mkdir(path)
 
-    p_args = [(p, sn, path, args.format, args.skip_portal) for p in portals]
+    p_args = [(p, sn, path, args.format, args.skip_portal, args.remove_geometries) for p in portals]
     with Pool(args.processors) as p:
         p.starmap(fetch_portal_to_dir, p_args)

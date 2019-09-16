@@ -136,12 +136,12 @@ def evolution():
         p_refs.append(p['uri'])
         data['portals'].append(p)
 
-    #formats = selected_plots.format_evolution(db, p_refs, SNAPSHOTS)
-    #datasets = selected_plots.dataset_evolution(db, p_refs, SNAPSHOTS)
-    #csv_evolution = selected_plots.format_per_portal(db, p_refs, SNAPSHOTS)
+    formats = selected_plots.format_evolution(db, p_refs, SNAPSHOTS)
+    datasets = selected_plots.dataset_evolution(db, p_refs, SNAPSHOTS)
+    csv_evolution = selected_plots.format_per_portal(db, p_refs, SNAPSHOTS)
     #plots={'formats': formats, 'datasets_evolution': datasets, 'csv_evolution': csv_evolution}
     openness_evolution = selected_plots.openness_evolution(db, p_refs, SNAPSHOTS)
-    plots={'openness_evolution': openness_evolution}
+    plots={'openness_evolution': openness_evolution, 'formats': formats, 'datasets_evolution': datasets, 'csv_evolution': csv_evolution}
     script, div = components(plots)
 
     js_resources = INLINE.render_js()
