@@ -1,6 +1,6 @@
 from bokeh.embed import components
 from bokeh.resources import INLINE
-from flask import Flask, render_template, current_app, Blueprint, redirect
+from flask import Flask, render_template, current_app, Blueprint, redirect, url_for
 import pandas as pd
 
 from ui.webapi import api, systemapi, portalapi, mementoapi
@@ -115,9 +115,13 @@ def impressum():
     return render('impressum.jinja')
 
 
-
 @ui.route('/evolution', methods=['GET'])
 def evolution():
+    return render('odpw_evolution_static.html')
+
+
+@ui.route('/generate_evolution', methods=['GET'])
+def generate_evolution():
     SNAPSHOTS = [1631, 1701, 1721, 1731, 1801, 1811, 1821, 1830, 1937]
     PORTALS = ['data_gv_at', 'govdata_de', 'www_data_go_jp', 'hubofdata_ru', 'www_data_gc_ca', 'data_gov', 'data_gov_uk', 'www_data_gouv_fr']
 
@@ -139,16 +143,20 @@ def evolution():
     formats = selected_plots.format_evolution(db, p_refs, SNAPSHOTS)
     datasets = selected_plots.dataset_evolution(db, p_refs, SNAPSHOTS)
     csv_evolution = selected_plots.format_per_portal(db, p_refs, SNAPSHOTS)
-    #plots={'formats': formats, 'datasets_evolution': datasets, 'csv_evolution': csv_evolution}
     openness_evolution = selected_plots.openness_evolution(db, p_refs, SNAPSHOTS)
-    plots={'openness_evolution': openness_evolution, 'formats': formats, 'datasets_evolution': datasets, 'csv_evolution': csv_evolution}
+    num_portals = selected_plots.num_portals(db, p_refs, SNAPSHOTS)
+    #plots={'num_portals': num_portals}
+    plots={'num_portals': num_portals, 'openness_evolution': openness_evolution, 'formats': formats, 'datasets_evolution': datasets, 'csv_evolution': csv_evolution}
     script, div = components(plots)
 
     js_resources = INLINE.render_js()
     css_resources = INLINE.render_css()
 
-    return render("odpw_evolution.jinja", plot_script=script, plot_div=div, js_resources=js_resources, css_resources=css_resources, data=data, snapshot=SNAPSHOTS[-1])
+    rendered = render("odpw_evolution.jinja", plot_script=script, plot_div=div, js_resources=js_resources, css_resources=css_resources, data=data, snapshot=SNAPSHOTS[-1])
 
+    with open("ui/templates/odpw_evolution_static.html", "w") as f:
+        f.write(rendered)
+    return rendered
 
 @ui.route('/portals/portalsstats', methods=['GET'])
 def portalssize():

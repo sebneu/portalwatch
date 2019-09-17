@@ -2,6 +2,7 @@ from bokeh.core.properties import value
 from bokeh.io import show, output_file
 from bokeh.plotting import figure
 from bokeh.palettes import brewer
+from bokeh.models import HoverTool
 
 import collections
 
@@ -10,6 +11,42 @@ from utils.snapshots import getDateString
 PLOT_HEIGHT=600
 PLOT_WIDTH=1000
 LINE_WIDTH=4
+
+
+def num_portals(db, portals, snapshots):
+    portals_num = {}
+    for sn in snapshots:
+        portals_num[sn] = collections.defaultdict(dict)
+        for p in portals:
+            p_info = db.get_portal_info(p, sn)
+            portals_num[sn][p] = 1 if p_info['datasets'] > 0 else 0
+
+    dates = [getDateString(sn) for sn in snapshots]
+    colors = brewer['BrBG'][len(portals)]
+
+    sorted_portals_num = collections.defaultdict(list)
+    for sn in snapshots:
+        for portal in portals:
+            sorted_portals_num[portal].append(portals_num[sn][portal])
+
+    data = {'dates': dates}
+    for portal in portals:
+        data[portal] = sorted_portals_num[portal]
+
+    p = figure(x_range=dates, plot_height=PLOT_HEIGHT, plot_width=PLOT_WIDTH,
+               toolbar_location=None, tools="hover", tooltips="@{dates}: $name")
+
+    p.vbar_stack(portals, x='dates', width=0.9, color=colors, source=data, legend=[value(x) for x in portals])
+
+    p.y_range.start = 0
+    p.y_range.end = len(portals)
+    p.x_range.range_padding = 0.1
+    p.xgrid.grid_line_color = None
+    p.axis.minor_tick_line_color = None
+    p.outline_line_color = None
+    p.legend.location = "top_left"
+    return p
+
 
 def dataset_evolution(db, portals, snapshots):
     info = {}
@@ -48,7 +85,6 @@ def dataset_evolution(db, portals, snapshots):
     p.outline_line_color = None
     p.legend.location = "top_left"
     p.legend.orientation = "horizontal"
-
     return p
 
 
@@ -58,8 +94,6 @@ def format_evolution(db, portals, snapshots):
         formats[sn] = collections.defaultdict(int)
         for p in portals:
             p_formats = db.get_portal_formats(p, sn)
-        #tf = db.get_formats(snapshot=sn, limit=10)
-
             for f in p_formats:
                 formats[sn][f['label']] += f['count']
 
@@ -99,29 +133,39 @@ def format_evolution(db, portals, snapshots):
 
 def format_per_portal(db, portals, snapshots, format='csv'):
     format_counts = {}
-    for i, p in enumerate(portals):
-        format_counts[p] = []
+    for i, portal in enumerate(portals):
+        format_counts[portal] = []
         for sn in snapshots:
-            format_counts[p].append(db.get_portal_format_count(p, format, sn))
-
+            count = db.get_portal_format_count(portal, format, sn)
+            if count > 0:
+                format_counts[portal].append(count)
+            else:
+                format_counts[portal].append(None)
 
     colors = brewer['BrBG'][len(portals)]
     dates = [getDateString(sn) for sn in snapshots]
 
     data = {'dates': dates}
-    for p in portals:
-        data[p] = format_counts[p]
+    for portal in portals:
+        data[portal] = format_counts[portal]
 
     p = figure(x_range=dates, plot_height=PLOT_HEIGHT, plot_width=PLOT_WIDTH,
                toolbar_location=None, tools="hover", tooltips="$name @dates: @$name")
 
-    p.vline_stack(portals, x='dates', line_width=LINE_WIDTH, color=colors, source=data,
-                  legend=[value(x) for x in format_counts])
-    # add a line renderer
-    #for i, portal in enumerate(format_counts):
-    #    p.line(snapshots, format_counts[portal], line_width=LINE_WIDTH, legend=portal, color=colors[i])
+    for i, portal in enumerate(format_counts):
+        line = p.line(x='dates', y=portal, line_width=LINE_WIDTH, legend=dict(value=portal), color=colors[i], source=data)
 
+        hover = HoverTool(tooltips=[(portal, "@{"+portal+"}"), ("Date", "@{dates}")], renderers=[line])
+        p.add_tools(hover)
+
+    p.y_range.start = 0
+    p.x_range.range_padding = 0.1
+    p.xgrid.grid_line_color = None
+    p.axis.minor_tick_line_color = None
+    p.outline_line_color = None
+    p.legend.location = "top_left"
     return p
+
 
 def openness_evolution(db, portals, snapshots):
     metrics = {}
@@ -151,17 +195,19 @@ def openness_evolution(db, portals, snapshots):
         data[l] = sorted_metrics[l]
 
     p = figure(x_range=dates, plot_height=PLOT_HEIGHT, plot_width=PLOT_WIDTH,
-               toolbar_location=None, tools="hover", tooltips="$name @dates: @$name")
+               toolbar_location=None)
 
-    p.vline_stack(metrics_labels, x='dates', line_width=LINE_WIDTH, color=colors, source=data,
-                  legend=[value(x) for x in metrics_labels])
+    for i, l in enumerate(sorted_metrics):
+        line = p.line(x='dates', y=l, line_width=LINE_WIDTH, legend=dict(value=l), color=colors[i], source=data)
+
+        hover = HoverTool(tooltips=[(l, "@{"+l+"}"), ("Date", "@{dates}")], renderers=[line])
+        p.add_tools(hover)
 
     p.y_range.start = 0
+    p.y_range.end = 1
     p.x_range.range_padding = 0.1
     p.xgrid.grid_line_color = None
     p.axis.minor_tick_line_color = None
     p.outline_line_color = None
     p.legend.location = "top_left"
-    p.legend.orientation = "horizontal"
-
     return p
