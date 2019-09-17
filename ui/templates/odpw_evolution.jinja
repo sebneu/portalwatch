@@ -17,7 +17,7 @@
 <div class="ui  container">
     <h2 class="ui header">Evolution of Governmental Open Data</h2>
     <div class="ui text vertical segment ">
-
+        This report displays the evolution of availability, quality and characteristics of a selected set of governmental Open Data portals over the last four years.
     </div>
 
     <div class="ui padded text segment">
@@ -44,6 +44,13 @@
         </div>
     </div>
 
+    {% if 'num_portals' in plot_div %}
+    <div class="ui padded text segment">
+        <h2 class="ui header">Available Snapshots per Portal</h2>
+        {{ plot_div['num_portals'] }}
+    </div>
+    {% endif %}
+
     {% if 'datasets_evolution' in plot_div %}
     <div class="ui padded text segment">
         <h2 class="ui header">Number of Datasets and Resources</h2>
@@ -53,21 +60,21 @@
 
     {% if 'formats' in plot_div %}
     <div class="ui padded text segment">
-        <h2 class="ui header">File Format Evolution</h2>
+        <h2 class="ui header">Distribution of the Top File Format</h2>
         {{ plot_div['formats'] }}
     </div>
     {% endif %}
 
     {% if 'csv_evolution' in plot_div %}
     <div class="ui padded text segment">
-        <h2 class="ui header">CSV Files per Portal</h2>
+        <h2 class="ui header">Number of CSV Files per Portal</h2>
         {{ plot_div['csv_evolution'] }}
     </div>
     {% endif %}
 
     {% if 'openness_evolution' in plot_div %}
     <div class="ui padded text segment">
-        <h2 class="ui header">Evolution of Openness Metrics</h2>
+        <h2 class="ui header">Evolution of the Openness Metrics</h2>
         {{ plot_div['openness_evolution'] }}
     </div>
     {% endif %}
