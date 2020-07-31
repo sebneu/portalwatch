@@ -145,8 +145,9 @@ def generate_evolution():
     csv_evolution = selected_plots.format_per_portal(db, p_refs, SNAPSHOTS)
     openness_evolution = selected_plots.openness_evolution(db, p_refs, SNAPSHOTS)
     num_portals = selected_plots.num_portals(db, p_refs, SNAPSHOTS)
-    #plots={'num_portals': num_portals}
-    plots={'num_portals': num_portals, 'openness_evolution': openness_evolution, 'formats': formats, 'datasets_evolution': datasets, 'csv_evolution': csv_evolution}
+    licenses = selected_plots.license_evolution(db, p_refs, SNAPSHOTS)
+    #plots={'licenses': licenses}
+    plots={'num_portals': num_portals, 'openness_evolution': openness_evolution, 'formats': formats, 'licenses': licenses, 'datasets_evolution': datasets, 'csv_evolution': csv_evolution}
     script, div = components(plots)
 
     js_resources = INLINE.render_js()

@@ -47,6 +47,25 @@
     {% if 'num_portals' in plot_div %}
     <div class="ui padded text segment">
         <h2 class="ui header">Available Snapshots per Portal</h2>
+        <div class="ui text vertical segment ">
+            The set of data portals harvested by the Open Data Portal Watch is manually collected and indexed.
+            Based on the underlying software framework of the respective portals (e.g., <a href="https://ckan.org/">CKAN</a>, <a href="http://socrata.com">Socrata</a>,
+            or custom catalogs such as the French <a href="https://www.data.gouv.fr/">data.gouv.fr</a>)
+            we regularly harvest the metadata descriptions of the datasets using available APIs, metadata dumps, and SPARQL endpoints.
+            However, there are a number of reasons why we cannot guarantee a complete history of all portals in our system:
+            <div class="ui bulleted list">
+                <div class="item"><b>Portal Availability:</b> Over the years we saw that several portals went offline (permanently, temporarily, or changed their entry points).
+                For instance, we do not have a complete history of the <a href="http://data.go.jp/">Japanese Data Portal</a> due to the high latency and unreliable connection at times.
+                In case the portal permanently unavailable, we mark these as offline and keep them in a <a href="{{url_for('ui.portalsdead')}}">dedicated list</a>.</div>
+                <div class="item"><b>Access Changes:</b> In some cases we saw that portals changed their access options:
+                the underlying software framework changed (e.g., from Socrata to CKAN),
+                the providers implemented their own solution instead of a common software framework (e.g., at <a href="https://data.buenosaires.gob.ar/">data.buenosaires.gob.ar</a>),
+                or the portal offers new/improved access methods, such as the option to directly harvest all DCAT dataset description for a portal (e.g., at <a href="https://ckan.publishing.service.gov.uk/catalog.ttl">data.gov.uk</a>).</div>
+                <div class="item"><b>New Data Portals:</b> Over the years we added new data portals to our monitoring framework, and also implemented new harvester for the available APIs.
+                For instance, we recently integrated the APIs of the <a href="https://www.data.gouv.fr/">French Data Portal</a>  into our system.</div>
+            </div>
+            The following bar chart indicates the availability of historic dataset descriptions for the selected portals.
+        </div>
         {{ plot_div['num_portals'] }}
     </div>
     {% endif %}
@@ -54,13 +73,22 @@
     {% if 'datasets_evolution' in plot_div %}
     <div class="ui padded text segment">
         <h2 class="ui header">Number of Datasets and Resources</h2>
+        <div class="ui text vertical segment ">
+            A very basic (and unreliable) indicator for the state and availability of open government data is the number of available datasets.
+            Typically, such datasets on governmental portals consist of metadata, i.e. contextual information such as title, description and keywords, geo-references, etc.,
+            and links to the actual raw data, the resources.
+            A single dataset can group multiple resources; for instance, by offering the same data in different formats (e.g., as CSV and XLS file),
+            or by segmenting the data by the temporal dimension (e.g., group by years) or by the geo-spatial dimension.
+            <br>
+            Therefore, the number of resources is correspondingly higher than the number of datasets; the overall numbers clearly depend on the availability of portals over time (cf. the above section).
+        </div>
         {{ plot_div['datasets_evolution'] }}
     </div>
     {% endif %}
 
     {% if 'formats' in plot_div %}
     <div class="ui padded text segment">
-        <h2 class="ui header">Distribution of the Top File Format</h2>
+        <h2 class="ui header">Most common File Format</h2>
         {{ plot_div['formats'] }}
     </div>
     {% endif %}
@@ -69,6 +97,13 @@
     <div class="ui padded text segment">
         <h2 class="ui header">Number of CSV Files per Portal</h2>
         {{ plot_div['csv_evolution'] }}
+    </div>
+    {% endif %}
+
+    {% if 'licenses' in plot_div %}
+    <div class="ui padded text segment">
+        <h2 class="ui header">Most used Licenses</h2>
+        {{ plot_div['licenses'] }}
     </div>
     {% endif %}
 

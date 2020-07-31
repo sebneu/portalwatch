@@ -131,6 +131,50 @@ def format_evolution(db, portals, snapshots):
     return p
 
 
+
+def license_evolution(db, portals, snapshots):
+    licenses = {}
+    for sn in snapshots:
+        licenses[sn] = collections.defaultdict(int)
+        for p in portals:
+            p_licenses = db.get_portal_licenses(p, sn)
+            for l in p_licenses:
+                licenses[sn][l['label']] += l['count']
+
+    dates = [getDateString(sn) for sn in snapshots]
+
+    tf = sorted(licenses[snapshots[-1]].items(), key=lambda k_v: k_v[1], reverse=True)[:10]
+    sorted_licenses = collections.defaultdict(list)
+    format_labels = []
+    for l in tf:
+        label = l[0]
+        format_labels.append(label)
+        for sn in snapshots:
+            sorted_licenses[label].append(licenses[sn][label] if label in licenses[sn] else 0)
+
+    colors = brewer['BrBG'][10]
+
+    data = {'dates': dates}
+    for l in format_labels:
+        data[l] = sorted_licenses[l]
+
+    p = figure(x_range=dates, plot_height=PLOT_HEIGHT, plot_width=PLOT_WIDTH,
+               toolbar_location=None, tools="hover", tooltips="$name @dates: @$name")
+
+    p.vbar_stack(format_labels, x='dates', width=0.9, color=colors, source=data,
+                 legend=[value(x) for x in format_labels])
+
+    p.y_range.start = 0
+    p.x_range.range_padding = 0.1
+    p.xgrid.grid_line_color = None
+    p.axis.minor_tick_line_color = None
+    p.outline_line_color = None
+    p.legend.location = "top_left"
+    p.legend.orientation = "horizontal"
+
+    return p
+
+
 def format_per_portal(db, portals, snapshots, format='csv'):
     format_counts = {}
     for i, portal in enumerate(portals):
