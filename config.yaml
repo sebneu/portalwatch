@@ -3,7 +3,7 @@ ui:
     url_prefix_ui: /portalwatch
     port: 2121
 rest:
-   url_prefix_rest: /api
+   url_prefix_rest: /portalwatch/api/v1
 fetch:
    dir: data
    url: https://data.wu.ac.at/ld
