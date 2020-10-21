@@ -1,0 +1,25 @@
+construct {
+  _:measure a dqv:QualityMeasurement .
+  _:measure a prov:Entity .
+  _:measure dqv:value ?value .
+  ?p dqv:hasQualityMeasurement _:measure .
+  _:measure dqv:computedOn ?p .
+  _:measure dqv:isMeasurementOf ?metric .
+  _:measure prov:wasGeneratedBy ?activity .
+  ?activity prov:generated _:measure .
+  _:measure prov:wasDerivedFrom ?p .
+  ?activity a prov:Activity .
+  ?activity odpw:snapshot ?snapshot .
+}
+where {
+select distinct ?p ?metric ?activity ?snapshot sum(?v)/count(?v) AS ?value
+where {
+  ?p dcat:dataset ?d .
+  ?d dqv:hasQualityMeasurement ?m .
+  ?m dqv:isMeasurementOf ?metric .
+  ?m prov:wasGeneratedBy ?activity .
+  ?activity odpw:snapshot ?snapshot .
+  ?m dqv:value ?v .
+}
+group by ?p ?metric ?activity ?snapshot
+}

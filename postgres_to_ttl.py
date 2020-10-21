@@ -231,6 +231,8 @@ def portal_to_ttl(s, portal_uri, portal_api, portal_software, portal_id, snapsho
         return
 
     portalsnapshot = get_portal_snapshot(s, portalid=portal_id, snapshot=snapshot)
+    if portalsnapshot == None:
+        return
     datasets = get_datasets(s, portalid=portal_id, snapshot=snapshot)
 
     portal_activity = URIRef("https://data.wu.ac.at/portalwatch/portal/" + portal_id + '/' + str(snapshot))
@@ -283,6 +285,7 @@ def setupCLI(pa):
     pa.add_argument('--db')
     pa.add_argument('--portal')
     pa.add_argument('--file')
+    pa.add_argument('--snapshot')
 
 
 def cli(config, db, args):
@@ -311,3 +314,10 @@ def cli(config, db, args):
                 if not os.path.exists(path):
                     os.mkdir(path)
                 portal_to_ttl(session, p['uri'], p['apiuri'], p['software'], portalid, snapshot, path)
+    if args.snapshot:
+        snapshot = int(args.snapshot)
+        path = os.path.join(dir, str(snapshot))
+        if not os.path.exists(path):
+            os.mkdir(path)
+        portal_to_ttl(session, p['uri'], p['apiuri'], p['software'], portalid, snapshot, path)
+
