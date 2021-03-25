@@ -31,7 +31,7 @@ pyrsistent==0.15.4
 python-dateutil==2.7.3
 python-slugify==3.0.3
 pytz==2019.2
-PyYAML==5.1.2
+PyYAML==5.4
 rdflib==4.2.2
 rdflib-jsonld==0.4.0
 requests==2.22.0
